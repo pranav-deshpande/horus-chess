@@ -17,7 +17,7 @@ public:
 	Move(int init_pos);
 	Move(string move);
 	
-	void printMove();
+	void printMove(int side);
 	
 };
 

@@ -10,6 +10,7 @@ Move::Move() {
 	castle = -1;
 }
 
+// Normal/capture moves
 Move::Move(int init_pos, int final_pos) {
 	from = init_pos;
 	to = final_pos;
@@ -23,6 +24,7 @@ Move::Move(int init_pos, int final_pos) {
 
 }
 
+// Enpassant moves
 Move::Move(int init_pos) {
 	from = init_pos;
 	to = EM;
@@ -35,6 +37,7 @@ Move::Move(int init_pos) {
 	currPiece = capturedPiece = EM;
 }
 
+// Pawn promotion moves
 Move::Move(int init_pos, int final_pos, int Promote) {
 	from = init_pos;
 	to = final_pos;
@@ -47,6 +50,7 @@ Move::Move(int init_pos, int final_pos, int Promote) {
 	currPiece = capturedPiece = EM;
 }
 
+// Castling moves
 Move::Move(bool iscastle, int Castle) {
 	isCastle = iscastle; // which will be true only if this has been called..
 	castle = Castle;
@@ -57,63 +61,50 @@ Move::Move(bool iscastle, int Castle) {
 /*
 Move::Move(string move) {
 	
-	if ( move[0] != 'O' ) {
-	
-		from = board64[ reverseSquareMapping[ move.substr(0,2) ] ];
-		to = board64[ reverseSquareMapping[ move.substr(2, 4) ] ];
-	
-		// Temporarily set currPiece and capturePiece to zero
-		// After being passed to chessboard::playMove, they get initialized properly
-		// Since we are passing by reference, undoMove will not cause a problem later
-		currPiece = EM;
-		capturedPiece = EM;
-			
-		if ( move.length() == 5 )
-			promotedPiece = reversePieceChars[ move[4] ];
-		else
-			promotedPiece = EM;
+	if (Move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8") {
+		bool iscastle == true;
 		
-		if ( move.length() == 6 )
-			enPassantSquare = reverseSquareMapping [ move.substr(5, 7) ];
-		else 
-			enPassantSquare = EM;
+		if ( move == "e1g1" || move == "e8g8" ) {
+			Move(iscastle, 0);
+		}
 		
-		isCastle = false;
-		castle = -1;
+		else {
+			Move(iscastle, 1);
+		}
 	}
 	
 	else {
+		// There is a problem - How do I know if the move is an enPassant Move?
 		
-		from = to = enPassantSquare = EM;
-		currPiece = capturedPiece = promotedPiece = EM;	
-		
-		if ( move == "O-O" ) {
-			isCastle = true;
-			castle = 0;
+		int From = board64[ reverseSquareMapping[ move.substr(0,2) ] ];
+		int To = board64[ reverseSquareMapping[ move.substr(2, 4) ] ];
+	
+		if ( move.length() == 5 ) {
+			int PromotedPiece = reversePieceChars[ move[4] ];
+			Move(From, To, PromotedPiece);
 		}
 	
-		if ( move == "O-O-O" ) {
-			isCastle = true;
-			castle = 1;
+		else {
+			Move(From, To);
 		}
 	}
+
 }
 */
 
-void Move::printMove() {
+void Move::printMove(int side) {
 
 	if ( isCastle == true) {
-	/*	
+		
 		if ( castle == 0 ) {
-			if ( b.side == white ) cout << "e1g1";
+			if ( side == white ) cout << "e1g1";
 			else cout << "e8g8";
  		}
 		
 		if  (castle == 1 ) { 
-			if ( b.side == white ) cout << "e1c1";
+			if ( side == white ) cout << "e1c1";
 			else cout << "e8c8";
 		}
- 		*/
  	}
 	
 	else {

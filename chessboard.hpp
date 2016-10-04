@@ -5,12 +5,11 @@
 #include "move.hpp"
 
 class chessboard {
-	friend class Move;
 private:
 	
 	// Basic Board Representation and Data
 	int board[BOARDSIZE];
-	int side, plies, moves;
+	int plies, moves;
 
 	int actualPlies;
 
@@ -69,8 +68,9 @@ public:
 	static ULL sideHash[2];
 	static ULL enPassantHash[64];
 	
-	
 	void test();
+
+	int side;
 };
 
 #endif
