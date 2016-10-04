@@ -15,7 +15,7 @@ public:
 	Move(int init_pos, int final_pos, int Promote);
 	Move(bool iscastle, int castle);
 	Move(int init_pos);
-	//Move(string move);
+	Move(string move);
 	
 	void printMove();
 	

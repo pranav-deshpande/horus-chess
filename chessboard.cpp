@@ -1,45 +1,11 @@
 #include "chessboard.hpp"
 
-// Data Definitions - Some of these variables are required globally
-int board64[] = {
-	a1, b1, c1, d1, e1, f1, g1, h1,
-	a2, b2, c2, d2, e2, f2, g2, h2,
-	a3, b3, c3, d3, e3, f3, g3, h3,
-	a4, b4, c4, d4, e4, f4, g4, h4,
-	a5, b5, c5, d5, e5, f5, g5, h5,
-	a6, b6, c6, d6, e6, f6, g6, h6,
-	a7, b7, c7, d7, e7, f7, g7, h7,
-	a8, b8, c8, d8, e8, f8, g8, h8
-};
-
-int board120[] = {
-	OB, OB, OB, OB, OB, OB, OB, OB, OB, OB,
-	OB, OB, OB, OB, OB, OB, OB, OB, OB, OB,
-	OB,  0,  1,  2,  3,  4,  5,  6,  7, OB,
-	OB,  8,  9, 10, 11, 12, 13, 14, 15, OB,
-	OB, 16, 17, 18, 19, 20, 21, 22, 23, OB,
-	OB, 24, 25, 26, 27, 28, 29, 30, 31, OB,
-	OB, 32, 33, 34, 35, 36, 37, 38, 39, OB,
-	OB, 40, 41, 42, 43, 44, 45, 46, 47, OB,
-	OB, 48, 49, 50, 51, 52, 53, 54, 55, OB,
-	OB, 56, 57, 58, 59, 60, 61, 62, 63, OB,
-	OB, OB, OB, OB, OB, OB, OB, OB, OB, OB,
-	OB, OB, OB, OB, OB, OB, OB, OB, OB, OB
-};
-
-char pieceChars[] = {'.', 'P', 'N', 'B', 'R', 'Q', 'K', 'p', 'n', 'b', 'r', 'q', 'k'};
-
-unordered_map<char, int> reversePieceChars;
-string squareMapping[64];
-unordered_map<string, int> reverseSquareMapping;
-
 // The chessboard class member functions
 
 chessboard::chessboard() {
-	
-	setUpDebugging();
 	initEmptyBoard();
 
+	// The initial position of the board
 	string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 	fenSetup(fen);
@@ -48,35 +14,12 @@ chessboard::chessboard() {
 }
 
 chessboard::chessboard(string &fen) {
-	
-	setUpDebugging();
 	initEmptyBoard();
-
+	
 	fenSetup(fen);
+	
 	initPieceList();
 	initUniqueKey();
-}
-
-void chessboard::setUpDebugging() {
-
-	// Required for printing things to the console etc.
-	for(int i = 0; i < 13; i++) {
-		reversePieceChars[ pieceChars[i] ] = i;
-	}
-
-	string temp;
-	int k = 0;
-	for(int i = '1'; i <= '8'; i++) {
-		for(int j = 'a'; j <= 'h'; j++) {
-			temp = string(1, j) + string(1, i);
-			squareMapping[k++] = temp;
-		}
-	}	
-
-	for(int i = 0; i < 64; i++) {
-		reverseSquareMapping[ squareMapping[i] ] = i;
-	}
-
 }
 
 void chessboard::initEmptyBoard() {
@@ -105,10 +48,92 @@ void chessboard::initEmptyBoard() {
 	side = white; // default 
 }
 
-void chessboard::initPieceList() {
+void chessboard::fenSetup(string &fen) {
+	// Note that in this function, the validity of the fen string is not checked
+	// So be careful
+	int rank = rank8, file = fileA;
+	int piece = 0, i;
 	
-	// Initialize the piece list	
+	// Parse the first part, the arrangement of the pieces and set up the board accordingly
+	for( i = 0; i < fen.length(); i++) {
+	
+		if ( fen[i] == ' ' ) {
+			break;
+		}
+			
+		else if ( fen[i] == '/' ) {
+			rank--;
+			file = fileA;
+		}
+		
+		else if ( fen[i] >= '1' && fen[i] <= '8' ) {
+			file += ( fen[i] - '0') ;
+		}
+		
+		// Validity can be checked if we replace this else with if fen[i] in "pPnN..kK" and have another else block with error
+		else {
+			piece = reversePieceChars[ fen[i] ];
+			int square = ( rank + 1 ) * 10 + file;
+			board[square] = piece;
+			file++;		
+		}
+	}
 
+	side = ( fen[++i] == 'w' ) ? white : black;
+	
+	int j = ++i;
+	int count = 0;
+	while ( i++ < ( j + 4 ) ) {
+		
+		switch( fen[i] ) {
+			
+			case 'K': whiteCastlePerms[0] = true; break;
+			case 'Q': whiteCastlePerms[1] = true; break;
+			case 'k': blackCastlePerms[0] = true; break;
+			case 'q': blackCastlePerms[1] = true; break;
+
+		}
+	}
+	// Done thoughfully, don't worry
+	if ( fen[++i] == '-' ) {
+		i += 2;
+	}
+
+	else {
+		string square = "";
+		square = square + fen[i] + fen[i+1];
+		enPassantSquare[side] = board64[ reverseSquareMapping[square] ];
+		i += 3;
+	}
+
+	string num;
+	int number;
+	
+	num = "";
+	
+	while ( isdigit( fen[i] ) ) {
+		num = num + fen[i];
+		i++;
+	}
+	
+	number = atoi( num.c_str() );
+	fiftyMoveRule = number;
+
+	i++;
+	num = "";
+	
+	while( isdigit( fen[i] ) ) {
+		num = num + fen[i];
+		i++;
+	}
+
+	number = atoi( num.c_str() );
+	moves = number;
+	plies = 0;
+}
+
+void chessboard::initPieceList() {
+	// Initialize the piece list	
 	for(int piece = wp; piece <= bk; piece++) {
 		for(int square = 0; square < 64; square++) {
 			if( piece == board[ board64[square] ] ) {
@@ -335,10 +360,6 @@ void chessboard::playMove(Move &move) {
 	// Also the enPassant square
 		
 	// Now first, Castling
-	
-
-
-	
 	if ( whiteCastlePerms[0] == true ) {
 		if ( ( move.currPiece == wk ) || ( move.currPiece == wr && move.from == h1 ) || ( board[h1] != wr ) || ( board[e1] != wk ) ) {
 			whiteCastlePerms[0] = false;
@@ -508,86 +529,6 @@ void chessboard::undoMove(Move &move) {
 	side = !side;
 }
 
-void chessboard::printBoard() {
-
-
-	cout << "-----------------------------------------------" << endl;
-	cout << "Current Postion:\n";
-	
-	int square;
-	for(int rank = rank8; rank >= rank1; rank--) {
-		putchar('\n');
-		printf("%c", rank + '1' - 1);
-		for(int file = fileA; file <= fileH; file++) {
-			square = (rank+1) * 10 + file;
-			printf("%3c", pieceChars[ board[square] ]);
-		}
-	}
-	cout << "\n\n ";
-	for(int i = 0; i < 8; i++) {
-		printf("%3c", 'a' + i);
-	}
-	
-	cout << "\n\n";
-	
-	cout << "Side to move: ";
-	if(side == white) cout << "White" << endl;
-	else cout << "Black" << endl;
-	
-	cout << "Castle Permissions(white - KQ): ";
-	for(int i = 0; i < 2; i++) {
-		cout << whiteCastlePerms[i];
-	}
-	
-	cout << '\n';
-	
-	cout << "Castle Permissions(black - kq): ";
-	for(int i = 0; i < 2; i++) {
-		cout << blackCastlePerms[i];
-	}
-	
-	cout << '\n';
-	
-	int enPassSquare = board120[ enPassantSquare[side] ];
-		 
-	if ( enPassSquare >= board120[a1] && enPassSquare <= board120[h8] )
-		cout << "\nEnPassant Square: " << squareMapping[enPassSquare] << endl;
-	
-	else 
-		cout << "No Valid EnPassant Square is present." << endl;
-	
-	cout << "\nPiece List:\n\n";
-	
-	int piecesCount = 0;
-
-	for(int piece = wp; piece <= bk; piece++) {
-		cout << pieceChars[piece] << ": ";
-		piecesCount += pieceList[piece].size();
-		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++ ) {
-			cout << squareMapping[ board120[ *it ] ] << " ";
-		}
-		cout << endl;
-	}
-	
-	cout << "\nCount of pieces: " << piecesCount << endl;
-	cout << "No. of possible(legal) moves: " << moveList.size() << endl << endl;
-	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		(*it).printMove();
-		cout << endl;
-	}
-	
-	cout << endl;
-	moveList.clear();
-	
-	cout << "No. of plies till now: " << plies << endl;
-	cout << "No. of moves till now: " << moves << endl;
-	cout << "Fifty Move Rule: " << fiftyMoveRule << endl;
-	cout << "Three Fold Repetition: " << threeFold << endl << endl;
-	cout << "Unique Postion Key: " << uniqueKey << endl;
-	cout << "-----------------------------------------------" << endl;
-	
-}
-
 bool chessboard::isSquareAttacked(int square, int Side) {
 
 	int kMoves[] = {UP, DOWN, RIGHT, LEFT, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};
@@ -735,88 +676,161 @@ void chessboard::addMove(Move &move) {
 		moveList.push_back(move);
 }
 
-void chessboard::fenSetup(string &fen) {
-	
-	// Note that in this function, the validity of the fen string is not checked
-	// So be careful
-	
-	int rank = rank8, file = fileA;
-	int piece = 0, i;
-	
-	// Parse the first part, the arrangement of the pieces and set up the board accordingly
-	for( i = 0; i < fen.length(); i++) {
-	
-		if ( fen[i] == ' ' ) {
-			break;
-		}
-			
-		else if ( fen[i] == '/' ) {
-			rank--;
-			file = fileA;
+// Thanks to Sven Schüle of talkchess.com for this routine which is helpful while debugging
+// It checks whether the present state of the chessboard is valid
+bool chessboard::isValid() {
+	static int const MinPieces[1+12] = { 0, 0,   0,   0,   0,   0, 1, 0,   0,   0,   0,   0, 1 };
+	static int const MaxPieces[1+12] = { 0, 8, 2+8, 2+8, 2+8, 1+8, 1, 8, 2+8, 2+8, 2+8, 1+8, 1 };
+
+	for (int piece = wp; piece <= bk; piece++) {
+		
+		if (pieceList[piece].size() < MinPieces[piece]) {
+			cerr << "less pieces of type " << piece << " than allowed minimum" << endl;
+			flush(cerr);
+			return false;
 		}
 		
-		else if ( fen[i] >= '1' && fen[i] <= '8' ) {
-			file += ( fen[i] - '0') ;
+		if (pieceList[piece].size() > MaxPieces[piece]) {
+			cerr << "more pieces of type " << piece << " than allowed maximum" << endl;
+			flush(cerr);
+			return false;
 		}
 		
-		// Validity can be checked if we replace this else with if fen[i] in "pPnN..kK" and have another else block with error
-		else {
-			piece = reversePieceChars[ fen[i] ];
-			int square = ( rank + 1 ) * 10 + file;
-			board[square] = piece;
-			file++;		
+		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
+			if (board[*it] != piece) {
+				cerr << "piece list of type " << piece << " contains square " << *it;
+				cerr << " but board contains " << board[*it] << " at that square" << endl;
+				flush(cerr);
+				return false;
+			}
 		}
 	}
-	// here as well
-	side = ( fen[++i] == 'w' ) ? white : black;
 	
-	int j = ++i;
-	int count = 0;
-	while ( i++ < ( j + 4 ) ) {
+	for (int square = 0; square < 64; square++) {
+		int sq = board64[square];
+		int piece = board[sq];
 		
-		switch( fen[i] ) {
-			
-			case 'K': whiteCastlePerms[0] = true; break;
-			case 'Q': whiteCastlePerms[1] = true; break;
-			case 'k': blackCastlePerms[0] = true; break;
-			case 'q': blackCastlePerms[1] = true; break;
+		if (piece != EM) {
+		
+			if (piece < wp || piece > bk) {
+				cerr << "illegal piece " << piece << " on square " << sq << endl;
+				flush(cerr);
+				return false;
+			}
+		
+			if (pieceList[piece].find(sq) == pieceList[piece].end()) {
+				cerr << "piece list of type " << piece << " that was found on square " << sq << " does not contain that square" << endl;
+				flush(cerr);
+				return false;
+			}
+		}	
+	}
+	
+	return true;
+}
 
+// Print the just the board
+void chessboard::printMinimalBoard() {
+	cout << "-----------------------------------------------" << endl;
+	cout << "Current Postion:\n";
+	
+	int square;
+	for(int rank = rank8; rank >= rank1; rank--) {
+		putchar('\n');
+		printf("%c", rank + '1' - 1);
+		for(int file = fileA; file <= fileH; file++) {
+			square = (rank+1) * 10 + file;
+			printf("%3c", pieceChars[ board[square] ]);
 		}
 	}
-	// Done thoughfully, don't worry
-	if ( fen[++i] == '-' ) {
-		i += 2;
-	}
-
-	else {
-		string square = "";
-		square = square + fen[i] + fen[i+1];
-		enPassantSquare[side] = board64[ reverseSquareMapping[square] ];
-		i += 3;
-	}
-
-	string num;
-	int number;
-	
-	num = "";
-	
-	while ( isdigit( fen[i] ) ) {
-		num = num + fen[i];
-		i++;
+	cout << "\n\n ";
+	for(int i = 0; i < 8; i++) {
+		printf("%3c", 'a' + i);
 	}
 	
-	number = atoi( num.c_str() );
-	fiftyMoveRule = number;
-
-	i++;
-	num = "";
+	cout << "\n\n";
 	
-	while( isdigit( fen[i] ) ) {
-		num = num + fen[i];
-		i++;
+	cout << "Side to move: ";
+	if(side == white) cout << "White" << endl;
+	else cout << "Black" << endl;
+	
+	cout << "-----------------------------------------------" << endl;
+}
+	
+// Detailed description of the board
+void chessboard::printBoard() {
+	cout << "-----------------------------------------------" << endl;
+	cout << "Current Postion:\n";
+	
+	int square;
+	for(int rank = rank8; rank >= rank1; rank--) {
+		putchar('\n');
+		printf("%c", rank + '1' - 1);
+		for(int file = fileA; file <= fileH; file++) {
+			square = (rank+1) * 10 + file;
+			printf("%3c", pieceChars[ board[square] ]);
+		}
 	}
+	cout << "\n\n ";
+	for(int i = 0; i < 8; i++) {
+		printf("%3c", 'a' + i);
+	}
+	
+	cout << "\n\n";
+	
+	cout << "Side to move: ";
+	if(side == white) cout << "White" << endl;
+	else cout << "Black" << endl;
+	
+	cout << "Castle Permissions(white - KQ): ";
+	for(int i = 0; i < 2; i++) {
+		cout << whiteCastlePerms[i];
+	}
+	
+	cout << '\n';
+	
+	cout << "Castle Permissions(black - kq): ";
+	for(int i = 0; i < 2; i++) {
+		cout << blackCastlePerms[i];
+	}
+	
+	cout << '\n';
+	
+	int enPassSquare = board120[ enPassantSquare[side] ];
+		 
+	if ( enPassSquare >= board120[a1] && enPassSquare <= board120[h8] )
+		cout << "\nEnPassant Square: " << squareMapping[enPassSquare] << endl;
+	
+	else 
+		cout << "No Valid EnPassant Square is present." << endl;
+	
+	cout << "\nPiece List:\n\n";
+	
+	int piecesCount = 0;
 
-	number = atoi( num.c_str() );
-	moves = number;
-	plies = 0;
+	for(int piece = wp; piece <= bk; piece++) {
+		cout << pieceChars[piece] << ": ";
+		piecesCount += pieceList[piece].size();
+		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++ ) {
+			cout << squareMapping[ board120[ *it ] ] << " ";
+		}
+		cout << endl;
+	}
+	
+	cout << "\nCount of pieces: " << piecesCount << endl;
+	cout << "No. of possible(legal) moves: " << moveList.size() << endl << endl;
+	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
+		(*it).printMove();
+		cout << endl;
+	}
+	
+	cout << endl;
+	moveList.clear();
+	
+	cout << "No. of plies till now: " << plies << endl;
+	cout << "No. of moves till now: " << moves << endl;
+	cout << "Fifty Move Rule: " << fiftyMoveRule << endl;
+	cout << "Three Fold Repetition: " << threeFold << endl << endl;
+	cout << "Unique Postion Key: " << uniqueKey << endl;
+	cout << "-----------------------------------------------" << endl;
 }

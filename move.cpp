@@ -103,14 +103,17 @@ Move::Move(string move) {
 void Move::printMove() {
 
 	if ( isCastle == true) {
-		
+	/*	
 		if ( castle == 0 ) {
-			cout << "O-O";
-		}
+			if ( b.side == white ) cout << "e1g1";
+			else cout << "e8g8";
+ 		}
 		
 		if  (castle == 1 ) { 
-			cout << "O-O-O";
+			if ( b.side == white ) cout << "e1c1";
+			else cout << "e8c8";
 		}
+ 		*/
  	}
 	
 	else {

@@ -5,12 +5,13 @@
 
 // standard headers required
 #include <iostream>
+#include <fstream>
 #include <cstdio>
+#include <cassert>
 #include <vector>
 #include <cstdlib>
-#include <sstream>
-#include <unordered_set>
 #include <utility>
+#include <unordered_set>
 #include <unordered_map>
 
 using namespace std;
@@ -71,7 +72,7 @@ enum {
 #define NM7 21
 #define NM8 -21
  
-// Declaration of some data 
+// Declaration of some data and functions
 
 // Required for indexing purposes - Square Lookup
 extern int board64[64];
@@ -85,8 +86,15 @@ extern unordered_map<char, int> reversePieceChars;
 extern string squareMapping[64];
 extern unordered_map<string, int> reverseSquareMapping;
 
-
-
+// Functions required for initializing certain data
+extern void setUpDebugging();
 extern void initHash();
+
+// Performance testing to test the correctness of the chessboard::generateAllMoves() function
+extern void runPerftTests();
+
+// Used for debugging the move generating function if something gets caught while we run perft tests
+// Helps in tracing at which position the move generating function made a mistake
+extern void debugPerft(string &test, int depth);
 
 #endif

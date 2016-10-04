@@ -28,7 +28,7 @@ private:
 	ULL uniqueKey;
 	
 	// To store moves while we are searching the game tree 
-	vector <Move> moveList;
+
 	vector < array<bool, 4> > castleList;
 	vector < pair<int, int> > enPassSqList;
 	vector <ULL> keyList;
@@ -38,9 +38,7 @@ private:
 	
 	// Member Functions:
 	void initEmptyBoard();
-	void initHash();
 
-	void setUpDebugging();
 	void initPieceList();
 	void initUniqueKey();
 
@@ -57,6 +55,8 @@ public:
 	void fenSetup(string &fen);
 	bool isMoveValid(Move &move);
 	ULL perft(int depth);
+	bool isValid();
+	void printMinimalBoard();
 	
 	
 	static ULL hashList[13][64];
@@ -65,6 +65,8 @@ public:
 	static ULL sideHash[2];
 	static ULL enPassantHash[64];
 	void test();
+	
+		vector <Move> moveList;
 
 };
 
