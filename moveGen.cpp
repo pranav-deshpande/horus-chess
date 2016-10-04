@@ -1,6 +1,6 @@
 #include "chessboard.hpp"
 
-void chessboard::generateAllMoves() {
+void chessboard::generateAllMoves(vector <Move> &moveList) {
 	
 	moveList.clear();
 	
@@ -49,21 +49,21 @@ void chessboard::generateAllMoves() {
 			
 					if ( squareMapping[ board120[finalSquare] ].at(1) == '8' ) {
 						move = Move(currSquare, finalSquare, wb);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wn);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wr);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wq);
-						addMove(move);
+						addMove(move, moveList);
 					}
 				
 					else {
 						move = Move(currSquare, finalSquare);
-						addMove(move);		
+						addMove(move, moveList);		
 					}
 				}
 		
@@ -71,7 +71,7 @@ void chessboard::generateAllMoves() {
 			
 				if ( board[finalSquare] != OB && board[finalSquare] == EM && squareMapping[ board120[currSquare] ].at(1) == '2' && board[finalSquare-UP] == EM) {
 					move = Move(currSquare, finalSquare);
-					addMove(move);
+					addMove(move, moveList);
 				}
 			
 				finalSquare = currSquare + TOP_LEFT;
@@ -80,28 +80,28 @@ void chessboard::generateAllMoves() {
 				
 					if ( squareMapping[ board120[finalSquare] ].at(1) == '8' ) {
 						move = Move(currSquare, finalSquare, wb);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wn);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wr);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wq);
-						addMove(move);
+						addMove(move, moveList);
 					}
 				
 					else {
 						move = Move(currSquare, finalSquare);
-						addMove(move);		
+						addMove(move, moveList);		
 					}
 				}
 			
 				if ( enPassantSquare[white] != EM && finalSquare == enPassantSquare[white] && board[ enPassantSquare[white] ] == EM ) {
 					// in enPassant, we will set the square TO to empty due to the way we have coded playMove
 					move = Move(currSquare);
-					addMove(move);
+					addMove(move, moveList);
 				}
 				 
 				finalSquare = currSquare + TOP_RIGHT;
@@ -110,28 +110,28 @@ void chessboard::generateAllMoves() {
 				
 					if ( squareMapping[ board120[finalSquare] ].at(1) == '8' ) {
 						move = Move(currSquare, finalSquare, wb);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wn);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wr);
-						addMove(move);
+						addMove(move, moveList);
 					
 						move = Move(currSquare, finalSquare, wq);
-						addMove(move);
+						addMove(move, moveList);
 					}
 				
 					else {
 						move = Move(currSquare, finalSquare);
-						addMove(move);		
+						addMove(move, moveList);		
 					}
 				}
 			
 				if ( enPassantSquare[white] != EM && finalSquare == enPassantSquare[white] && board[ enPassantSquare[white] ] == EM) {
 					// in enPassant, we will set the square TO to empty due to the way we have coded playMove
 					move = Move(currSquare);
-					addMove(move);
+					addMove(move, moveList);
 				}
 				break;
 			
@@ -142,7 +142,7 @@ void chessboard::generateAllMoves() {
 			
 					if ( board[finalSquare] != OB && ( board[finalSquare] == EM || pieceSide[ board[finalSquare] ] == black ) ) {
 						move = Move(currSquare, finalSquare);
-						addMove(move);
+						addMove(move, moveList);
 					}
 				
 				}
@@ -159,13 +159,13 @@ void chessboard::generateAllMoves() {
 					
 						if ( board[finalSquare] == EM ) {
 							move = Move(currSquare, finalSquare);
-							addMove(move);
+							addMove(move, moveList);
 							finalSquare += increment;
 						}
 					
 						else if ( pieceSide[ board[finalSquare] ] == black ) {
 							move = Move(currSquare, finalSquare);
-							addMove(move);
+							addMove(move, moveList);
 							break;
 						}
 					
@@ -191,7 +191,7 @@ void chessboard::generateAllMoves() {
 				isCastle = true;
 				castle = 0;
 				move = Move(isCastle, castle);
-				addMove(move);
+				addMove(move, moveList);
 			}
 		}
 	
@@ -203,7 +203,7 @@ void chessboard::generateAllMoves() {
 				isCastle = true;
 				castle = 1;
 				move = Move(isCastle, castle);
-				addMove(move);
+				addMove(move, moveList);
 			}
 		}
 		
@@ -225,21 +225,21 @@ void chessboard::generateAllMoves() {
 	
 					if ( squareMapping[ board120[finalSquare] ].at(1) == '1' ) {
 						move = Move(currSquare, finalSquare, bb);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, bn);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, br);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, bq);
-						addMove(move);
+						addMove(move, moveList);
 					}
 		
 					else {
 						move = Move(currSquare, finalSquare);
-						addMove(move);		
+						addMove(move, moveList);		
 					}
 				}
 
@@ -247,7 +247,7 @@ void chessboard::generateAllMoves() {
 	
 				if ( board[finalSquare] != OB && board[finalSquare] == EM && squareMapping[ board120[currSquare] ].at(1) == '7' && board[finalSquare-DOWN] == EM ) {
 					move = Move(currSquare, finalSquare);
-					addMove(move);
+					addMove(move, moveList);
 				}
 	
 				finalSquare = currSquare + BOTTOM_LEFT;
@@ -256,28 +256,28 @@ void chessboard::generateAllMoves() {
 		
 					if ( squareMapping[ board120[finalSquare] ].at(1) == '1' ) {
 						move = Move(currSquare, finalSquare, bb);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, bn);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, br);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, bq);
-						addMove(move);
+						addMove(move, moveList);
 					}
 		
 					else {
 						move = Move(currSquare, finalSquare);
-						addMove(move);		
+						addMove(move, moveList);		
 					}
 				}
 	
 				if ( enPassantSquare[black] != EM && finalSquare == enPassantSquare[black] && board[ enPassantSquare[black] ] == EM) {
 					// in enPassant, we will set the square TO to empty due to the way we have coded playMove
 					move = Move(currSquare);
-					addMove(move);
+					addMove(move, moveList);
 				}
 				 
 				finalSquare = currSquare + BOTTOM_RIGHT;
@@ -286,28 +286,28 @@ void chessboard::generateAllMoves() {
 		
 					if ( squareMapping[ board120[finalSquare] ].at(1) == '1' ) {
 						move = Move(currSquare, finalSquare, bb);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, bn);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, br);
-						addMove(move);
+						addMove(move, moveList);
 			
 						move = Move(currSquare, finalSquare, bq);
-						addMove(move);
+						addMove(move, moveList);
 					}
 		
 					else {
 						move = Move(currSquare, finalSquare);
-						addMove(move);		
+						addMove(move, moveList);		
 					}
 				}
 	
 				if ( enPassantSquare[black] != EM && finalSquare == enPassantSquare[black] && board[ enPassantSquare[black] ] == EM) {
 					// in enPassant, we will set the square TO to empty due to the way we have coded playMove
 					move = Move(currSquare);
-					addMove(move);
+					addMove(move, moveList);
 				}
 				break;
 	
@@ -321,7 +321,7 @@ void chessboard::generateAllMoves() {
 			
 					if ( board[finalSquare] != OB && ( board[finalSquare] == EM || pieceSide[ board[finalSquare] ] == white ) ) {
 						move = Move(currSquare, finalSquare);
-						addMove(move);
+						addMove(move, moveList);
 					}
 				}
 				break;
@@ -338,13 +338,13 @@ void chessboard::generateAllMoves() {
 			
 						if ( board[finalSquare] == EM ) {
 							move = Move(currSquare, finalSquare);
-							addMove(move);
+							addMove(move, moveList);
 							finalSquare += increment;
 						}
 			
 						else if ( pieceSide[ board[finalSquare] ] == white ) {
 							move = Move(currSquare, finalSquare);
-							addMove(move);
+							addMove(move, moveList);
 							break;
 						}
 			
@@ -369,7 +369,7 @@ void chessboard::generateAllMoves() {
 				isCastle = true;
 				castle = 0;
 				move = Move(isCastle, castle);
-				addMove(move);
+				addMove(move, moveList);
 			}
 		}
 		
@@ -378,7 +378,7 @@ void chessboard::generateAllMoves() {
 				isCastle = true;
 				castle = 1;
 				move = Move(isCastle, castle);
-				addMove(move);
+				addMove(move, moveList);
 			}
 		}
 	}

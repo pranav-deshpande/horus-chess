@@ -39,8 +39,17 @@ private:
 	// Member Functions:
 	void initEmptyBoard();
 
+	void fenSetup(string &fen);
+
 	void initPieceList();
 	void initUniqueKey();
+
+	bool isSquareSafe(int square, int Side);
+	bool isSquareAttacked(int square, int Side);
+	bool isMoveValid(Move &move);
+	void addMove(Move &move, vector <Move> &moveList);
+
+
 
 public:
 	chessboard();
@@ -48,26 +57,20 @@ public:
 	void playMove(Move &move);
 	void undoMove(Move &move);
 	void printBoard();
-	void generateAllMoves();
-	bool isSquareSafe(int square, int Side);
-	bool isSquareAttacked(int square, int Side);
-	void addMove(Move &move);
-	void fenSetup(string &fen);
-	bool isMoveValid(Move &move);
-	ULL perft(int depth);
-	bool isValid();
 	void printMinimalBoard();
-	
-	
+	void generateAllMoves(vector <Move> &moveList);
+	ULL perft(int depth);
+
+	bool isValid();
+
 	static ULL hashList[13][64];
 	static ULL whiteCastleHash[2];
 	static ULL blackCastleHash[2];
 	static ULL sideHash[2];
 	static ULL enPassantHash[64];
-	void test();
 	
-		vector <Move> moveList;
-
+	
+	void test();
 };
 
 #endif

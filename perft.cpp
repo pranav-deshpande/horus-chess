@@ -2,18 +2,18 @@
 
 ULL chessboard::perft(int depth) {
 	
-	generateAllMoves();
-	vector <Move> test = moveList;
+	vector <Move> moveList;
+	generateAllMoves(moveList);
 	
 	ULL nodes = 0;
 	
 	if ( depth == 0 ) return 1; // if someone calls debugMoveGen with argument 1
 	
 	if ( depth == 1 ) {
-		return test.size();
+		return moveList.size();
 	}
 	
-	for(vector<Move>::iterator it = test.begin(); it != test.end(); it++) {
+	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
 		playMove(*it);
 		nodes += perft(depth-1);
 		undoMove(*it);
@@ -26,7 +26,8 @@ ULL chessboard::perft(int depth) {
 // that a line of moves is wrong.
 void chessboard::test() {
 	
-	generateAllMoves();
+	vector <Move> moveList;
+	generateAllMoves(moveList);
 	printMinimalBoard();
 	
 	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
@@ -76,14 +77,15 @@ void debugPerft(string &test, int depth) {
 	
 	chessboard b(test);
 	
-	b.generateAllMoves();
-	vector <Move> moves = b.moveList;
+	vector <Move> moveList;
+	b.generateAllMoves(moveList);
+
 	ULL ans1 = 0, p;
 	
 	cout << "Position: " << test << endl;
 	cout << "Depth: " << depth << "\n\n";
 	
-	for(vector <Move>::iterator it = moves.begin(); it != moves.end(); it++) {
+	for(vector <Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
 		it -> printMove();
 		cout << ": ";
 		b.playMove(*it);

@@ -671,7 +671,7 @@ bool chessboard::isMoveValid(Move &move) {
 	return validity;
 }
 
-void chessboard::addMove(Move &move) {
+void chessboard::addMove(Move &move, vector<Move> &moveList) {
 	if ( isMoveValid(move) )
 		moveList.push_back(move);
 }
@@ -818,6 +818,10 @@ void chessboard::printBoard() {
 	}
 	
 	cout << "\nCount of pieces: " << piecesCount << endl;
+	
+	vector <Move> moveList;
+	generateAllMoves(moveList);
+	
 	cout << "No. of possible(legal) moves: " << moveList.size() << endl << endl;
 	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
 		(*it).printMove();
