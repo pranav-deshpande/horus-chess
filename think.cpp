@@ -70,38 +70,39 @@ int mirror[] = {
 int chessboard::staticEval() {
 	
 	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};
-	int val = 0;
+	int val = 0, blackVal = 0, whiteVal = 0;
 	int square;
-	if ( side == white ) {
+	
 		for(int piece = wp; piece <= wq; piece++) {
 			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-				val += piece;
+				whiteVal += piece;
 				square = board120[*it];
-				if (piece == wp) val += pTable[square];
-				else if (piece == wn) val += nTable[square];
-				else if (piece == wb) val += bTable[square];
-				else if (piece == wr) val += rTable[square];
-				else if (piece == wq) val += qTable[square];
+				if (piece == wp) whiteVal += pTable[square];
+				else if (piece == wn) whiteVal += nTable[square];
+				else if (piece == wb) whiteVal += bTable[square];
+				else if (piece == wr) whiteVal += rTable[square];
+				else if (piece == wq) whiteVal += qTable[square];
 			}
 		}
-	}
-	
-	else {
-		for(int piece = bp; piece <= bq; piece++) {
-
-			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-				val += piece;
-				square = mirror[ board120[*it] ];
-				if (piece == bp) val += pTable[square];
-				else if (piece == bn) val += nTable[square];
-				else if (piece == bb) val += bTable[square];
-				else if (piece == br) val += rTable[square];
-				else if (piece == bq) val += qTable[square];
-			}
-		}
-	}
 		
-	return val;
+		for(int piece = bp; piece <= bq; piece++) {
+			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
+				blackVal += piece;
+				square = mirror[ board120[*it] ];
+				if (piece == bp) blackVal += pTable[square];
+				else if (piece == bn) blackVal += nTable[square];
+				else if (piece == bb) blackVal += bTable[square];
+				else if (piece == br) blackVal += rTable[square];
+				else if (piece == bq) blackVal += qTable[square];
+			}
+		}
+	
+	val = whiteVal - blackVal;
+	
+	if ( side == white ) return val;
+	else return -val;
+	
+	
 }
 
 int chessboard::negamax(int depth) {
@@ -138,7 +139,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = negamax(2);
+		int score = -negamax(1);
 		undoMove(move);
 		
 		if ( score > maxScore ) {
