@@ -75,6 +75,8 @@ public:
 	int staticEval();
 	int negamax(int depth);
 	Move findMove();
+	
+	Move parseMoveFromString(string m);
 };
 
 #endif

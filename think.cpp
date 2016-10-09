@@ -1,32 +1,106 @@
 #include "chessboard.hpp"
 
+// Piece tables for the evaluation function
+int pTable[] = {
+	 0,  0,  0,  0,  0,  0,  0,  0,
+	50, 50, 50, 50, 50, 50, 50, 50,
+	10, 10, 20, 30, 30, 20, 10, 10,
+	 5,  5, 10, 25, 25, 10,  5,  5,
+	 0,  0,  0, 20, 20,  0,  0,  0,
+	 5, -5,-10,  0,  0,-10, -5,  5,
+	 5, 10, 10,-20,-20, 10, 10,  5,
+	 0,  0,  0,  0,  0,  0,  0,  0
+};
+
+int nTable[] = {
+	-50,-40,-30,-30,-30,-30,-40,-50,
+	-40,-20,  0,  0,  0,  0,-20,-40,
+	-30,  0, 10, 15, 15, 10,  0,-30,
+	-30,  5, 15, 20, 20, 15,  5,-30,
+	-30,  0, 15, 20, 20, 15,  0,-30,
+	-30,  5, 10, 15, 15, 10,  5,-30,
+	-40,-20,  0,  5,  5,  0,-20,-40,
+	-50,-40,-30,-30,-30,-30,-40,-50,
+};
+
+int bTable[] = {
+	-20,-10,-10,-10,-10,-10,-10,-20,
+	-10,  0,  0,  0,  0,  0,  0,-10,
+	-10,  0,  5, 10, 10,  5,  0,-10,
+	-10,  5,  5, 10, 10,  5,  5,-10,
+	-10,  0, 10, 10, 10, 10,  0,-10,
+	-10, 10, 10, 10, 10, 10, 10,-10,
+	-10,  5,  0,  0,  0,  0,  5,-10,
+	-20,-10,-10,-10,-10,-10,-10,-20,
+};
+
+int rTable[] = {
+	 0,  0,  0,  0,  0,  0,  0,  0,
+	  5, 10, 10, 10, 10, 10, 10,  5,
+	 -5,  0,  0,  0,  0,  0,  0, -5,
+	 -5,  0,  0,  0,  0,  0,  0, -5,
+	 -5,  0,  0,  0,  0,  0,  0, -5,
+	 -5,  0,  0,  0,  0,  0,  0, -5,
+	 -5,  0,  0,  0,  0,  0,  0, -5,
+	  0,  0,  0,  5,  5,  0,  0,  0
+};
+
+int qTable[] = {
+	-20,-10,-10, -5, -5,-10,-10,-20,
+	-10,  0,  0,  0,  0,  0,  0,-10,
+	-10,  0,  5,  5,  5,  5,  0,-10,
+	 -5,  0,  5,  5,  5,  5,  0, -5,
+	  0,  0,  5,  5,  5,  5,  0, -5,
+	-10,  5,  5,  5,  5,  5,  0,-10,
+	-10,  0,  5,  0,  0,  0,  0,-10,
+	-20,-10,-10, -5, -5,-10,-10,-20
+};
+
+int mirror[] = {
+	56, 57, 58, 59, 60, 61, 62, 63,
+	48, 49, 50, 51, 52, 53, 54, 55,
+	40, 41, 42, 43, 44, 45, 46, 47,
+	32, 33, 34, 35, 36, 37, 38, 39,
+	24, 25, 26, 27, 28, 29, 30, 31,
+	16, 17, 18, 19, 20, 21, 22, 23,
+	 8,  9, 10, 11, 12, 13, 14, 15,
+	 0,  1,  2,  3,  4,  5,  6,  7
+};
+
 int chessboard::staticEval() {
 	
 	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};
 	int val = 0;
-	
+	int square;
 	if ( side == white ) {
 		for(int piece = wp; piece <= wq; piece++) {
-			val += ( pieceList[piece].size() * pieceVals[piece] );
+			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
+				val += piece;
+				square = board120[*it];
+				if (piece == wp) val += pTable[square];
+				else if (piece == wn) val += nTable[square];
+				else if (piece == wb) val += bTable[square];
+				else if (piece == wr) val += rTable[square];
+				else if (piece == wq) val += qTable[square];
+			}
 		}
 	}
 	
 	else {
 		for(int piece = bp; piece <= bq; piece++) {
-			val += ( pieceList[piece].size() * pieceVals[piece] );
+
+			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
+				val += piece;
+				square = mirror[ board120[*it] ];
+				if (piece == bp) val += pTable[square];
+				else if (piece == bn) val += nTable[square];
+				else if (piece == bb) val += bTable[square];
+				else if (piece == br) val += rTable[square];
+				else if (piece == bq) val += qTable[square];
+			}
 		}
 	}
-	
-	vector<Move> currMoveList;
-	generateAllMoves(currMoveList);
-	
-	vector<Move> oppMoveList;
-	side = !side;
-	generateAllMoves(oppMoveList);
-	side = !side;
-	
-	val += ( currMoveList.size() - oppMoveList.size() );
-	
+		
 	return val;
 }
 
@@ -64,11 +138,12 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = negamax(4);
+		int score = negamax(2);
 		undoMove(move);
 		
-		if ( score >= maxScore ) {
+		if ( score > maxScore ) {
 			bestMove = move;
+			maxScore = score;
 		}
 	}
 	

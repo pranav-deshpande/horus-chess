@@ -58,39 +58,6 @@ Move::Move(bool iscastle, int Castle) {
 	from = to = EM;
 	currPiece = capturedPiece = promotedPiece = EM;	
 }
-/*
-Move::Move(string move) {
-	
-	if (Move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8") {
-		bool iscastle == true;
-		
-		if ( move == "e1g1" || move == "e8g8" ) {
-			Move(iscastle, 0);
-		}
-		
-		else {
-			Move(iscastle, 1);
-		}
-	}
-	
-	else {
-		// There is a problem - How do I know if the move is an enPassant Move?
-		
-		int From = board64[ reverseSquareMapping[ move.substr(0,2) ] ];
-		int To = board64[ reverseSquareMapping[ move.substr(2, 4) ] ];
-	
-		if ( move.length() == 5 ) {
-			int PromotedPiece = reversePieceChars[ move[4] ];
-			Move(From, To, PromotedPiece);
-		}
-	
-		else {
-			Move(From, To);
-		}
-	}
-
-}
-*/
 
 void Move::printMove(int side) {
 

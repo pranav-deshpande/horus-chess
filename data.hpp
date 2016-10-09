@@ -98,4 +98,7 @@ extern void runPerftTests();
 // Helps in tracing at which position the move generating function made a mistake
 extern void debugPerft(string &test, int depth);
 
+// The gui loop
+extern void start();
+
 #endif

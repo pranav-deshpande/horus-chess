@@ -838,3 +838,40 @@ void chessboard::printBoard() {
 	cout << "Unique Postion Key: " << uniqueKey << endl;
 	cout << "-----------------------------------------------" << endl;
 }
+
+
+Move chessboard::parseMoveFromString(string move) {
+	
+	Move m;
+	
+	if (move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8") {
+				
+		if ( move == "e1g1" || move == "e8g8" ) {
+			m = Move(true, 0);
+		}
+		
+		else {
+			m = Move(true, 1);
+		}
+	}
+	
+	else {
+		// There is a problem - How do I know if the move is an enPassant Move?
+		
+		int From = board64[ reverseSquareMapping[ move.substr(0,2) ] ];
+		int To = board64[ reverseSquareMapping[ move.substr(2, 4) ] ];
+	
+		if ( move.length() == 5 ) {
+			int PromotedPiece = reversePieceChars[ move[4] ];
+			m = Move(From, To, PromotedPiece);
+		}
+	
+		else {
+			m = Move(From, To);
+		}
+	}
+
+	return m;
+
+}
+
