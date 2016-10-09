@@ -17,6 +17,16 @@ int chessboard::staticEval() {
 		}
 	}
 	
+	vector<Move> currMoveList;
+	generateAllMoves(currMoveList);
+	
+	vector<Move> oppMoveList;
+	side = !side;
+	generateAllMoves(oppMoveList);
+	side = !side;
+	
+	val += ( currMoveList.size() - oppMoveList.size() );
+	
 	return val;
 }
 
@@ -54,7 +64,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = negamax(1);
+		int score = negamax(4);
 		undoMove(move);
 		
 		if ( score >= maxScore ) {
