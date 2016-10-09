@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cstdio>
 #include <cassert>
+#include <climits>
 #include <vector>
 #include <cstdlib>
 #include <utility>

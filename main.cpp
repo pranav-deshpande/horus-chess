@@ -1,7 +1,7 @@
 #include "chessboard.hpp"
 #include "move.hpp"
 #include "data.hpp"
-
+/*
 int main() {
 	initHash();
 	setUpDebugging();
@@ -11,4 +11,21 @@ int main() {
 	// Just as a sample
 	debugPerft(test, 3);
 }
+*/
 
+int main() {
+	initHash();
+	setUpDebugging();
+	
+	chessboard b;
+	
+	b.printMinimalBoard();
+	
+	while(true) {
+		getchar();
+		Move move = b.findMove();
+		b.playMove(move);
+		b.printMinimalBoard();
+	}
+	return 0;
+}

@@ -72,8 +72,9 @@ public:
 
 	int side;
 	
-	staticEval();
-	int alphaBetaNegaMax(int alpha, int beta, int depth);
+	int staticEval();
+	int negamax(int depth);
+	Move findMove();
 };
 
 #endif

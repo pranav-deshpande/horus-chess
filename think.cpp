@@ -2,25 +2,25 @@
 
 int chessboard::staticEval() {
 	
-	int pieceVals = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};
+	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};
 	int val = 0;
 	
-	if ( side == white )
+	if ( side == white ) {
 		for(int piece = wp; piece <= wq; piece++) {
-			val += ( pieceList[piece].size() * piece );
+			val += ( pieceList[piece].size() * pieceVals[piece] );
 		}
 	}
 	
 	else {
 		for(int piece = bp; piece <= bq; piece++) {
-			val += ( pieceList[piece].size() * piece );
+			val += ( pieceList[piece].size() * pieceVals[piece] );
 		}
 	}
 	
 	return val;
 }
 
-int chessboard::alphaBetaNegamax(int alpha, int beta, int depth) {
+int chessboard::negamax(int depth) {
 	
 	if ( depth == 0 ) staticEval();
 	
@@ -31,15 +31,36 @@ int chessboard::alphaBetaNegamax(int alpha, int beta, int depth) {
 	
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
 		
-		if ( bestValue >= beta ) break;
-		if ( bestValue > alpha ) alpha = bestValue;
-		
 		playMove(*it);
-		int val = -alphaBetaNegamax(alpha, beta, depth - 1);
+		int val = -negamax(depth - 1);
 		undoMove(*it);
 		
 		if ( val > bestValue ) bestValue = val;
 	}
 	
 	return bestValue;
+}
+
+Move chessboard::findMove() {
+	
+	vector<Move> moveList;
+	generateAllMoves(moveList);
+	
+	Move bestMove;
+	int maxScore = -INT_MAX;
+
+	for(vector<Move>::iterator it = moveList.begin(); it!= moveList.end(); it++) {
+		
+		Move move = *it;
+		
+		playMove(move);
+		int score = negamax(1);
+		undoMove(move);
+		
+		if ( score >= maxScore ) {
+			bestMove = move;
+		}
+	}
+	
+	return bestMove;
 }
