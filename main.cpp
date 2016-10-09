@@ -20,9 +20,9 @@ int main() {
 		int temp;
 		cin >> command >> temp;
 		if ( command == "protover" && temp >= 2 ) {
-			cout << "feature sigint=0 sigterm=0 done=1" << endl;
+			cout << "feature sigint=0 sigterm=0 usermove=1 done=1" << endl;
 			while(true) {
-				cin >> command;
+				getline(cin, command);
 				
 				if ( command == "quit" ) break;
 				
@@ -64,10 +64,17 @@ int main() {
 					cout << endl;
 				}	
 				
-				else {
+				else if ( command == "usermove" ) {
+					cin >> command;
 					Move move = b.parseMoveFromString(command);
 					b.playMove(move);
+					move = b.findMove();
+					b.playMove(move);
+					move.printMove(b.side);
+					cout << endl;
 				}
+				
+				else continue;
 			}
 		}
 	}

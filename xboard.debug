@@ -4,88 +4,36 @@ recognized 'normal' (-1) as variant normal
 recognized 'normal' (-1) as variant normal
 shuffleOpenings = 0
 shuffleOpenings = 0
-Version: xboard 4.8.0 + fairymax ()
+Version: xboard 4.8.0 + Horus ()
 Reset(1, 0) from gameMode 0
 recognized 'normal' (-1) as variant normal
 GameEnds(0, (null), 2)
 shuffleOpenings = 0
-StartChildProcess (dir=".") fairymax
-324 >first : xboard
-protover 2
-545 <first : tellics say     Fairy-Max 4.8V
-546 <first : tellics say     by H.G. Muller
-546 <first : tellics say Gothic Chess is protected by U.S. patent #6,481,716 by Ed Trice.
-546 <first : tellics say Falcon Chess is protected by U.S. patent #5,690,334 by George W. Duke
-547 <first : feature myname="Fairy-Max 4.8V"
-547 >first : accepted myname
-547 <first : feature memory=1
-547 >first : accepted memory
-547 <first : feature setboard=0 xedit=1 ping=1 done=0
-547 >first : accepted setboard
-547 >first : accepted xedit
-547 >first : accepted ping
-547 >first : accepted done
-547 <first : feature variants="normal,nocastle,shatranj,asean,makruk,cambodian,ai-wok,courier,knightmate,capablanca,gothic,falcon,cylinder,berolina,super,seirawan,spartan,great,light-brigade,king-of-the-hill,bifurcator,team-mate,fairy"
-547 >first : accepted variants
-547 <first : feature option="Resign -check 0"
-547 >first : accepted option
-547 <first : feature option="Resign Threshold -spin 800 200 1200"
-547 >first : accepted option
-547 <first : feature option="Claim draw after -spin 50 0 200"
-547 >first : accepted option
-547 <first : feature option="Ini File -file /usr/share/games/fairymax/fmax.ini"
-547 >first : accepted option
-547 <first : feature option="Multi-PV Margin -spin 0 0 1000"
-547 >first : accepted option
-547 <first : feature option="Variant fairy selects -combo FIDE-Clobberers /// Clobberers-FIDE /// FIDE-Nutters /// Nutters-FIDE /// Clobberers-Nutters /// Nutters-Clobberers /// FIDE-Rookies /// Rookies-FIDE /// Clobberers-Rookies /// Rookies-Clobberers"
-547 >first : accepted option
-547 <first : feature option="Makruk rules -combo makruk /// Cambodian /// Ai-wok"
-547 >first : accepted option
-547 <first : feature option="Dummy Slider Example -slider 20 0 100"
-547 >first : accepted option
-547 <first : feature option="Dummy String Example -string happy birthday!"
-547 >first : accepted option
-547 <first : feature option="Dummy Path Example -path ."
-547 >first : accepted option
-547 <first : feature option="Info -button"
-547 >first : accepted option
-547 <first : feature option="Clear Hash -button"
-547 >first : accepted option
-547 <first : feature done=1
-547 >first : accepted done
-549 >first : memory 68
-549 >first : new
-random
-549 >first : level 40 5 0
-549 >first : post
-549 >first : hard
-549 >first : ping 1
-612 <first : pong 1
-10636 >first : quit
-Unload first
 StartChildProcess (dir="/home/pranav/Desktop/Horus-Chess-Engine") /home/pranav/Desktop/Horus-Chess-Engine/Horus
-10640 >first : xboard
+295 >first : xboard
 protover 2
-10650 <first : 
-10650 <first : feature sigint=0 sigterm=0 done=1
-10650 >first : accepted sigint
-10650 >first : accepted sigterm
-10650 >first : accepted done
-recognized 'normal' (-1) as variant normal
-10652 >first : new
+316 <first : 
+316 <first : feature sigint=0 sigterm=0 usermove=1 done=1
+316 >first : accepted sigint
+317 >first : accepted sigterm
+317 >first : accepted usermove
+317 >first : accepted done
+319 >first : new
 random
-10652 >first : level 40 5 0
-10652 >first : post
-10652 >first : hard
-10653 <first : terminate called after throwing an instance of 'std::out_of_range'
-10653 <first :   what():  basic_string::substr: __pos (which is 2) > this->size() (which is 1)
+319 >first : level 40 5 0
+319 >first : post
+319 >first : hard
 nps: w=-1, b=-1
 nps: w=-1, b=-1
-16624 >first : time 30000
-16628 >first : otim 30000
+3353 >first : time 30000
+3353 >first : otim 30000
 book hit = (NULL)
-16633 >first : e2e4
-GameEnds(27, Error writing to first chess program, 2)
-18736 >first : result 0-1 {Error writing to first chess program}
-18736 >first : force
-18736 >first : quit
+3353 >first : usermove 3354 >first : e2e4
+ForwardInner(2), current 1, forward 1
+ForwardInner(2), current 1, forward 1
+ForwardInner(2), current 1, forward 1
+ForwardInner(2), current 1, forward 1
+GameEnds(29, xboard exit, 2)
+94262 >first : result * {xboard exit}
+94262 >first : force
+94262 >first : quit
