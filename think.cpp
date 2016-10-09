@@ -22,7 +22,7 @@ int chessboard::staticEval() {
 
 int chessboard::negamax(int depth) {
 	
-	if ( depth == 0 ) staticEval();
+	if ( depth == 0 ) return staticEval();
 	
 	vector <Move> childNodes;
 	generateAllMoves(childNodes);
