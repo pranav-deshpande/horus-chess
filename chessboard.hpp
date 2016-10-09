@@ -71,6 +71,9 @@ public:
 	void test();
 
 	int side;
+	
+	staticEval();
+	int alphaBetaNegaMax(int alpha, int beta, int depth);
 };
 
 #endif
