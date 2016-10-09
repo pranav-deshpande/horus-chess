@@ -75,8 +75,8 @@ int chessboard::staticEval() {
 	
 		for(int piece = wp; piece <= wq; piece++) {
 			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-				whiteVal += piece;
-				square = board120[*it];
+				whiteVal += pieceVals[piece];
+				square = mirror[ board120[*it] ];
 				if (piece == wp) whiteVal += pTable[square];
 				else if (piece == wn) whiteVal += nTable[square];
 				else if (piece == wb) whiteVal += bTable[square];
@@ -87,8 +87,8 @@ int chessboard::staticEval() {
 		
 		for(int piece = bp; piece <= bq; piece++) {
 			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-				blackVal += piece;
-				square = mirror[ board120[*it] ];
+				blackVal += pieceVals[piece];
+				square = board120[*it];
 				if (piece == bp) blackVal += pTable[square];
 				else if (piece == bn) blackVal += nTable[square];
 				else if (piece == bb) blackVal += bTable[square];
