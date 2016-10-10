@@ -112,7 +112,7 @@ int chessboard::negamax(int depth) {
 	vector <Move> childNodes;
 	generateAllMoves(childNodes);
 	
-	int bestValue = -INT_MAX;
+	int bestValue = INT_MIN;
 	
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
 		
@@ -132,7 +132,7 @@ Move chessboard::findMove() {
 	generateAllMoves(moveList);
 	
 	Move bestMove;
-	int maxScore = -INT_MAX;
+	int maxScore = INT_MIN;
 
 	for(vector<Move>::iterator it = moveList.begin(); it!= moveList.end(); it++) {
 		

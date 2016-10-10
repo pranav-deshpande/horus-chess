@@ -10,7 +10,7 @@ int main() {
     cout.setf(ios::unitbuf);
 
     chessboard b;
-    int engineSide = black;
+    int engineSide = empty;
 
     string command;
 
@@ -52,8 +52,8 @@ int main() {
             Move move = b.parseMoveFromString(command);
             b.playMove(move);
         }
-
-        else continue; // unknown command
+        
+       	else continue; // unknown command
 
         if (engineSide == b.side) {
             Move move = b.findMove();
