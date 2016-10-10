@@ -1,6 +1,6 @@
 #include "chessboard.hpp"
 
-// Piece tables for the evaluation function
+// Piece square tables for the evaluation function
 int pTable[] = {
 	 0,  0,  0,  0,  0,  0,  0,  0,
 	50, 50, 50, 50, 50, 50, 50, 50,
@@ -139,7 +139,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -negamax(1);
+		int score = -negamax(3);
 		undoMove(move);
 		
 		if ( score > maxScore ) {
