@@ -62,7 +62,6 @@ void setUpDebugging() {
 }
 
 void initHash() {
-	
 	// Intitialize the hash lists
 	for(int square = 0; square < 64; square++) {
 		chessboard::hashList[0][square] = 0;

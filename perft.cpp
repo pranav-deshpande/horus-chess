@@ -102,3 +102,14 @@ void debugPerft(string &test, int depth) {
 	cout << endl << "Total: " << ans1 << endl;
 
 }
+
+void samplePerftTest() {
+	cout << "Running sample perft tests! This will take a long time." << endl;
+	cout << "The fen strings are in the perftTests file. The results will be output to the file perftResults." << endl;
+	
+	string test = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
+	runPerftTests();
+	
+	// Just as a sample
+	debugPerft(test, 3);
+}

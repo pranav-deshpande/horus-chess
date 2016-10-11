@@ -676,8 +676,46 @@ void chessboard::addMove(Move &move, vector<Move> &moveList) {
 		moveList.push_back(move);
 }
 
+Move chessboard::parseMoveFromString(string move) {
+	// Note that this function does not check if the move input is valid!
+	// So be careful in the console mode. However, xboard does check for move validity
+	Move m;
+	
+	if (move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8") {
+		
+		if ( move == "e1g1" || move == "e8g8" ) {
+			m = Move(true, 0);
+		}
+		
+		else {
+			m = Move(true, 1);
+		}
+	}
+	
+	else {
+		int From = board64[ reverseSquareMapping[ move.substr(0,2) ] ];
+		int To = board64[ reverseSquareMapping[ move.substr(2, 4) ] ];
+		int pawn = ( side == white ) ? wp : bp;
+		
+		if ( move.length() == 5 ) {
+			int PromotedPiece = reversePieceChars[ move[4] ];
+			m = Move(From, To, PromotedPiece);
+		}
+		
+		else if ( board[From] == pawn && board[To] == enPassantSquare[side] && board[To] == EM ) {
+			m = Move(From);
+		}
+	
+		else {
+			m = Move(From, To);
+		}
+	}
+	
+	return m;
+}
+
 // Thanks to Sven Schüle of talkchess.com for this routine which is helpful while debugging
-// It checks whether the present state of the chessboard is valid
+// It checks whether the present state of the chessboard is valid or not
 bool chessboard::isValid() {
 	static int const MinPieces[1+12] = { 0, 0,   0,   0,   0,   0, 1, 0,   0,   0,   0,   0, 1 };
 	static int const MaxPieces[1+12] = { 0, 8, 2+8, 2+8, 2+8, 1+8, 1, 8, 2+8, 2+8, 2+8, 1+8, 1 };
@@ -729,7 +767,7 @@ bool chessboard::isValid() {
 	return true;
 }
 
-// Print the just the board
+// Print just the board - useful with debugPerft later
 void chessboard::printMinimalBoard() {
 	cout << "-----------------------------------------------" << endl;
 	cout << "Current Postion:\n";
@@ -757,7 +795,7 @@ void chessboard::printMinimalBoard() {
 	cout << "-----------------------------------------------" << endl;
 }
 	
-// Detailed description of the board
+// Detailed description of the board - This helped me a lot while debugging
 void chessboard::printBoard() {
 	cout << "-----------------------------------------------" << endl;
 	cout << "Current Postion:\n";

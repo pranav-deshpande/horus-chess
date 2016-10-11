@@ -60,6 +60,8 @@ public:
 	void generateAllMoves(vector <Move> &moveList);
 	ULL perft(int depth);
 
+	Move parseMoveFromString(string move);
+
 	bool isValid();
 
 	static ULL hashList[13][64];
