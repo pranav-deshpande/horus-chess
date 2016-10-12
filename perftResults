@@ -1,17 +1,40 @@
 Positions are as given on https://chessprogramming.wikispaces.com/Perft+Results
 The 8th posiion is taken from http://www.rocechess.ch/perft.html
 
+The speed is always expressed in nodes per second whereas the time is in microseconds.
+
 Position 1: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
-1 20
-2 400
-3 8902
-4 197281
-5 4865609
+Depth = 1, Nodes = 20
+Time = 123
+Speed = 162601
+
+Depth = 2, Nodes = 400
+Time = 2415
+Speed = 165631
+
+Depth = 3, Nodes = 8902
+Time = 58561
+Speed = 152012
+
+Depth = 4, Nodes = 197281
+Time = 926369
+Speed = 212961
+
+Depth = 5, Nodes = 4865609
+Time = 21751910
+Speed = 223686
+
 
 Position 2: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -
 
-1 48
-2 2039
-3 97862
-4 4085603
+Depth = 1, Nodes = 48
+Time = 174
+Speed = 275862
+
+Depth = 2, Nodes = 2039
+Time = 7480
+Speed = 272593
+
+Depth = 3, Nodes = 97862
+Time = 363365

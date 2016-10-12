@@ -53,12 +53,29 @@ void runPerftTests() {
 	fout << "The 8th posiion is taken from http://www.rocechess.ch/perft.html" << endl;
 	fout << endl;
 	
+	fout << "The speed is always expressed in nodes per second whereas the time is in microseconds." << "\n\n";
+	
+	// For measuring the time during each call to perft - This helps us to get nodes per second
+	chrono::steady_clock::time_point begin, end;
+	ULL timeInMicroSeconds, numNodes, speed;
+		
 	while ( getline(fin, test) ) {
 		fout << "Position " << position << ": " << test << "\n\n";
 		chessboard b(test);
+		
 		for( int i = 1; i <= perftDepth; i++) {
-			fout << i << ' ' << b.perft(i) << endl;
+			begin = chrono::steady_clock::now();
+			numNodes = b.perft(i);
+			end = chrono::steady_clock::now();
+			
+			timeInMicroSeconds = chrono::duration_cast<chrono::microseconds> (end - begin).count();
+			speed = (1000000 * numNodes ) / timeInMicroSeconds ;		
+			
+			fout << "Depth = " << i << ", Nodes = " << numNodes << endl;
+			fout << "Time = " << timeInMicroSeconds << endl;
+			fout << "Speed = " << speed << "\n\n";
 		}
+		
 		fout << "\n";
 		position++;
 	}
