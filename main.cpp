@@ -5,6 +5,7 @@
 int main() {
 	initHash();
 	setUpDebugging();
+	samplePerftTest();
 	return 0;
 }
 

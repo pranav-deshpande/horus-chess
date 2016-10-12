@@ -60,25 +60,29 @@ Move::Move(bool iscastle, int Castle) {
 	currPiece = capturedPiece = promotedPiece = EM;	
 }
 
-void Move::printMove(int side) {
+string Move::MoveToString(int side) {
+
+	string move;
 
 	if ( isCastle == true) {
 
 		if ( castle == 0 ) {
-			if ( side == white ) cout << "e1g1";
-			else cout << "e8g8";
+			if ( side == white ) move = "e1g1";
+			else move = "e8g8";
  		}
 		
 		if  (castle == 1 ) { 
-			if ( side == white ) cout << "e1c1";
-			else cout << "e8c8";
+			if ( side == white ) move = "e1c1";
+			else move = "e8c8";
 		}
  	}
 	
 	else {
-		cout << squareMapping[ board120[from] ] << squareMapping[ board120[to] ];
+		move = squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
 		if(promotedPiece != EM) {
-			cout << char(promotedPiece) ;
+			move = move + string(1, char(promotedPiece) );
 		}
 	}
+	
+	return move;
 }

@@ -86,7 +86,7 @@ void debugPerft(string &test, int depth) {
 	cout << "Depth: " << depth << "\n\n";
 	
 	for(vector <Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		it -> printMove(b.side);
+		cout << it -> MoveToString(b.side);
 		cout << ": ";
 		b.playMove(*it);
 		p = b.perft(depth-1);
@@ -107,9 +107,9 @@ void samplePerftTest() {
 	cout << "Running sample perft tests! This will take a long time." << endl;
 	cout << "The fen strings are in the perftTests file. The results will be output to the file perftResults." << endl;
 	
-	string test = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
 	runPerftTests();
 	
 	// Just as a sample
+	string test = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
 	debugPerft(test, 3);
 }

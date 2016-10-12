@@ -862,7 +862,7 @@ void chessboard::printBoard() {
 	
 	cout << "No. of possible(legal) moves: " << moveList.size() << endl << endl;
 	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		(*it).printMove(side);
+		cout << it->MoveToString(side) << endl;
 		cout << endl;
 	}
 	
