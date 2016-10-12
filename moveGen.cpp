@@ -4,7 +4,8 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 	// It is expected that I send a blank vector, but still
 	moveList.clear();
 	
-	// Inspired from the offset method for move generation given on chessprogramming.wikispaces.com
+	// Inspired by the offset method for move generation given on https://chessprogramming.wikispaces.com/10x12+Board
+	// However, my code isn't as compact as that one
 	int pieceSide[] = { EM, white, white, white, white, white, white, black, black, black, black, black, black };
 	int pieceDirections[] = {EM, EM, 8, 4, 4, 8, 8, EM, 8, 4, 4, 8, 8};
 	
