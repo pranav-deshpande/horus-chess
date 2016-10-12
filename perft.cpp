@@ -76,7 +76,7 @@ void debugPerft(string &test, int depth) {
 	}
 	
 	chessboard b(test);
-	
+	/*
 	vector <Move> moveList;
 	b.generateAllMoves(moveList);
 
@@ -94,11 +94,11 @@ void debugPerft(string &test, int depth) {
 		ans1 += p;
 		b.undoMove(*it);
 	}
-	
+	*/
 	ULL ans2 = b.perft(depth);
 
-	assert(ans1 == ans2);
+	//assert(ans1 == ans2);
 	
-	cout << endl << "Total: " << ans1 << endl;
+	cout << endl << "Total: " << ans2 << endl;
 
 }

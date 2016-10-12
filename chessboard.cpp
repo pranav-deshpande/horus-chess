@@ -358,7 +358,7 @@ void chessboard::playMove(Move &move) {
 	// Now all movements have been done, still some things are left
 	// We have to check the castling permissions ( has the king/rook moved or is the rook captured? )
 	// Also the enPassant square
-		
+	
 	// Now first, Castling
 	if ( whiteCastlePerms[0] == true ) {
 		if ( ( move.currPiece == wk ) || ( move.currPiece == wr && move.from == h1 ) || ( board[h1] != wr ) || ( board[e1] != wk ) ) {
@@ -672,7 +672,7 @@ bool chessboard::isMoveValid(Move &move) {
 }
 
 void chessboard::addMove(Move &move, vector<Move> &moveList) {
-	if ( isMoveValid(move) )
+	//if ( isMoveValid(move) )
 		moveList.push_back(move);
 }
 

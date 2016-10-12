@@ -73,29 +73,29 @@ int chessboard::staticEval() {
 	int val = 0, blackVal = 0, whiteVal = 0;
 	int square;
 	
-		for(int piece = wp; piece <= wq; piece++) {
-			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-				whiteVal += pieceVals[piece];
-				square = mirror[ board120[*it] ];
-				if (piece == wp) whiteVal += pTable[square];
-				else if (piece == wn) whiteVal += nTable[square];
-				else if (piece == wb) whiteVal += bTable[square];
-				else if (piece == wr) whiteVal += rTable[square];
-				else if (piece == wq) whiteVal += qTable[square];
-			}
+	for(int piece = wp; piece <= wq; piece++) {
+		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
+			whiteVal += pieceVals[piece];
+			square = mirror[ board120[*it] ];
+			if (piece == wp) whiteVal += pTable[square];
+			else if (piece == wn) whiteVal += nTable[square];
+			else if (piece == wb) whiteVal += bTable[square];
+			else if (piece == wr) whiteVal += rTable[square];
+			else if (piece == wq) whiteVal += qTable[square];
 		}
-		
-		for(int piece = bp; piece <= bq; piece++) {
-			for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-				blackVal += pieceVals[piece];
-				square = board120[*it];
-				if (piece == bp) blackVal += pTable[square];
-				else if (piece == bn) blackVal += nTable[square];
-				else if (piece == bb) blackVal += bTable[square];
-				else if (piece == br) blackVal += rTable[square];
-				else if (piece == bq) blackVal += qTable[square];
-			}
+	}
+	
+	for(int piece = bp; piece <= bq; piece++) {
+		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
+			blackVal += pieceVals[piece];
+			square = board120[*it];
+			if (piece == bp) blackVal += pTable[square];
+			else if (piece == bn) blackVal += nTable[square];
+			else if (piece == bb) blackVal += bTable[square];
+			else if (piece == br) blackVal += rTable[square];
+			else if (piece == bq) blackVal += qTable[square];
 		}
+	}
 	
 	val = whiteVal - blackVal;
 	
@@ -139,7 +139,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -negamax(3);
+		int score = -negamax(4);
 		undoMove(move);
 		
 		if ( score > maxScore ) {
