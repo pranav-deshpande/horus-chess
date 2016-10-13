@@ -1,3 +1,3 @@
 all:
-	g++ -std=c++11 -g data.hpp move.hpp move.cpp chessboard.hpp chessboard.cpp initData.cpp	moveGen.cpp perft.cpp main.cpp -o Horus
+	g++ -std=c++11 -pipe -O3 -flto move.cpp chessboard.cpp initData.cpp moveGen.cpp perft.cpp main.cpp -o Horus
 
