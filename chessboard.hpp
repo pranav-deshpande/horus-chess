@@ -55,7 +55,7 @@ private:
 	void addMove(Move &move, vector <Move> &moveList);
 	int staticEval();
 	int negamax(int depth);
-	int alphaBeta(int alpha, int beta, int depth);
+	int alphaBeta(int alpha, int beta, int depth, int distToRoot);
 
 #ifndef NDEBUG
 	bool suppressValidityCheck;

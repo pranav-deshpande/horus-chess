@@ -137,7 +137,7 @@ int chessboard::negamax(int depth) {
 	
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
-		if ( inCheck ) return (-infinity + depth); // Checkmate
+		if ( inCheck ) return -infinity; // Checkmate
 		else return 0; // Stalemate
 	}
 		
@@ -157,7 +157,7 @@ int chessboard::negamax(int depth) {
 }
 
 // Fail-Hard AlphaBeta Pruning
-int chessboard::alphaBeta(int alpha, int beta, int depth) {
+int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
 	
 	if ( depth == 0 ) return staticEval();
 	
@@ -166,7 +166,7 @@ int chessboard::alphaBeta(int alpha, int beta, int depth) {
 	
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
-		if ( inCheck ) return (-infinity + depth); // Checkmate
+		if ( inCheck ) return (-infinity + distToRoot); // Encourage it to find the quickest checkmate/avoid checkmate for as long as possible
 		else return 0; // Stalemate
 	}
 	
@@ -174,7 +174,7 @@ int chessboard::alphaBeta(int alpha, int beta, int depth) {
 		
 		Move move = *it;
 		playMove(move);
-		int val = -alphaBeta(-beta, -alpha, depth - 1);
+		int val = -alphaBeta(-beta, -alpha, depth - 1, distToRoot + 1);
 		undoMove(move);
 		
 		if ( val >= beta ) return beta;
@@ -198,7 +198,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -alphaBeta(-infinity, infinity, 3);
+		int score = -alphaBeta(-infinity, infinity, 3, 1);
 		undoMove(move);
 		//cout << "# " << move.MoveToString(side) << score << endl;
 		if ( score > maxScore ) {
