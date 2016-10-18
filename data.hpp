@@ -26,6 +26,7 @@ typedef unsigned long long ULL;
 #define EM 0
 
 // Engine Side required for GUI mode
+#define empty -1
 
 // For search
 #define infinity 1000000

@@ -1,12 +1,11 @@
 #include "chessboard.hpp"
 #include "move.hpp"
 #include "data.hpp"
-#define empty -1
 
-static chessboard * theBoard = 0;
+static chessboard *theBoard = NULL;
 
 void dumpAll() {
-	if (theBoard != 0) {
+	if (theBoard != NULL) {
 		theBoard->printGame();
 		theBoard->printBoard();
 	}

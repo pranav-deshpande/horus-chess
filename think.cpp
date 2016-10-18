@@ -197,7 +197,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -negamax(3);
+		int score = -alphaBeta(-infinity, infinity, 3);
 		undoMove(move);
 		
 		if ( score > maxScore ) {

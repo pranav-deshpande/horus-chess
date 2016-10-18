@@ -757,31 +757,33 @@ bool chessboard::isValid() {
 }
 
 // Print the just the board
+// Prefixed with hash so that we can safely output it to xboard for storing it in the xboard.debug file
 void chessboard::printMinimalBoard() {
-	cout << "-----------------------------------------------" << endl;
-	cout << "Current Position:\n";
+	cout << "# -----------------------------------------------" << endl;
+	cout << "# Current Position:\n";
 	
 	int square;
 	for(int rank = rank8; rank >= rank1; rank--) {
 		putchar('\n');
-		printf("%c", rank + '1' - 1);
+		printf("# %c", rank + '1' - 1);
 		for(int file = fileA; file <= fileH; file++) {
 			square = (rank+1) * 10 + file;
 			printf("%3c", pieceChars[ board[square] ]);
 		}
 	}
-	cout << "\n\n ";
+	cout << "\n\n#  ";
+
 	for(int i = 0; i < 8; i++) {
 		printf("%3c", 'a' + i);
 	}
 	
 	cout << "\n\n";
 	
-	cout << "Side to move: ";
+	cout << "# Side to move: ";
 	if(side == white) cout << "White" << endl;
 	else cout << "Black" << endl;
 	
-	cout << "-----------------------------------------------" << endl;
+	cout << "# -----------------------------------------------" << endl;
 }
 	
 // Detailed description of the board
@@ -865,7 +867,6 @@ void chessboard::printBoard() {
 	cout << "Unique Postion Key: " << uniqueKey << endl;
 	cout << "-----------------------------------------------" << endl;
 }
-
 
 Move chessboard::parseMoveFromString(string move) {
 	
