@@ -1,67 +1,189 @@
 Positions are as given on https://chessprogramming.wikispaces.com/Perft+Results
 The 8th posiion is taken from http://www.rocechess.ch/perft.html
 
+The speed is always expressed in nodes per second whereas the time is in microseconds.
+
 Position 1: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
-1 20
-2 400
-3 8902
-4 197281
-5 4865609
+Depth = 1, Nodes = 20
+Time = 22
+Speed = 909090
+
+Depth = 2, Nodes = 400
+Time = 274
+Speed = 1459854
+
+Depth = 3, Nodes = 8902
+Time = 5815
+Speed = 1530868
+
+Depth = 4, Nodes = 197281
+Time = 94024
+Speed = 2098198
+
+Depth = 5, Nodes = 4865609
+Time = 2085100
+Speed = 2333513
+
 
 Position 2: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -
 
-1 48
-2 2039
-3 97862
-4 4085603
-5 193690690
+Depth = 1, Nodes = 48
+Time = 26
+Speed = 1846153
+
+Depth = 2, Nodes = 2039
+Time = 655
+Speed = 3112977
+
+Depth = 3, Nodes = 97862
+Time = 24494
+Speed = 3995345
+
+Depth = 4, Nodes = 4085603
+Time = 1239635
+Speed = 3295811
+
+Depth = 5, Nodes = 193690690
+Time = 52688115
+Speed = 3676174
+
 
 Position 3: 8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -
 
-1 14
-2 191
-3 2812
-4 43238
-5 674624
+Depth = 1, Nodes = 14
+Time = 10
+Speed = 1400000
+
+Depth = 2, Nodes = 191
+Time = 201
+Speed = 950248
+
+Depth = 3, Nodes = 2812
+Time = 1184
+Speed = 2375000
+
+Depth = 4, Nodes = 43238
+Time = 18920
+Speed = 2285306
+
+Depth = 5, Nodes = 674624
+Time = 275474
+Speed = 2448957
+
 
 Position 4: r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1
 
-1 6
-2 264
-3 9467
-4 422333
-5 15833292
+Depth = 1, Nodes = 6
+Time = 29
+Speed = 206896
+
+Depth = 2, Nodes = 264
+Time = 105
+Speed = 2514285
+
+Depth = 3, Nodes = 9467
+Time = 3589
+Speed = 2637782
+
+Depth = 4, Nodes = 422333
+Time = 120505
+Speed = 3504692
+
+Depth = 5, Nodes = 15833292
+Time = 5730812
+Speed = 2762835
+
 
 Position 5: r2q1rk1/pP1p2pp/Q4n2/bbp1p3/Np6/1B3NBn/pPPP1PPP/R3K2R b KQ - 0 1
 
-1 6
-2 264
-3 9467
-4 422333
-5 15833292
+Depth = 1, Nodes = 6
+Time = 29
+Speed = 206896
+
+Depth = 2, Nodes = 264
+Time = 125
+Speed = 2112000
+
+Depth = 3, Nodes = 9467
+Time = 3637
+Speed = 2602969
+
+Depth = 4, Nodes = 422333
+Time = 120265
+Speed = 3511686
+
+Depth = 5, Nodes = 15833292
+Time = 5716403
+Speed = 2769799
+
 
 Position 6: rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8
 
-1 44
-2 1486
-3 62379
-4 2103487
-5 89941194
+Depth = 1, Nodes = 44
+Time = 18
+Speed = 2444444
+
+Depth = 2, Nodes = 1486
+Time = 506
+Speed = 2936758
+
+Depth = 3, Nodes = 62379
+Time = 20042
+Speed = 3112413
+
+Depth = 4, Nodes = 2103487
+Time = 702221
+Speed = 2995477
+
+Depth = 5, Nodes = 89941194
+Time = 28809781
+Speed = 3121897
+
 
 Position 7: r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10
 
-1 46
-2 2079
-3 89890
-4 3894594
-5 164075551
+Depth = 1, Nodes = 46
+Time = 16
+Speed = 2875000
+
+Depth = 2, Nodes = 2079
+Time = 582
+Speed = 3572164
+
+Depth = 3, Nodes = 89890
+Time = 25964
+Speed = 3462101
+
+Depth = 4, Nodes = 3894594
+Time = 1100483
+Speed = 3538986
+
+Depth = 5, Nodes = 164075551
+Time = 48347547
+Speed = 3393668
+
 
 Position 8: n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1
 
-1 24
-2 496
-3 9483
-4 182838
-5 3605103
+Depth = 1, Nodes = 24
+Time = 12
+Speed = 2000000
+
+Depth = 2, Nodes = 496
+Time = 254
+Speed = 1952755
+
+Depth = 3, Nodes = 9483
+Time = 4557
+Speed = 2080974
+
+Depth = 4, Nodes = 182838
+Time = 87643
+Speed = 2086167
+
+Depth = 5, Nodes = 3605103
+Time = 1656599
+Speed = 2176207
+
 

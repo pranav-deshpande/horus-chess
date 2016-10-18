@@ -3,23 +3,29 @@
 // The chessboard class member functions
 
 chessboard::chessboard() {
-	initEmptyBoard();
-
-	// The initial position of the board
-	string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
-	fenSetup(fen);
-	initPieceList();
-	initUniqueKey();
+	resetToInitialPosition();
 }
 
 chessboard::chessboard(string &fen) {
+	resetToFEN(fen);
+}
+
+void chessboard::resetToFEN(string &fen) {
 	initEmptyBoard();
 	
 	fenSetup(fen);
 	
 	initPieceList();
 	initUniqueKey();
+
+	ASSERT(isValid());
+}
+
+void chessboard::resetToInitialPosition() {
+	// The initial position of the board
+	string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+	resetToFEN(fen);
 }
 
 void chessboard::initEmptyBoard() {
@@ -40,12 +46,21 @@ void chessboard::initEmptyBoard() {
 	}
 	
 	enPassantSquare[white] = enPassantSquare[black] = EM;
+
+	// clear history data
+	castleList.clear();
+	enPassSqList.clear();
+	keyList.clear();
 	
 	plies = 0;
 	moves = 1;
 	fiftyMoveRule = 0;
 	threeFold = 0;
 	side = white; // default 
+
+#ifndef NDEBUG
+	suppressValidityCheck = false;
+#endif /* NDEBUG */
 }
 
 void chessboard::fenSetup(string &fen) {
@@ -135,6 +150,7 @@ void chessboard::fenSetup(string &fen) {
 void chessboard::initPieceList() {
 	// Initialize the piece list	
 	for(int piece = wp; piece <= bk; piece++) {
+		pieceList[piece].clear();
 		for(int square = 0; square < 64; square++) {
 			if( piece == board[ board64[square] ] ) {
 				pieceList[piece].insert( board64[square] );
@@ -166,6 +182,8 @@ void chessboard::initUniqueKey() {
 
 void chessboard::playMove(Move &move) {
 
+	ASSERT(isValid());
+
 	// Move Generation is divided into 3 parts
 	// Non castle non enPass Moves
 	// EnPass Moves
@@ -175,6 +193,7 @@ void chessboard::playMove(Move &move) {
 	
 	// First store the castle history
 	
+	game[plies] = move;
 	plies++;
 	
 	keyList.push_back(uniqueKey);
@@ -389,7 +408,7 @@ void chessboard::playMove(Move &move) {
 	}
 		
 	// Second - EnPassant
-	enPassantSquare[side] = EM; // Now it's done, from the next move onwards it will not be an enPassant Square
+	enPassantSquare[!side] = EM; // Now it's done, from the next move onwards it will not be an enPassant Square
 	
 	// Setting the enPassant for the next ply, only set if a pawn has moved two squares
 	
@@ -408,10 +427,14 @@ void chessboard::playMove(Move &move) {
 	uniqueKey ^= sideHash[!side];
 	
 	side = !side;
+
+	ASSERT(isValid());
 }
 
 void chessboard::undoMove(Move &move) {
 	
+	ASSERT(isValid());
+
 	if ( move.isEnPassant == true ) {
 	
 		int squareOfCapturedPawn = ( !side == white ) ? ( move.to + DOWN ) : ( move.to + UP ); 
@@ -527,6 +550,8 @@ void chessboard::undoMove(Move &move) {
 
 			
 	side = !side;
+
+	ASSERT(isValid());
 }
 
 bool chessboard::isSquareAttacked(int square, int Side) {
@@ -650,35 +675,37 @@ bool chessboard::isSquareSafe(int square, int Side) {
 }
 
 bool chessboard::isMoveValid(Move &move) {
-	
-	bool validity;
-	int sideToBeChecked = side;
-	int king = ( sideToBeChecked == white ) ? wk : bk;
-	int kingSquare;
-	
-	playMove(move);
-	
-	kingSquare = *( pieceList[king].begin() );
-	
-	if ( isSquareSafe(kingSquare, sideToBeChecked) ) {
-		validity = true;
+
+	int king = (side == white) ? wk : bk;
+	bool isPinned = (move.from != EM && (pins & (1 << board120[move.from])) != 0);
+	bool mayBeIllegal = inCheck || move.isEnPassant || (move.from != EM && board[move.from] == king) || isPinned;
+
+	bool validity = true;
+
+	if (mayBeIllegal) {
+		int sideToBeChecked = side;
+		Move m = move;
+		playMove(m);
+		validity = isSquareSafe(kingSquare(sideToBeChecked), sideToBeChecked);
+		undoMove(m);
 	}
-	
-	else validity = false;
-	
-	undoMove(move);
 
 	return validity;
 }
 
 void chessboard::addMove(Move &move, vector<Move> &moveList) {
-	//if ( isMoveValid(move) )
+	if ( isMoveValid(move) )
 		moveList.push_back(move);
 }
 
 // Thanks to Sven Schüle of talkchess.com for this routine which is helpful while debugging
 // It checks whether the present state of the chessboard is valid
 bool chessboard::isValid() {
+
+#ifndef NDEBUG
+    if (suppressValidityCheck) return true;
+#endif /* NDEBUG */
+
 	static int const MinPieces[1+12] = { 0, 0,   0,   0,   0,   0, 1, 0,   0,   0,   0,   0, 1 };
 	static int const MaxPieces[1+12] = { 0, 8, 2+8, 2+8, 2+8, 1+8, 1, 8, 2+8, 2+8, 2+8, 1+8, 1 };
 
@@ -732,7 +759,7 @@ bool chessboard::isValid() {
 // Print the just the board
 void chessboard::printMinimalBoard() {
 	cout << "-----------------------------------------------" << endl;
-	cout << "Current Postion:\n";
+	cout << "Current Position:\n";
 	
 	int square;
 	for(int rank = rank8; rank >= rank1; rank--) {
@@ -760,7 +787,7 @@ void chessboard::printMinimalBoard() {
 // Detailed description of the board
 void chessboard::printBoard() {
 	cout << "-----------------------------------------------" << endl;
-	cout << "Current Postion:\n";
+	cout << "Current Position:\n";
 	
 	int square;
 	for(int rank = rank8; rank >= rank1; rank--) {
@@ -842,36 +869,71 @@ void chessboard::printBoard() {
 
 Move chessboard::parseMoveFromString(string move) {
 	
-	Move m;
+	vector <Move> moveList;
+	generateAllMoves(moveList);
 	
-	if (move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8") {
-				
-		if ( move == "e1g1" || move == "e8g8" ) {
-			m = Move(true, 0);
-		}
-		
-		else {
-			m = Move(true, 1);
+	for(int i = 0; i < moveList.size(); i++) {
+		if ( move == moveList[i].MoveToString(side) ) {
+			return moveList[i];
 		}
 	}
-	
-	else {
-		// There is a problem - How do I know if the move is an enPassant Move?
-		
-		int From = board64[ reverseSquareMapping[ move.substr(0,2) ] ];
-		int To = board64[ reverseSquareMapping[ move.substr(2, 4) ] ];
-	
-		if ( move.length() == 5 ) {
-			int PromotedPiece = reversePieceChars[ move[4] ];
-			m = Move(From, To, PromotedPiece);
+	return Move();
+}
+
+ULL chessboard::getPins() {
+	static int const straightMoves[] = {UP, DOWN, RIGHT, LEFT};
+	static int const diagMoves[] = {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT};	
+	static int const pieceSide[] = { EM, white, white, white, white, white, white, black, black, black, black, black, black };
+
+	ULL pins = 0;
+	int kingSq = kingSquare(side);
+
+	int oppQ = (side == white) ? bq : wq;
+	int oppR = (side == white) ? br : wr;
+	int oppB = (side == white) ? bb : wb;
+
+	int sq, sq2;
+
+	for (int i = 0; i < 4; i++) {
+		int jump = straightMoves[i];
+		for (sq = kingSq + jump; board[sq] == EM; sq += jump)
+			;
+		if (board[sq] != OB && pieceSide[ board[sq] ] == side) {
+			// found friendly piece on same straight line as king
+			for (sq2 = sq + jump; board[sq2] == EM; sq2 += jump)
+				;
+			if (board[sq2] != OB && pieceSide[ board[sq2] ] == 1 - side && (board[sq2] == oppQ || board[sq2] == oppR)) {
+				// found enemy queen or rook pinning friendly piece
+				pins |= ( 1 << board120[sq] );
+			}
 		}
-	
-		else {
-			m = Move(From, To);
+	}
+	for (int i = 0; i < 4; i++) {
+		int jump = diagMoves[i];
+		for (sq = kingSq + jump; board[sq] == EM; sq += jump)
+			;
+		if (board[sq] != OB && pieceSide[ board[sq] ] == side) {
+			// found friendly piece on same diagonal line as king
+			for (sq2 = sq + jump; board[sq2] == EM; sq2 += jump)
+				;
+			if (board[sq2] != OB && pieceSide[ board[sq2] ] == 1 - side && (board[sq2] == oppQ || board[sq2] == oppB)) {
+				// found enemy queen or bishop pinning friendly piece
+				pins |= ( 1 << board120[sq] );
+			}
 		}
 	}
 
-	return m;
+	return pins;
+}
 
+int chessboard::kingSquare(int side) {
+	return *( pieceList[(side == white) ? wk : bk].begin() );
+}
+
+void chessboard::printGame() {
+	int initialSide = ((plies % 2) == 0) ? side : 1 - side;
+	for (int i = 0; i < plies; i++) {
+		cout << "# game[" << i << "]: " << game[i].MoveToString(((i % 2) == 0) ? initialSide : 1 - initialSide) << endl;
+	}
 }
 

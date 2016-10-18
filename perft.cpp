@@ -53,12 +53,29 @@ void runPerftTests() {
 	fout << "The 8th posiion is taken from http://www.rocechess.ch/perft.html" << endl;
 	fout << endl;
 	
+	fout << "The speed is always expressed in nodes per second whereas the time is in microseconds." << "\n\n";
+	
+	// For measuring the time during each call to perft - This helps us to get nodes per second
+	chrono::steady_clock::time_point begin, end;
+	ULL timeInMicroSeconds, numNodes, speed;
+		
 	while ( getline(fin, test) ) {
 		fout << "Position " << position << ": " << test << "\n\n";
 		chessboard b(test);
+		
 		for( int i = 1; i <= perftDepth; i++) {
-			fout << i << ' ' << b.perft(i) << endl;
+			begin = chrono::steady_clock::now();
+			numNodes = b.perft(i);
+			end = chrono::steady_clock::now();
+			
+			timeInMicroSeconds = chrono::duration_cast<chrono::microseconds> (end - begin).count();
+			speed = (1000000 * numNodes ) / timeInMicroSeconds ;		
+			
+			fout << "Depth = " << i << ", Nodes = " << numNodes << endl;
+			fout << "Time = " << timeInMicroSeconds << endl;
+			fout << "Speed = " << speed << "\n\n";
 		}
+		
 		fout << "\n";
 		position++;
 	}
@@ -76,7 +93,7 @@ void debugPerft(string &test, int depth) {
 	}
 	
 	chessboard b(test);
-	/*
+	
 	vector <Move> moveList;
 	b.generateAllMoves(moveList);
 
@@ -86,7 +103,7 @@ void debugPerft(string &test, int depth) {
 	cout << "Depth: " << depth << "\n\n";
 	
 	for(vector <Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		it -> printMove(b.side);
+		cout << it -> MoveToString(b.side);
 		cout << ": ";
 		b.playMove(*it);
 		p = b.perft(depth-1);
@@ -94,11 +111,22 @@ void debugPerft(string &test, int depth) {
 		ans1 += p;
 		b.undoMove(*it);
 	}
-	*/
+	
 	ULL ans2 = b.perft(depth);
 
-	//assert(ans1 == ans2);
+	assert(ans1 == ans2);
 	
-	cout << endl << "Total: " << ans2 << endl;
+	cout << endl << "Total: " << ans1 << endl;
 
+}
+
+void samplePerftTest() {
+	cout << "Running sample perft tests! This will take a long time." << endl;
+	cout << "The fen strings are in the perftTests file. The results will be output to the file perftResults." << endl;
+		
+	runPerftTests();
+	
+	// Just as a sample
+	string test = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; 
+	debugPerft(test, 3);
 }

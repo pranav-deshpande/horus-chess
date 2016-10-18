@@ -1,7 +1,14 @@
 #include "chessboard.hpp"
 
 void chessboard::generateAllMoves(vector <Move> &moveList) {
-	
+
+#ifndef NDEBUG
+	suppressValidityCheck = true;
+#endif /* NDEBUG */
+
+	pins = getPins();
+	inCheck = isSquareAttacked(kingSquare(side), side);
+
 	moveList.clear();
 	
 	int pieceSide[] = { EM, white, white, white, white, white, white, black, black, black, black, black, black };
@@ -382,4 +389,9 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 			}
 		}
 	}
+
+#ifndef NDEBUG
+	suppressValidityCheck = false;
+#endif /* NDEBUG */
+
 }

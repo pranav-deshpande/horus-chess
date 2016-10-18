@@ -112,13 +112,14 @@ int chessboard::negamax(int depth) {
 	vector <Move> childNodes;
 	generateAllMoves(childNodes);
 	
-	int bestValue = INT_MIN;
+	int bestValue = INT_MIN+1;
 	
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
 		
-		playMove(*it);
+		Move move = *it;
+		playMove(move);
 		int val = -negamax(depth - 1);
-		undoMove(*it);
+		undoMove(move);
 		
 		if ( val > bestValue ) bestValue = val;
 	}
@@ -132,14 +133,16 @@ Move chessboard::findMove() {
 	generateAllMoves(moveList);
 	
 	Move bestMove;
-	int maxScore = INT_MIN;
+	int maxScore = INT_MIN+1;
 
 	for(vector<Move>::iterator it = moveList.begin(); it!= moveList.end(); it++) {
 		
 		Move move = *it;
 		
 		playMove(move);
+		//int score = -negamax(0);
 		int score = -negamax(3);
+		//int score = -negamax(4);
 		undoMove(move);
 		
 		if ( score > maxScore ) {

@@ -12,6 +12,10 @@ Move::Move() {
 
 // Normal/capture moves
 Move::Move(int init_pos, int final_pos) {
+	ASSERT(isValidSquare(init_pos));
+	ASSERT(isValidSquare(final_pos));
+	ASSERT(init_pos != final_pos);
+
 	from = init_pos;
 	to = final_pos;
 	promotedPiece = EM;
@@ -26,6 +30,8 @@ Move::Move(int init_pos, int final_pos) {
 
 // Enpassant moves
 Move::Move(int init_pos) {
+	ASSERT(isValidSquare(init_pos));
+
 	from = init_pos;
 	to = EM;
 	promotedPiece = EM;
@@ -39,6 +45,11 @@ Move::Move(int init_pos) {
 
 // Pawn promotion moves
 Move::Move(int init_pos, int final_pos, int Promote) {
+	ASSERT(isValidSquare(init_pos));
+	ASSERT(isValidSquare(final_pos));
+	ASSERT(init_pos != final_pos);
+	ASSERT(isValidPromotionPiece(Promote));
+
 	from = init_pos;
 	to = final_pos;
 	promotedPiece = Promote;
@@ -77,7 +88,40 @@ void Move::printMove(int side) {
 	else {
 		cout << squareMapping[ board120[from] ] << squareMapping[ board120[to] ];
 		if(promotedPiece != EM) {
-			cout << char(promotedPiece) ;
+			char x = tolower( pieceChars[promotedPiece] ) ;
+			cout << x;
 		}
 	}
 }
+
+string Move::MoveToString(int side)
+{
+	string m = "";
+	
+	if ( isCastle == true) {
+		
+		if ( castle == 0 ) {
+			if ( side == white ) m = "e1g1";
+			else m =  "e8g8";
+ 		}
+		
+		if  (castle == 1 ) { 
+			if ( side == white ) m = "e1c1";
+			else m = "e8c8";
+		}
+ 	}
+	
+	else {
+		m = m+ squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
+		
+		if(promotedPiece != EM) {
+			m = m +  string(1, tolower(pieceChars[promotedPiece]));
+		}
+	}
+	return m;
+}
+
+bool Move::isNull() {
+	return (from == EM && to == EM) && !isCastle;
+}
+

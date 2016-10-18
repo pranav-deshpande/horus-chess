@@ -87,3 +87,15 @@ void initHash() {
 	} 
 }
 
+void raiseAssertionFailure(char const * msg, char const * file, int line)
+{
+	static bool alreadyCalled = false;
+	if (alreadyCalled) return;
+	alreadyCalled = true;
+
+	cerr << "### ASSERTION FAILED: \"" << msg << "\" (" << file << ", line " << line << ")" << endl;
+	flush(cerr);
+	dumpAll();
+	abort();
+}
+

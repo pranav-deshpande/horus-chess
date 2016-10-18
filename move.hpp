@@ -18,7 +18,9 @@ public:
 	Move(string move);
 	
 	void printMove(int side);
-	
+	string MoveToString(int side);
+
+	bool isNull();
 };
 
 #endif

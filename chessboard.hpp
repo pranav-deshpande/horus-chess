@@ -25,6 +25,12 @@ private:
 	
 	// Maintain the position hashes for the three fold repetition rule
 	ULL uniqueKey;
+
+	// Maintain flag indicating whether king of moving side is in check
+	bool inCheck;
+
+	// Maintain set of pieces currently pinned to king of moving side
+	ULL pins;
 	
 	// To store moves while we are searching the game tree 
 
@@ -48,15 +54,28 @@ private:
 	bool isMoveValid(Move &move);
 	void addMove(Move &move, vector <Move> &moveList);
 
+	enum {
+		MAX_GAME_MOVES = 1000
+	};
+
+	Move game[MAX_GAME_MOVES];
+
+#ifndef NDEBUG
+	bool suppressValidityCheck;
+#endif /* NDEBUG */
+
 
 
 public:
 	chessboard();
 	chessboard(string &fen);
+	void resetToFEN(string &fen);
+	void resetToInitialPosition();
 	void playMove(Move &move);
 	void undoMove(Move &move);
 	void printBoard();
 	void printMinimalBoard();
+	void printGame();
 	void generateAllMoves(vector <Move> &moveList);
 	ULL perft(int depth);
 
@@ -77,6 +96,8 @@ public:
 	Move findMove();
 	
 	Move parseMoveFromString(string m);
+	ULL getPins();
+	int kingSquare(int side);
 };
 
 #endif
