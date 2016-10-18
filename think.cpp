@@ -99,7 +99,7 @@ int chessboard::staticEval() {
 	kTable = kTableMiddleGame; // Temporarily set to kTableMiddleGame(how do I determine when the endgame starts?)
 	
 	for(int piece = wp; piece <= bk; piece++) {
-		val += pieceList[piece].size() * pieceVals[piece]; 
+		val += ( pieceList[piece].size() * pieceVals[piece] ); 
 		
 		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
 			if ( side == white ) square = board120[*it];
@@ -136,7 +136,7 @@ int chessboard::negamax(int depth) {
 	
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
-		if ( inCheck ) return infinity; // Checkmate
+		if ( inCheck ) return (-infinity + depth); // Checkmate
 		else return 0; // Stalemate
 	}
 		
@@ -155,6 +155,7 @@ int chessboard::negamax(int depth) {
 	return bestValue;
 }
 
+// Fail-Hard AlphaBeta Pruning
 int chessboard::alphaBeta(int alpha, int beta, int depth) {
 	
 	if ( depth == 0 ) return staticEval();
@@ -164,7 +165,7 @@ int chessboard::alphaBeta(int alpha, int beta, int depth) {
 	
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
-		if ( inCheck ) return infinity; // Checkmate
+		if ( inCheck ) return (-infinity + depth); // Checkmate
 		else return 0; // Stalemate
 	}
 	
@@ -175,9 +176,9 @@ int chessboard::alphaBeta(int alpha, int beta, int depth) {
 		int val = -alphaBeta(-beta, -alpha, depth - 1);
 		undoMove(move);
 		
-		if ( val > beta ) return val;
+		if ( val >= beta ) return beta;
 		
-		if ( val >= alpha ) alpha = val;
+		if ( val > alpha ) alpha = val;
 	}
 	
 	return alpha;
@@ -196,7 +197,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -alphaBeta(-infinity, infinity, 3);
+		int score = -negamax(3);
 		undoMove(move);
 		
 		if ( score > maxScore ) {

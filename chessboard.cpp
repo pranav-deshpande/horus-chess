@@ -193,7 +193,7 @@ void chessboard::playMove(Move &move) {
 	
 	// First store the castle history
 	
-	game[plies] = move;
+	game.push_back(move);
 	plies++;
 	
 	keyList.push_back(uniqueKey);
@@ -547,7 +547,7 @@ void chessboard::undoMove(Move &move) {
 	keyList.pop_back();
 	enPassSqList.pop_back();
 	castleList.pop_back();
-
+	game.pop_back();
 			
 	side = !side;
 
