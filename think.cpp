@@ -94,6 +94,7 @@ int mirror[] = {
 int chessboard::staticEval() {
 	
 	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, -100, -320, -330, -500, -900, -20000};
+	int pieceColours[] = {OB, white, white, white, white, white, white, black, black, black, black, black, black};
 	int val = 0, square, *kTable;
 	
 	kTable = kTableMiddleGame; // Temporarily set to kTableMiddleGame(how do I determine when the endgame starts?)
@@ -102,7 +103,7 @@ int chessboard::staticEval() {
 		val += ( pieceList[piece].size() * pieceVals[piece] ); 
 		
 		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-			if ( side == white ) square = board120[*it];
+			if ( pieceColours[piece] == white ) square = board120[*it];
 			else square = mirror[ board120[*it] ]; 
 			
 			switch(piece) {
@@ -199,7 +200,7 @@ Move chessboard::findMove() {
 		playMove(move);
 		int score = -alphaBeta(-infinity, infinity, 3);
 		undoMove(move);
-		
+		//cout << "# " << move.MoveToString(side) << score << endl;
 		if ( score > maxScore ) {
 			bestMove = move;
 			maxScore = score;
