@@ -38,9 +38,6 @@ private:
 	vector < pair<int, int> > enPassSqList;
 	vector <ULL> keyList;
 	
-	// To store the moves actually played and the position hash during that time(for the fifty move rule)
-	vector < pair<Move, ULL> > moveHistory;
-	
 	// Member Functions:
 	void initEmptyBoard();
 
@@ -53,12 +50,9 @@ private:
 	bool isSquareAttacked(int square, int Side);
 	bool isMoveValid(Move &move);
 	void addMove(Move &move, vector <Move> &moveList);
-
-	enum {
-		MAX_GAME_MOVES = 1000
-	};
-
-	Move game[MAX_GAME_MOVES];
+	int staticEval();
+	int negamax(int depth);
+	int alphaBeta(int alpha, int beta, int depth, int distToRoot);
 
 #ifndef NDEBUG
 	bool suppressValidityCheck;
@@ -89,10 +83,11 @@ public:
 	
 	void test();
 
+	// To store the moves played during the game, i.e. to store the game
+	vector <Move> game;
+	
 	int side;
 	
-	int staticEval();
-	int negamax(int depth);
 	Move findMove();
 	
 	Move parseMoveFromString(string m);

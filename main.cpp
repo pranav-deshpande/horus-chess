@@ -1,12 +1,11 @@
 #include "chessboard.hpp"
 #include "move.hpp"
 #include "data.hpp"
-#define empty -1
 
-static chessboard * theBoard = 0;
+static chessboard *theBoard = NULL;
 
 void dumpAll() {
-	if (theBoard != 0) {
+	if (theBoard != NULL) {
 		theBoard->printGame();
 		theBoard->printBoard();
 	}
@@ -47,7 +46,7 @@ int main() {
             int temp;
             cin >> temp;
             if ( temp >= 2 ) {
-                cout << "feature ping=1 time=0 sigint=0 sigterm=0 usermove=1 done=1" << endl;
+                cout << "feature ping=1 time=0 sigint=0 sigterm=0 usermove=1 setboard=1 done=1" << endl;
             }
         }
 
@@ -66,6 +65,15 @@ int main() {
             b.resetToInitialPosition();
             engineSide = black;
         }
+        
+        else if ( command == "setboard" ) {
+        	string fen;
+        	cin.get();
+        	getline(cin, fen);
+        	cout << "# received parameter: " << fen << endl;
+      		// Now I should add some kind of method to check whether the user gave me a valid position!!
+      		b.resetToFEN(fen);
+      	}
 
         else if ( command == "go" ) {
             engineSide = b.side;
@@ -82,6 +90,23 @@ int main() {
                 b.playMove(move);
                 b.printMinimalBoard();
             }
+        }
+        
+        else if ( command == "undo" ) {
+        	Move move = *( b.game.end() - 1 );
+        	b.undoMove(move); 
+        }
+        
+        else if ( command == "remove" ) {
+        	Move move = *( b.game.end() - 1 );
+        	cout << "# " << move.MoveToString(b.side) << endl;
+        	b.undoMove(move);
+        	b.printMinimalBoard();
+        	move = *( b.game.end() - 1 );
+        	cout << "# " << move.MoveToString(b.side) << endl;
+        	b.undoMove(move);
+        	b.printMinimalBoard();
+        
         }
 
         else if ( command == "accepted" ) {
@@ -102,14 +127,13 @@ int main() {
         if (engineSide == b.side) {
             cout << "# calculating engine move ..." << endl;
             Move move = b.findMove();
-            b.playMove(move);
             cout << "move ";
             move.printMove(b.side);
             cout << endl;
+            b.playMove(move);
             b.printMinimalBoard();
         }
     }
 
     return 0;
 }
-
