@@ -123,7 +123,7 @@ void debugPerft(string &test, int depth) {
 void samplePerftTest() {
 	cout << "Running sample perft tests! This will take a long time." << endl;
 	cout << "The fen strings are in the perftTests file. The results will be output to the file perftResults." << endl;
-	
+		
 	runPerftTests();
 	
 	// Just as a sample

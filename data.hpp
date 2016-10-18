@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cstdio>
 #include <cassert>
+#include <climits>
 #include <vector>
 #include <cstdlib>
 #include <utility>
@@ -98,7 +99,26 @@ extern void runPerftTests();
 // Helps in tracing at which position the move generating function made a mistake
 extern void debugPerft(string &test, int depth);
 
-// To run sample perft tests
 extern void samplePerftTest();
+
+// The gui loop
+extern void start();
+
+inline bool isValidSquare(int sq) {
+	return sq >= a1 && sq <= h8 && board120[sq] != OB;
+}
+
+inline bool isValidPromotionPiece(int p) {
+	return ( p >= wn && p <= wq ) || ( p >= bn && p <= bq );
+}
+
+extern void dumpAll();
+
+#ifndef NDEBUG
+extern void raiseAssertionFailure(char const * msg, char const * file, int line);
+#define ASSERT(expr) if (!(expr)) raiseAssertionFailure(#expr, __FILE__, __LINE__)
+#else
+#define ASSERT(expr)
+#endif /* NDEBUG */
 
 #endif

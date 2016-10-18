@@ -62,6 +62,7 @@ void setUpDebugging() {
 }
 
 void initHash() {
+	
 	// Intitialize the hash lists
 	for(int square = 0; square < 64; square++) {
 		chessboard::hashList[0][square] = 0;
@@ -84,5 +85,17 @@ void initHash() {
 	for(int square = 0; square < 64; square++) {
 		chessboard::enPassantHash[square] = rand();
 	} 
+}
+
+void raiseAssertionFailure(char const * msg, char const * file, int line)
+{
+	static bool alreadyCalled = false;
+	if (alreadyCalled) return;
+	alreadyCalled = true;
+
+	cerr << "### ASSERTION FAILED: \"" << msg << "\" (" << file << ", line " << line << ")" << endl;
+	flush(cerr);
+	dumpAll();
+	abort();
 }
 
