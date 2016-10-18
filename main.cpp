@@ -71,7 +71,7 @@ int main() {
         	cin.get();
         	getline(cin, fen);
         	cout << "# received parameter: " << fen << endl;
-      		// Now I should add some kind of thing to check whether the user gave me a valid position!!
+      		// Now I should add some kind of method to check whether the user gave me a valid position!!
       		b.resetToFEN(fen);
       	}
 
