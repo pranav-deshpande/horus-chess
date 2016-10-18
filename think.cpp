@@ -1,59 +1,83 @@
 #include "chessboard.hpp"
 
-// Piece square tables for the evaluation function
+// Piece square tables for the evaluation function - Taken from https://chessprogramming.wikispaces.com/Simplified+evaluation+function
 int pTable[] = {
 	 0,  0,  0,  0,  0,  0,  0,  0,
-	50, 50, 50, 50, 50, 50, 50, 50,
-	10, 10, 20, 30, 30, 20, 10, 10,
-	 5,  5, 10, 25, 25, 10,  5,  5,
-	 0,  0,  0, 20, 20,  0,  0,  0,
-	 5, -5,-10,  0,  0,-10, -5,  5,
 	 5, 10, 10,-20,-20, 10, 10,  5,
+	 5, -5,-10,  0,  0,-10, -5,  5,
+	 0,  0,  0, 20, 20,  0,  0,  0,
+	 5,  5, 10, 25, 25, 10,  5,  5,
+	10, 10, 20, 30, 30, 20, 10, 10,
+	50, 50, 50, 50, 50, 50, 50, 50,
 	 0,  0,  0,  0,  0,  0,  0,  0
 };
 
 int nTable[] = {
 	-50,-40,-30,-30,-30,-30,-40,-50,
-	-40,-20,  0,  0,  0,  0,-20,-40,
-	-30,  0, 10, 15, 15, 10,  0,-30,
-	-30,  5, 15, 20, 20, 15,  5,-30,
-	-30,  0, 15, 20, 20, 15,  0,-30,
-	-30,  5, 10, 15, 15, 10,  5,-30,
 	-40,-20,  0,  5,  5,  0,-20,-40,
-	-50,-40,-30,-30,-30,-30,-40,-50,
+	-30,  5, 10, 15, 15, 10,  5,-30,
+	-30,  0, 15, 20, 20, 15,  0,-30,
+	-30,  5, 15, 20, 20, 15,  5,-30,
+	-30,  0, 10, 15, 15, 10,  0,-30,
+	-40,-20,  0,  0,  0,  0,-20,-40,
+	-50,-40,-30,-30,-30,-30,-40,-50
 };
 
 int bTable[] = {
 	-20,-10,-10,-10,-10,-10,-10,-20,
-	-10,  0,  0,  0,  0,  0,  0,-10,
-	-10,  0,  5, 10, 10,  5,  0,-10,
-	-10,  5,  5, 10, 10,  5,  5,-10,
-	-10,  0, 10, 10, 10, 10,  0,-10,
-	-10, 10, 10, 10, 10, 10, 10,-10,
 	-10,  5,  0,  0,  0,  0,  5,-10,
-	-20,-10,-10,-10,-10,-10,-10,-20,
+	-10, 10, 10, 10, 10, 10, 10,-10,
+	-10,  0, 10, 10, 10, 10,  0,-10,
+	-10,  5,  5, 10, 10,  5,  5,-10,
+	-10,  0,  5, 10, 10,  5,  0,-10,
+	-10,  0,  0,  0,  0,  0,  0,-10,
+	-20,-10,-10,-10,-10,-10,-10,-20
 };
 
 int rTable[] = {
-	 0,  0,  0,  0,  0,  0,  0,  0,
-	  5, 10, 10, 10, 10, 10, 10,  5,
-	 -5,  0,  0,  0,  0,  0,  0, -5,
-	 -5,  0,  0,  0,  0,  0,  0, -5,
-	 -5,  0,  0,  0,  0,  0,  0, -5,
-	 -5,  0,  0,  0,  0,  0,  0, -5,
-	 -5,  0,  0,  0,  0,  0,  0, -5,
-	  0,  0,  0,  5,  5,  0,  0,  0
+	 0,  0,  0,  5,  5,  0,  0,  0
+	-5,  0,  0,  0,  0,  0,  0, -5,
+	-5,  0,  0,  0,  0,  0,  0, -5,
+	-5,  0,  0,  0,  0,  0,  0, -5,
+	-5,  0,  0,  0,  0,  0,  0, -5,
+	-5,  0,  0,  0,  0,  0,  0, -5,
+	 5, 10, 10, 10, 10, 10, 10,  5,
+	 0,  0,  0,  0,  0,  0,  0,  0
 };
 
 int qTable[] = {
-	-20,-10,-10, -5, -5,-10,-10,-20,
-	-10,  0,  0,  0,  0,  0,  0,-10,
-	-10,  0,  5,  5,  5,  5,  0,-10,
-	 -5,  0,  5,  5,  5,  5,  0, -5,
-	  0,  0,  5,  5,  5,  5,  0, -5,
-	-10,  5,  5,  5,  5,  5,  0,-10,
-	-10,  0,  5,  0,  0,  0,  0,-10,
 	-20,-10,-10, -5, -5,-10,-10,-20
+	-10,  0,  5,  0,  0,  0,  0,-10,
+	-10,  5,  5,  5,  5,  5,  0,-10,
+	  0,  0,  5,  5,  5,  5,  0, -5,
+	 -5,  0,  5,  5,  5,  5,  0, -5,
+	-10,  0,  5,  5,  5,  5,  0,-10,
+	-10,  0,  0,  0,  0,  0,  0,-10,
+	-20,-10,-10, -5, -5,-10,-10,-20
+};
+
+// I think I should change this table a little bit.
+// It seems that the table does not encourage queen side castling
+int kTableMiddleGame[] = {
+	 20, 30, 10,  0,  0, 10, 30, 20,
+	 20, 20,  0,  0,  0,  0, 20, 20,
+	-10,-20,-20,-20,-20,-20,-20,-10,
+	-20,-30,-30,-40,-40,-30,-30,-20,
+	-30,-40,-40,-50,-50,-40,-40,-30,
+	-30,-40,-40,-50,-50,-40,-40,-30,
+	-30,-40,-40,-50,-50,-40,-40,-30,
+	-30,-40,-40,-50,-50,-40,-40,-30
+};
+
+int kTableEndGame[] = {
+	-50,-30,-30,-30,-30,-30,-30,-50,
+	-30,-30,  0,  0,  0,  0,-30,-30,
+	-30,-10, 20, 30, 30, 20,-10,-30,
+	-30,-10, 30, 40, 40, 30,-10,-30,
+	-30,-10, 30, 40, 40, 30,-10,-30,
+	-30,-10, 20, 30, 30, 20,-10,-30,
+	-30,-20,-10,  0,  0,-10,-20,-30,
+	 50,-40,-30,-20,-20,-30,-40,-50
 };
 
 int mirror[] = {
@@ -69,40 +93,38 @@ int mirror[] = {
 
 int chessboard::staticEval() {
 	
-	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};
-	int val = 0, blackVal = 0, whiteVal = 0;
-	int square;
+	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, -100, -320, -330, -500, -900, -20000};
+	int val = 0, square, *kTable;
 	
-	for(int piece = wp; piece <= wq; piece++) {
+	kTable = kTableMiddleGame; // Temporarily set to kTableMiddleGame(how do I determine when the endgame starts?)
+	
+	for(int piece = wp; piece <= bk; piece++) {
+		val += pieceList[piece].size() * pieceVals[piece]; 
+		
 		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-			whiteVal += pieceVals[piece];
-			square = mirror[ board120[*it] ];
-			if (piece == wp) whiteVal += pTable[square];
-			else if (piece == wn) whiteVal += nTable[square];
-			else if (piece == wb) whiteVal += bTable[square];
-			else if (piece == wr) whiteVal += rTable[square];
-			else if (piece == wq) whiteVal += qTable[square];
+			if ( side == white ) square = board120[*it];
+			else square = mirror[ board120[*it] ]; 
+			
+			switch(piece) {
+				case wp: val += pTable[square]; break;
+				case wn: val += nTable[square]; break;
+				case wb: val += bTable[square]; break;
+				case wr: val += rTable[square]; break;
+				case wq: val += qTable[square]; break;
+				case wk: val += kTable[square]; break;
+
+				case bp: val -= pTable[square]; break;
+				case bn: val -= nTable[square]; break;
+				case bb: val -= bTable[square]; break;
+				case br: val -= rTable[square]; break;
+				case bq: val -= qTable[square]; break;
+				case bk: val -= kTable[square]; break;			
+			}
 		}
 	}
-	
-	for(int piece = bp; piece <= bq; piece++) {
-		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
-			blackVal += pieceVals[piece];
-			square = board120[*it];
-			if (piece == bp) blackVal += pTable[square];
-			else if (piece == bn) blackVal += nTable[square];
-			else if (piece == bb) blackVal += bTable[square];
-			else if (piece == br) blackVal += rTable[square];
-			else if (piece == bq) blackVal += qTable[square];
-		}
-	}
-	
-	val = whiteVal - blackVal;
 	
 	if ( side == white ) return val;
 	else return -val;
-	
-	
 }
 
 int chessboard::negamax(int depth) {
@@ -140,9 +162,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		//int score = -negamax(0);
 		int score = -negamax(3);
-		//int score = -negamax(4);
 		undoMove(move);
 		
 		if ( score > maxScore ) {
