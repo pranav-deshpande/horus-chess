@@ -25,6 +25,11 @@ typedef unsigned long long ULL;
 #define OB -1
 #define EM 0
 
+// Engine Side required for GUI mode
+
+// For search
+#define infinity 1000000
+
 // black = 0, white = 1
 enum {
 	black, white
@@ -99,10 +104,8 @@ extern void runPerftTests();
 // Helps in tracing at which position the move generating function made a mistake
 extern void debugPerft(string &test, int depth);
 
+// Run sample perft test
 extern void samplePerftTest();
-
-// The gui loop
-extern void start();
 
 inline bool isValidSquare(int sq) {
 	return sq >= a1 && sq <= h8 && board120[sq] != OB;

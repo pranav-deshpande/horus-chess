@@ -53,6 +53,9 @@ private:
 	bool isSquareAttacked(int square, int Side);
 	bool isMoveValid(Move &move);
 	void addMove(Move &move, vector <Move> &moveList);
+	int staticEval();
+	int negamax(int depth);
+	int alphaBeta(int alpha, int beta, int depth);
 
 	enum {
 		MAX_GAME_MOVES = 1000
@@ -91,8 +94,6 @@ public:
 
 	int side;
 	
-	int staticEval();
-	int negamax(int depth);
 	Move findMove();
 	
 	Move parseMoveFromString(string m);

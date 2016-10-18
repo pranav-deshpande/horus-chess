@@ -94,8 +94,8 @@ void Move::printMove(int side) {
 	}
 }
 
-string Move::MoveToString(int side)
-{
+string Move::MoveToString(int side) {
+	
 	string m = "";
 	
 	if ( isCastle == true) {
@@ -124,4 +124,3 @@ string Move::MoveToString(int side)
 bool Move::isNull() {
 	return (from == EM && to == EM) && !isCastle;
 }
-

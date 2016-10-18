@@ -134,7 +134,13 @@ int chessboard::negamax(int depth) {
 	vector <Move> childNodes;
 	generateAllMoves(childNodes);
 	
-	int bestValue = INT_MIN+1;
+	// If no legal moves are possible, then we check for stalemate or checkmate
+	if ( childNodes.begin() == childNodes.end() ) {
+		if ( inCheck ) return infinity; // Checkmate
+		else return 0; // Stalemate
+	}
+		
+	int bestValue = -infinity;
 	
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
 		
@@ -149,20 +155,48 @@ int chessboard::negamax(int depth) {
 	return bestValue;
 }
 
+int chessboard::alphaBeta(int alpha, int beta, int depth) {
+	
+	if ( depth == 0 ) return staticEval();
+	
+	vector<Move> childNodes;
+	generateAllMoves(childNodes);
+	
+	// If no legal moves are possible, then we check for stalemate or checkmate
+	if ( childNodes.begin() == childNodes.end() ) {
+		if ( inCheck ) return infinity; // Checkmate
+		else return 0; // Stalemate
+	}
+	
+	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
+		
+		Move move = *it;
+		playMove(move);
+		int val = -alphaBeta(-beta, -alpha, depth - 1);
+		undoMove(move);
+		
+		if ( val > beta ) return val;
+		
+		if ( val >= alpha ) alpha = val;
+	}
+	
+	return alpha;
+}
+
 Move chessboard::findMove() {
 	
 	vector<Move> moveList;
 	generateAllMoves(moveList);
 	
 	Move bestMove;
-	int maxScore = INT_MIN+1;
+	int maxScore = -infinity;
 
 	for(vector<Move>::iterator it = moveList.begin(); it!= moveList.end(); it++) {
 		
 		Move move = *it;
 		
 		playMove(move);
-		int score = -negamax(3);
+		int score = -alphaBeta(-infinity, infinity, 3);
 		undoMove(move);
 		
 		if ( score > maxScore ) {

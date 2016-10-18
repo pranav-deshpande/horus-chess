@@ -102,10 +102,10 @@ int main() {
         if (engineSide == b.side) {
             cout << "# calculating engine move ..." << endl;
             Move move = b.findMove();
-            b.playMove(move);
             cout << "move ";
             move.printMove(b.side);
             cout << endl;
+            b.playMove(move);
             b.printMinimalBoard();
         }
     }
