@@ -90,7 +90,36 @@ int main() {
                 b.playMove(move);
                 b.printMinimalBoard();
             }
-        }
+            
+            EndOfGameReason reason = NoEndOfGame;
+            if ( b.isEndOfGame(reason) ) {
+            	
+            	if ( reason == Mate ) {
+            		if ( !b.side == white ) {
+            			cout << "1-0 {White mates}" << endl;
+            		}
+            		else {
+            			cout << "0-1 {Black mates}" << endl;
+            		}
+            	}
+            	
+            	else {
+            		cout << "1/2-1/2 ";
+            		if ( reason == Stalemate ) {
+            			cout << "{Stalemate}" << endl;
+            		}
+            		else if ( reason == FiftyMoveRule ) {
+            			cout << "{Draw by fifty move rule}" << endl;
+            		}
+            		else if ( reason == ThreeFoldRepetition ) {
+            			cout << "{Draw by repetition}" << endl;
+            		}
+            		else if ( reason == InsufficientMaterial ) {
+            			cout << "{Draw by insufficient material}" << endl;
+            		}
+            	}
+            }
+		}
         
 		else if ( command == "undo" ) {
 			Move move = b.getLastMove();
@@ -130,9 +159,37 @@ int main() {
             cout << endl;
             b.playMove(move);
             b.printMinimalBoard();
-        }
+            
+            EndOfGameReason reason = NoEndOfGame;
+            if ( b.isEndOfGame(reason) ) {
+            	
+            	if ( reason == Mate ) {
+            		if ( !b.side == white ) {
+            			cout << "1-0 {White mates}" << endl;
+            		}
+            		else {
+            			cout << "0-1 {Black mates}" << endl;
+            		}
+            	}
+            	
+            	else {
+            		cout << "1/2-1/2 ";
+            		if ( reason == Stalemate ) {
+            			cout << "{Stalemate}" << endl;
+            		}
+            		else if ( reason == FiftyMoveRule ) {
+            			cout << "{Draw by fifty move rule}" << endl;
+            		}
+            		else if ( reason == ThreeFoldRepetition ) {
+            			cout << "{Draw by repetition}" << endl;
+            		}
+            		else if ( reason == InsufficientMaterial ) {
+            			cout << "{Draw by insufficient material}" << endl;
+            		}
+            	}
+            } 
+		}
     }
 
     return 0;
 }
-

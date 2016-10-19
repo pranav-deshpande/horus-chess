@@ -56,7 +56,6 @@ void chessboard::initEmptyBoard() {
 	plies = 0;
 	moves = 1;
 	fiftyMoveRule = 0;
-	threeFold = 0;
 	side = white; // default 
 
 #ifndef NDEBUG
@@ -213,7 +212,6 @@ void chessboard::playMove(Move &move) {
 	// First store the castle history
 	
 	plies++;
-	
 	keyList.push_back(uniqueKey);
 	
 	array <bool, 4> castleWB;
@@ -394,7 +392,7 @@ void chessboard::playMove(Move &move) {
 	
 	// do this only here since the move object is also modified in the section above
 	game.push_back(move);
-
+	
 	// Now all movements have been done, still some things are left
 	// We have to check the castling permissions ( has the king/rook moved or is the rook captured? )
 	// Also the enPassant square
@@ -444,6 +442,10 @@ void chessboard::playMove(Move &move) {
 	
 	}
 	
+	fiftyMoveRule++;
+	if ( move.currPiece == pawn || move.capturedPiece != EM ) fiftyMoveRule = 0;
+	fiftyMoveRuleHistory.push_back(fiftyMoveRule);
+		
 	uniqueKey ^= sideHash[side];
 	uniqueKey ^= sideHash[!side];
 	
@@ -572,7 +574,9 @@ void chessboard::undoMove(Move &move) {
 	enPassantSquare[white] = enPassSqList[plies].second;
 	
 	uniqueKey = keyList[plies];
+	fiftyMoveRule = fiftyMoveRuleHistory[plies];
 	keyList.pop_back();
+	fiftyMoveRuleHistory.pop_back();
 	enPassSqList.pop_back();
 	castleList.pop_back();
 	game.pop_back();
@@ -891,7 +895,6 @@ void chessboard::printBoard() {
 	cout << "No. of plies till now: " << plies << endl;
 	cout << "No. of moves till now: " << moves << endl;
 	cout << "Fifty Move Rule: " << fiftyMoveRule << endl;
-	cout << "Three Fold Repetition: " << threeFold << endl << endl;
 	cout << "Unique Postion Key: " << uniqueKey << endl;
 	cout << "-----------------------------------------------" << endl;
 }
@@ -970,3 +973,94 @@ Move chessboard::getLastMove() {
 	return * ( game.end() - 1 );
 }
 
+bool chessboard::isEndOfGame(EndOfGameReason &reason) {
+    vector<Move> moveList;
+    generateAllMoves(moveList);
+    
+    if ( moveList.size() == 0) {
+        reason = (inCheck ? Mate : Stalemate);
+        return true;
+    }
+    
+    else if ( isFiftyMovesDraw() ) {
+    	reason = FiftyMoveRule;
+    	return true;
+    }
+    
+    else if ( isThreeFoldRepetition() ) {
+    	reason = ThreeFoldRepetition;
+    	return true;
+    }
+    
+    else if ( isDrawByInsufficientMaterial() ) {
+    	reason = InsufficientMaterial;
+    	return true;
+    }
+    
+    else {
+    	reason = NoEndOfGame;
+    	return false;
+    }
+}
+
+bool chessboard::isFiftyMovesDraw() {
+	return ( fiftyMoveRule >= 100 );
+}
+
+bool chessboard::isRepetition() {
+	ULL key = * ( keyList.end() - 1 );
+	for(int i = 0; i < keyList.size() - 1; i++) {
+		if ( keyList[i] == key ) return true;
+	}
+	return false;
+}
+
+bool chessboard::isThreeFoldRepetition() {
+	ULL key = * ( keyList.end() - 1 );
+	int count = 0;
+	for(int i = 0; i < keyList.size() - 1; i++) {
+		if ( keyList[i] == key ) count++;
+		if ( count >= 3 ) return true;
+	}
+	return false;
+}
+
+bool chessboard::isDrawByInsufficientMaterial() {
+	int numQueens = pieceList[wq].size() + pieceList[bq].size();
+	int numRooks = pieceList[wr].size() + pieceList[br].size();
+	int numPawns = pieceList[wp].size() + pieceList[bp].size();
+	int var = numQueens + numRooks + numPawns;
+	
+	if ( var != 0 ) return false;
+
+	int numKnights = pieceList[wn].size() + pieceList[bn].size();
+	int numBishops = pieceList[wb].size() + pieceList[bb].size();
+	
+	if ( numKnights == 1 && numBishops == 0 ) return true;
+	
+	if ( numKnights == 0 ) {
+    	static int const colours[] = {
+    		black, white, black, white, black, white, black, white,
+    		white, black, white, black, white, black, white, black,
+    		black, white, black, white, black, white, black, white,
+    		white, black, white, black, white, black, white, black,
+    		black, white, black, white, black, white, black, white,
+    		white, black, white, black, white, black, white, black,
+    		black, white, black, white, black, white, black, white,
+    		white, black, white, black, white, black, white, black
+    	};
+    	
+    	int bishopsOnColour[2] = {0};
+    	for(unordered_set<int>::iterator it = pieceList[wb].begin(); it != pieceList[wb].end(); it++) {
+    		bishopsOnColour[ colours[ board120[*it] ] ]++;
+    	}
+    	
+    	for(unordered_set<int>::iterator it = pieceList[bb].begin(); it != pieceList[bb].end(); it++) {
+    		bishopsOnColour[ colours[ board120[*it] ] ]++;
+    	}
+    	
+    	if ( bishopsOnColour[white] == 0 || bishopsOnColour[black] == 0 ) return true;
+	}
+	
+	return false;
+}
