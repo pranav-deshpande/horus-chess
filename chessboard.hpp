@@ -38,9 +38,6 @@ private:
 	vector < pair<int, int> > enPassSqList;
 	vector <ULL> keyList;
 	
-	// To store the moves played during the game, i.e. to store the game
-	vector <Move> game;
-	
 	// Member Functions:
 	void initEmptyBoard();
 
@@ -48,6 +45,9 @@ private:
 
 	void initPieceList();
 	void initUniqueKey();
+
+	void insertPiece(int piece, int square);
+	void erasePiece (int piece, int square);
 
 	bool isSquareSafe(int square, int Side);
 	bool isSquareAttacked(int square, int Side);
@@ -75,6 +75,7 @@ public:
 	void printGame();
 	void generateAllMoves(vector <Move> &moveList);
 	ULL perft(int depth);
+	Move getLastMove();
 
 	bool isValid();
 
@@ -86,6 +87,9 @@ public:
 	
 	void test();
 
+	// To store the moves played during the game, i.e. to store the game
+	vector <Move> game;
+	
 	int side;
 	
 	Move findMove();

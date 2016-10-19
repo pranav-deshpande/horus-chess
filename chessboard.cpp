@@ -154,7 +154,7 @@ void chessboard::initPieceList() {
 		pieceList[piece].clear();
 		for(int square = 0; square < 64; square++) {
 			if( piece == board[ board64[square] ] ) {
-				pieceList[piece].insert( board64[square] );
+				insertPiece(piece,  board64[square] );
 			}
 		}
 	}
@@ -181,6 +181,24 @@ void chessboard::initUniqueKey() {
 	uniqueKey ^= sideHash[side];
 }
 
+void chessboard::insertPiece(int piece, int square) {
+	ASSERT(piece >= wp);
+	ASSERT(piece <= bk);
+	ASSERT(isValidSquare(square));
+	ASSERT(pieceList[piece].find(square) == pieceList[piece].end());
+
+	pieceList[piece].insert(square);
+}
+
+void chessboard::erasePiece(int piece, int square) {
+	ASSERT(piece >= wp);
+	ASSERT(piece <= bk);
+	ASSERT(isValidSquare(square));
+	ASSERT(pieceList[piece].find(square) != pieceList[piece].end());
+
+	pieceList[piece].erase(square);
+}
+
 void chessboard::playMove(Move &move) {
 
 	ASSERT(isValid());
@@ -194,7 +212,6 @@ void chessboard::playMove(Move &move) {
 	
 	// First store the castle history
 	
-	game.push_back(move);
 	plies++;
 	
 	keyList.push_back(uniqueKey);
@@ -225,9 +242,9 @@ void chessboard::playMove(Move &move) {
 		board[move.to] = move.currPiece;
 		board[squareOfCapturedPawn] = EM;
 		
-		pieceList[move.currPiece].erase(move.from);
-		pieceList[move.currPiece].insert(move.to);
-		pieceList[move.capturedPiece].erase(squareOfCapturedPawn);
+		erasePiece (move.currPiece, move.from);
+		insertPiece(move.currPiece, move.to);
+		erasePiece (move.capturedPiece, squareOfCapturedPawn);
 		
 		uniqueKey ^= hashList[move.currPiece][ board120[move.from] ];
 		uniqueKey ^= hashList[move.currPiece][ board120[move.to] ];
@@ -246,10 +263,10 @@ void chessboard::playMove(Move &move) {
 					board[g1] = wk;
 					board[f1] = wr;
 			
-					pieceList[wk].erase(e1);
-					pieceList[wr].erase(h1);
-					pieceList[wk].insert(g1);
-					pieceList[wr].insert(f1);
+					erasePiece (wk, e1);
+					erasePiece (wr, h1);
+					insertPiece(wk, g1);
+					insertPiece(wr, f1);
 			
 					uniqueKey ^= hashList[wk][ board120[e1] ];
 					uniqueKey ^= hashList[wr][ board120[h1] ];
@@ -268,10 +285,10 @@ void chessboard::playMove(Move &move) {
 					board[c1] = wk;
 					board[d1] = wr;
 			
-					pieceList[wk].erase(e1);
-					pieceList[wr].erase(a1);
-					pieceList[wk].insert(c1);
-					pieceList[wr].insert(d1);
+					erasePiece (wk, e1);
+					erasePiece (wr, a1);
+					insertPiece(wk, c1);
+					insertPiece(wr, d1);
 					
 					uniqueKey ^= hashList[wk][ board120[e1] ];
 					uniqueKey ^= hashList[wr][ board120[a1] ];
@@ -296,10 +313,10 @@ void chessboard::playMove(Move &move) {
 					board[g8] = bk;
 					board[f8] = br;
 			
-					pieceList[bk].erase(e8);
-					pieceList[br].erase(h8);
-					pieceList[bk].insert(g8);
-					pieceList[br].insert(f8);
+					erasePiece (bk, e8);
+					erasePiece (br, h8);
+					insertPiece(bk, g8);
+					insertPiece(br, f8);
 				
 					uniqueKey ^= hashList[bk][ board120[e8] ];
 					uniqueKey ^= hashList[br][ board120[h8] ];
@@ -318,10 +335,10 @@ void chessboard::playMove(Move &move) {
 					board[c8] = bk;
 					board[d8] = br;
 			
-					pieceList[bk].erase(e8);
-					pieceList[br].erase(a8);
-					pieceList[bk].insert(c8);
-					pieceList[br].insert(d8);
+					erasePiece (bk, e8);
+					erasePiece (br, a8);
+					insertPiece(bk, c8);
+					insertPiece(br, d8);
 				
 					uniqueKey ^= hashList[bk][ board120[e8] ];
 					uniqueKey ^= hashList[br][ board120[a8] ];
@@ -348,9 +365,9 @@ void chessboard::playMove(Move &move) {
 		board[move.from] = EM;
 		board[move.to] = move.promotedPiece;
 		
-		pieceList[move.currPiece].erase(move.from);
-		if ( move.capturedPiece != EM ) pieceList[move.capturedPiece].erase(move.to);
-		pieceList[move.promotedPiece].insert(move.to);
+		erasePiece (move.currPiece, move.from);
+		if ( move.capturedPiece != EM ) erasePiece (move.capturedPiece, move.to);
+		insertPiece(move.promotedPiece, move.to);
 		
 		uniqueKey ^= hashList[move.currPiece][ board120[move.from] ];
 		if ( move.capturedPiece != EM ) uniqueKey ^= hashList[move.capturedPiece][ board120[move.to] ];
@@ -365,9 +382,9 @@ void chessboard::playMove(Move &move) {
 		board[move.from] = EM;
 		board[move.to] = move.currPiece;
 		
-		pieceList[move.currPiece].erase(move.from);
-		if ( move.capturedPiece != EM ) pieceList[move.capturedPiece].erase(move.to);
-		pieceList[move.currPiece].insert(move.to);
+		erasePiece (move.currPiece, move.from);
+		if ( move.capturedPiece != EM ) erasePiece (move.capturedPiece, move.to);
+		insertPiece(move.currPiece, move.to);
 				
 		uniqueKey ^= hashList[move.currPiece][ board120[move.from] ];
 		if ( move.capturedPiece != EM ) uniqueKey ^= hashList[move.capturedPiece][ board120[move.to] ];
@@ -375,6 +392,9 @@ void chessboard::playMove(Move &move) {
 	
 	}
 	
+	// do this only here since the move object is also modified in the section above
+	game.push_back(move);
+
 	// Now all movements have been done, still some things are left
 	// We have to check the castling permissions ( has the king/rook moved or is the rook captured? )
 	// Also the enPassant square
@@ -435,6 +455,13 @@ void chessboard::playMove(Move &move) {
 void chessboard::undoMove(Move &move) {
 	
 	ASSERT(isValid());
+	if (!move.isCastle) {
+		ASSERT(isValidSquare(move.from));
+		ASSERT(isValidSquare(move.to));
+		ASSERT(move.from != move.to);
+		ASSERT(move.currPiece >= wp);
+		ASSERT(move.currPiece <= bk);
+	}
 
 	if ( move.isEnPassant == true ) {
 	
@@ -444,9 +471,9 @@ void chessboard::undoMove(Move &move) {
 		board[move.from] = move.currPiece;
 		board[squareOfCapturedPawn] = move.capturedPiece;
 		
-		pieceList[move.currPiece].erase(move.to);
-		pieceList[move.currPiece].insert(move.from);
-		pieceList[move.capturedPiece].insert(squareOfCapturedPawn);
+		erasePiece (move.currPiece, move.to);
+		insertPiece(move.currPiece, move.from);
+		insertPiece(move.capturedPiece, squareOfCapturedPawn);
 
 	}
 	
@@ -461,10 +488,10 @@ void chessboard::undoMove(Move &move) {
 					board[e1] = wk;
 					board[h1] = wr;
 					
-					pieceList[wk].erase(g1);
-					pieceList[wr].erase(f1);
-					pieceList[wk].insert(e1);
-					pieceList[wr].insert(h1);
+					erasePiece (wk, g1);
+					erasePiece (wr, f1);
+					insertPiece(wk, e1);
+					insertPiece(wr, h1);
 					
 					break;
 					
@@ -473,10 +500,10 @@ void chessboard::undoMove(Move &move) {
 					board[e1] = wk;
 					board[a1] = wr;
 					
-					pieceList[wk].erase(c1);
-					pieceList[wr].erase(d1);
-					pieceList[wk].insert(e1);
-					pieceList[wr].insert(a1);
+					erasePiece (wk, c1);
+					erasePiece (wr, d1);
+					insertPiece(wk, e1);
+					insertPiece(wr, a1);
 			
 					break;
 			}
@@ -491,10 +518,10 @@ void chessboard::undoMove(Move &move) {
 					board[e8] = bk;
 					board[h8] = br;
 					
-					pieceList[bk].erase(g8);
-					pieceList[br].erase(f8);
-					pieceList[bk].insert(e8);
-					pieceList[br].insert(h8);
+					erasePiece (bk, g8);
+					erasePiece (br, f8);
+					insertPiece(bk, e8);
+					insertPiece(br, h8);
 					
 					break;
 					
@@ -503,10 +530,10 @@ void chessboard::undoMove(Move &move) {
 					board[e8] = bk;
 					board[a8] = br;
 					
-					pieceList[bk].erase(c8);
-					pieceList[br].erase(d8);
-					pieceList[bk].insert(e8);
-					pieceList[br].insert(a8);
+					erasePiece (bk, c8);
+					erasePiece (br, d8);
+					insertPiece(bk, e8);
+					insertPiece(br, a8);
 	
 					break;
 			}
@@ -518,9 +545,9 @@ void chessboard::undoMove(Move &move) {
 		board[move.to] = move.capturedPiece;
 		board[move.from] = move.currPiece;
 		
-		pieceList[move.promotedPiece].erase(move.to);
-		if ( move.capturedPiece != EM ) pieceList[move.capturedPiece].insert(move.to);
-		pieceList[move.currPiece].insert(move.from);
+		erasePiece (move.promotedPiece, move.to);
+		if ( move.capturedPiece != EM ) insertPiece(move.capturedPiece, move.to);
+		insertPiece(move.currPiece, move.from);
 
 	}
 	
@@ -529,9 +556,9 @@ void chessboard::undoMove(Move &move) {
 		board[move.to] = move.capturedPiece;
 		board[move.from] = move.currPiece;
 		
-		pieceList[move.currPiece].erase(move.to);		
-		if ( move.capturedPiece != EM ) pieceList[move.capturedPiece].insert(move.to);
-		pieceList[move.currPiece].insert(move.from);
+		erasePiece (move.currPiece, move.to);		
+		if ( move.capturedPiece != EM ) insertPiece(move.capturedPiece, move.to);
+		insertPiece(move.currPiece, move.from);
 
 	}
 
@@ -937,5 +964,9 @@ void chessboard::printGame() {
 	for (int i = 0; i < plies; i++) {
 		cout << "# game[" << i << "]: " << game[i].MoveToString(((i % 2) == 0) ? initialSide : 1 - initialSide) << endl;
 	}
+}
+
+Move chessboard::getLastMove() {
+	return * ( game.end() - 1 );
 }
 

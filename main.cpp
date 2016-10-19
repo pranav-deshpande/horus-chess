@@ -91,7 +91,22 @@ int main() {
                 b.printMinimalBoard();
             }
         }
+        
+		else if ( command == "undo" ) {
+			Move move = b.getLastMove();
+			b.undoMove(move);
+			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
+		}
 
+		else if ( command == "remove" ) {
+			Move move = b.getLastMove();
+			b.undoMove(move);
+			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
+			move = b.getLastMove();
+			b.undoMove(move);
+			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
+		}
+        
         else if ( command == "accepted" ) {
             string temp;
             cin >> temp;
