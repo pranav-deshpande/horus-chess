@@ -46,6 +46,9 @@ private:
 	void initPieceList();
 	void initUniqueKey();
 
+	void insertPiece(int piece, int square);
+	void erasePiece (int piece, int square);
+
 	bool isSquareSafe(int square, int Side);
 	bool isSquareAttacked(int square, int Side);
 	bool isMoveValid(Move &move);
