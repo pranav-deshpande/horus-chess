@@ -102,7 +102,7 @@ string Move::MoveToString(int side) {
 		
 		if ( castle == 0 ) {
 			if ( side == white ) m = "e1g1";
-			else m =  "e8g8";
+			else m = "e8g8";
  		}
 		
 		if  (castle == 1 ) { 
@@ -112,10 +112,10 @@ string Move::MoveToString(int side) {
  	}
 	
 	else {
-		m = m+ squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
+		m = squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
 		
 		if(promotedPiece != EM) {
-			m = m +  string(1, tolower(pieceChars[promotedPiece]));
+			m = m + string(1, tolower( pieceChars[promotedPiece] ) );
 		}
 	}
 	return m;

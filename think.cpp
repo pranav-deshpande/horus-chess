@@ -198,7 +198,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -alphaBeta(-infinity, infinity, 3, 1);
+		int score = -alphaBeta(-infinity, infinity, 0, 1);
 		undoMove(move);
 		//cout << "# " << move.MoveToString(side) << score << endl;
 		if ( score > maxScore ) {

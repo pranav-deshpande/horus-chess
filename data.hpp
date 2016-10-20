@@ -60,6 +60,11 @@ enum {
 	a8 = 91, b8, c8, d8, e8, f8, g8, h8
 };
 
+// This helps us to detect various types of draws and also checkmate
+enum EndOfGameReason {
+	 NoEndOfGame = 0, Mate, Stalemate, FiftyMoveRule, ThreeFoldRepetition, InsufficientMaterial
+};
+
 // Directions
 #define UP 10
 #define DOWN -10

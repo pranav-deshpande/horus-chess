@@ -13,7 +13,7 @@ private:
 
 	int actualPlies;
 
-	int fiftyMoveRule, threeFold;
+	int fiftyMoveRule;
 	bool whiteCastlePerms[2];
 	bool blackCastlePerms[2];
 	int enPassantSquare[2]; // enPassantSquare[white] => white can capture it
@@ -37,6 +37,7 @@ private:
 	vector < array<bool, 4> > castleList;
 	vector < pair<int, int> > enPassSqList;
 	vector <ULL> keyList;
+	vector <int> fiftyMoveRuleHistory;
 	
 	// Member Functions:
 	void initEmptyBoard();
@@ -56,6 +57,11 @@ private:
 	int staticEval();
 	int negamax(int depth);
 	int alphaBeta(int alpha, int beta, int depth, int distToRoot);
+	
+	bool isFiftyMovesDraw();
+	bool isRepetition();
+	bool isThreeFoldRepetition();
+	bool isDrawByInsufficientMaterial();
 
 #ifndef NDEBUG
 	bool suppressValidityCheck;
@@ -75,6 +81,7 @@ public:
 	void printGame();
 	void generateAllMoves(vector <Move> &moveList);
 	ULL perft(int depth);
+	Move getLastMove();
 
 	bool isValid();
 
@@ -92,7 +99,7 @@ public:
 	int side;
 	
 	Move findMove();
-	
+	bool isEndOfGame(EndOfGameReason &reason);	
 	Move parseMoveFromString(string m);
 	ULL getPins();
 	int kingSquare(int side);
