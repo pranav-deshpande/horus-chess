@@ -51,6 +51,7 @@ void chessboard::initEmptyBoard() {
 	castleList.clear();
 	enPassSqList.clear();
 	keyList.clear();
+	fiftyMoveRuleHistory.clear();
 	game.clear();
 	
 	plies = 0;
