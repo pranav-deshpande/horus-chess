@@ -11,6 +11,36 @@ void dumpAll() {
 	}
 }
 
+void handleEndOfGame(chessboard &b) {
+	EndOfGameReason reason = NoEndOfGame;
+    if ( b.isEndOfGame(reason) ) {
+    	if ( reason == Mate ) {
+    		if ( !b.side == white ) {
+    			cout << "1-0 {White mates}" << endl;
+    		}
+    		else {
+    			cout << "0-1 {Black mates}" << endl;
+    		}
+    	}
+    	
+    	else {
+    		cout << "1/2-1/2 ";
+    		if ( reason == Stalemate ) {
+    			cout << "{Stalemate}" << endl;
+    		}
+    		else if ( reason == FiftyMoveRule ) {
+    			cout << "{Draw by fifty move rule}" << endl;
+    		}
+    		else if ( reason == ThreeFoldRepetition ) {
+    			cout << "{Draw by repetition}" << endl;
+    		}
+    		else if ( reason == InsufficientMaterial ) {
+    			cout << "{Draw by insufficient material}" << endl;
+    		}
+    	}
+    }	
+}
+
 int main() {
     initHash();
     setUpDebugging();
@@ -27,7 +57,7 @@ int main() {
 
     while (true) {
         if (isConsoleMode) {
-            cout << "# Your move/command: ";
+            cout << "# Your command: ";
             flush(cout);
         }
         cin >> command;
@@ -91,36 +121,9 @@ int main() {
                 b.printMinimalBoard();
             }
             
-            EndOfGameReason reason = NoEndOfGame;
-            if ( b.isEndOfGame(reason) ) {
-            	
-            	if ( reason == Mate ) {
-            		if ( !b.side == white ) {
-            			cout << "1-0 {White mates}" << endl;
-            		}
-            		else {
-            			cout << "0-1 {Black mates}" << endl;
-            		}
-            	}
-            	
-            	else {
-            		cout << "1/2-1/2 ";
-            		if ( reason == Stalemate ) {
-            			cout << "{Stalemate}" << endl;
-            		}
-            		else if ( reason == FiftyMoveRule ) {
-            			cout << "{Draw by fifty move rule}" << endl;
-            		}
-            		else if ( reason == ThreeFoldRepetition ) {
-            			cout << "{Draw by repetition}" << endl;
-            		}
-            		else if ( reason == InsufficientMaterial ) {
-            			cout << "{Draw by insufficient material}" << endl;
-            		}
-            	}
-            }
-		}
-        
+            handleEndOfGame(b);
+        }
+                
 		else if ( command == "undo" ) {
 			Move move = b.getLastMove();
 			b.undoMove(move);
@@ -159,35 +162,8 @@ int main() {
             cout << endl;
             b.playMove(move);
             b.printMinimalBoard();
-            
-            EndOfGameReason reason = NoEndOfGame;
-            if ( b.isEndOfGame(reason) ) {
-            	
-            	if ( reason == Mate ) {
-            		if ( !b.side == white ) {
-            			cout << "1-0 {White mates}" << endl;
-            		}
-            		else {
-            			cout << "0-1 {Black mates}" << endl;
-            		}
-            	}
-            	
-            	else {
-            		cout << "1/2-1/2 ";
-            		if ( reason == Stalemate ) {
-            			cout << "{Stalemate}" << endl;
-            		}
-            		else if ( reason == FiftyMoveRule ) {
-            			cout << "{Draw by fifty move rule}" << endl;
-            		}
-            		else if ( reason == ThreeFoldRepetition ) {
-            			cout << "{Draw by repetition}" << endl;
-            		}
-            		else if ( reason == InsufficientMaterial ) {
-            			cout << "{Draw by insufficient material}" << endl;
-            		}
-            	}
-            } 
+			
+			handleEndOfGame(b);         
 		}
     }
 

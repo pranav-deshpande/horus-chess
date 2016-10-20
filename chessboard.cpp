@@ -717,10 +717,9 @@ bool chessboard::isMoveValid(Move &move) {
 
 	if (mayBeIllegal) {
 		int sideToBeChecked = side;
-		Move m = move;
-		playMove(m);
+		playMove(move);
 		validity = isSquareSafe(kingSquare(sideToBeChecked), sideToBeChecked);
-		undoMove(m);
+		undoMove(move);
 	}
 
 	return validity;
@@ -906,6 +905,8 @@ Move chessboard::parseMoveFromString(string move) {
 	generateAllMoves(moveList);
 	
 	for(int i = 0; i < moveList.size(); i++) {
+		// Debugging statement
+		cout << "# " << moveList[i].MoveToString(side) << endl; 
 		if ( move == moveList[i].MoveToString(side) ) {
 			return moveList[i];
 		}
@@ -1010,7 +1011,7 @@ bool chessboard::isFiftyMovesDraw() {
 
 bool chessboard::isRepetition() {
 	ULL key = * ( keyList.end() - 1 );
-	for(int i = 0; i < keyList.size() - 1; i++) {
+	for(int i = plies - 4; i >= plies - fiftyMoveRule; i -= 2) {
 		if ( keyList[i] == key ) return true;
 	}
 	return false;
@@ -1019,9 +1020,9 @@ bool chessboard::isRepetition() {
 bool chessboard::isThreeFoldRepetition() {
 	ULL key = * ( keyList.end() - 1 );
 	int count = 0;
-	for(int i = 0; i < keyList.size() - 1; i++) {
+	for(int i = plies - 4; i >= plies - fiftyMoveRule; i -= 2) {
 		if ( keyList[i] == key ) count++;
-		if ( count >= 3 ) return true;
+		if ( count >= 2 ) return true;
 	}
 	return false;
 }
