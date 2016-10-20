@@ -717,10 +717,9 @@ bool chessboard::isMoveValid(Move &move) {
 
 	if (mayBeIllegal) {
 		int sideToBeChecked = side;
-		Move m = move;
-		playMove(m);
+		playMove(move);
 		validity = isSquareSafe(kingSquare(sideToBeChecked), sideToBeChecked);
-		undoMove(m);
+		undoMove(move);
 	}
 
 	return validity;
