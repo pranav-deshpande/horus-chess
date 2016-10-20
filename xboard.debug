@@ -1,0 +1,268 @@
+locale = LC_CTYPE=en_US.UTF-8;LC_NUMERIC=en_IN.UTF-8;LC_TIME=en_IN.UTF-8;LC_COLLATE=en_US.UTF-8;LC_MONETARY=en_IN.UTF-8;LC_MESSAGES=en_US.UTF-8;LC_PAPER=en_IN.UTF-8;LC_NAME=en_IN.UTF-8;LC_ADDRESS=en_IN.UTF-8;LC_TELEPHONE=en_IN.UTF-8;LC_MEASUREMENT=en_IN.UTF-8;LC_IDENTIFICATION=en_IN.UTF-8
+recognized 'normal' (-1) as variant normal
+recognized 'normal' (-1) as variant normal
+recognized 'normal' (-1) as variant normal
+shuffleOpenings = 0
+shuffleOpenings = 0
+Version: xboard 4.8.0 + Horus ()
+Reset(1, 0) from gameMode 0
+recognized 'normal' (-1) as variant normal
+GameEnds(0, (null), 2)
+shuffleOpenings = 0
+StartChildProcess (dir=".") /home/pranav/Desktop/Horus-Chess-Engine/Horus
+367 >first : xboard
+protover 2
+390 <first : feature done=0
+390 >first : accepted done
+390 <first : # Your command: # received command: xboard
+390 <first : 
+390 <first : # received command: protover
+390 <first : feature ping=1 time=0 sigint=0 sigterm=0 usermove=1 setboard=1 done=1
+390 >first : accepted ping
+390 >first : accepted time
+390 >first : accepted sigint
+390 >first : accepted sigterm
+390 >first : accepted usermove
+390 >first : accepted setboard
+390 >first : accepted done
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+390 <first : # received command: accepted
+392 >first : new
+random
+392 >first : level 40 5 0
+392 >first : post
+392 >first : hard
+392 >first : ping 1
+393 <first : # received command: new
+393 <first : # received command: random
+393 <first : # ignoring unknown command: random
+393 <first : # received command: level
+393 <first : # ignoring unknown command: level
+393 <first : # received command: 40
+393 <first : # ignoring unknown command: 40
+393 <first : # received command: 5
+393 <first : # ignoring unknown command: 5
+393 <first : # received command: 0
+393 <first : # ignoring unknown command: 0
+393 <first : # received command: post
+393 <first : # ignoring unknown command: post
+393 <first : # received command: hard
+393 <first : # ignoring unknown command: hard
+393 <first : # received command: ping
+393 <first : # received parameter: 1
+393 <first : pong 1
+nps: w=-1, b=-1
+nps: w=-1, b=-1
+book hit = (NULL)
+1633 >first : usermove 1633 >first : e2e4
+1639 <first : # received command: usermove
+1639 <first : # received parameter: e2e4
+1639 <first : # a2a3
+1639 <first : # a2a4
+1639 <first : # b2b3
+1639 <first : # b2b4
+1639 <first : # c2c3
+1639 <first : # c2c4
+1639 <first : # d2d3
+1639 <first : # d2d4
+1639 <first : # h2h3
+1639 <first : # h2h4
+1639 <first : # g2g3
+1639 <first : # g2g4
+1639 <first : # f2f3
+1639 <first : # f2f4
+1639 <first : # e2e3
+1639 <first : # e2e4
+1639 <first : # -----------------------------------------------
+1639 <first : # Current Position:
+1639 <first : 
+1639 <first : # 8  r  n  b  q  k  b  n  r
+1639 <first : # 7  p  p  p  p  p  p  p  p
+1639 <first : # 6  .  .  .  .  .  .  .  .
+1639 <first : # 5  .  .  .  .  .  .  .  .
+1639 <first : # 4  .  .  .  .  P  .  .  .
+1639 <first : # 3  .  .  .  .  .  .  .  .
+1639 <first : # 2  P  P  P  P  .  P  P  P
+1639 <first : # 1  R  N  B  Q  K  B  N  R
+1639 <first : 
+1639 <first : #    a  b  c  d  e  f  g  h
+1639 <first : 
+1639 <first : # Side to move: Black
+1639 <first : # -----------------------------------------------
+1640 <first : # calculating engine move ...
+1640 <first : move b8c6
+1756 <first : # -----------------------------------------------
+1756 <first : # Current Position:
+1756 <first : 
+1756 <first : # 8  r  .  b  q  k  b  n  r
+1756 <first : # 7  p  p  p  p  p  p  p  p
+1756 <first : # 6  .  .  n  .  .  .  .  .
+1756 <first : # 5  .  .  .  .  .  .  .  .
+1756 <first : # 4  .  .  .  .  P  .  .  .
+1756 <first : # 3  .  .  .  .  .  .  .  .
+1756 <first : # 2  P  P  P  P  .  P  P  P
+1756 <first : # 1  R  N  B  Q  K  B  N  R
+1756 <first : 
+1756 <first : #    a  b  c  d  e  f  g  h
+1756 <first : 
+1756 <first : # Side to move: White
+1756 <first : # -----------------------------------------------
+book hit = (NULL)
+2711 >first : usermove 2711 >first : f1e2
+2715 <first : # received command: usermove
+2715 <first : # received parameter: f1e2
+2715 <first : # a2a3
+2715 <first : # a2a4
+2715 <first : # b2b3
+2715 <first : # b2b4
+2715 <first : # c2c3
+2715 <first : # c2c4
+2715 <first : # e4e5
+2715 <first : # h2h3
+2715 <first : # h2h4
+2715 <first : # g2g3
+2715 <first : # g2g4
+2715 <first : # f2f3
+2715 <first : # f2f4
+2715 <first : # d2d3
+2715 <first : # d2d4
+2715 <first : # b1a3
+2715 <first : # b1c3
+2715 <first : # g1e2
+2715 <first : # g1f3
+2715 <first : # g1h3
+2715 <first : # f1e2
+2715 <first : # -----------------------------------------------
+2716 <first : # Current Position:
+2716 <first : 
+2716 <first : # 8  r  .  b  q  k  b  n  r
+2716 <first : # 7  p  p  p  p  p  p  p  p
+2716 <first : # 6  .  .  n  .  .  .  .  .
+2716 <first : # 5  .  .  .  .  .  .  .  .
+2716 <first : # 4  .  .  .  .  P  .  .  .
+2716 <first : # 3  .  .  .  .  .  .  .  .
+2716 <first : # 2  P  P  P  P  B  P  P  P
+2716 <first : # 1  R  N  B  Q  K  .  N  R
+2716 <first : 
+2716 <first : #    a  b  c  d  e  f  g  h
+2716 <first : 
+2716 <first : # Side to move: Black
+2716 <first : # -----------------------------------------------
+2716 <first : # calculating engine move ...
+2716 <first : move g8f6
+2817 <first : # -----------------------------------------------
+2817 <first : # Current Position:
+2817 <first : 
+2817 <first : # 8  r  .  b  q  k  b  .  r
+2817 <first : # 7  p  p  p  p  p  p  p  p
+2817 <first : # 6  .  .  n  .  .  n  .  .
+2817 <first : # 5  .  .  .  .  .  .  .  .
+2817 <first : # 4  .  .  .  .  P  .  .  .
+2817 <first : # 3  .  .  .  .  .  .  .  .
+2817 <first : # 2  P  P  P  P  B  P  P  P
+2817 <first : # 1  R  N  B  Q  K  .  N  R
+2817 <first : 
+2817 <first : #    a  b  c  d  e  f  g  h
+2817 <first : 
+2817 <first : # Side to move: White
+2817 <first : # -----------------------------------------------
+book hit = (NULL)
+3488 >first : usermove 3488 >first : g1f3
+3492 <first : # received command: usermove
+3493 <first : # received parameter: g1f3
+3493 <first : # a2a3
+3493 <first : # a2a4
+3493 <first : # b2b3
+3493 <first : # b2b4
+3493 <first : # c2c3
+3493 <first : # c2c4
+3493 <first : # e4e5
+3493 <first : # h2h3
+3493 <first : # h2h4
+3493 <first : # g2g3
+3493 <first : # g2g4
+3493 <first : # f2f3
+3493 <first : # f2f4
+3493 <first : # d2d3
+3493 <first : # d2d4
+3493 <first : # b1a3
+3493 <first : # b1c3
+3493 <first : # g1f3
+3493 <first : # -----------------------------------------------
+3493 <first : # Current Position:
+3493 <first : 
+3493 <first : # 8  r  .  b  q  k  b  .  r
+3493 <first : # 7  p  p  p  p  p  p  p  p
+3493 <first : # 6  .  .  n  .  .  n  .  .
+3493 <first : # 5  .  .  .  .  .  .  .  .
+3493 <first : # 4  .  .  .  .  P  .  .  .
+3493 <first : # 3  .  .  .  .  .  N  .  .
+3493 <first : # 2  P  P  P  P  B  P  P  P
+3493 <first : # 1  R  N  B  Q  K  .  .  R
+3493 <first : 
+3493 <first : #    a  b  c  d  e  f  g  h
+3493 <first : 
+3493 <first : # Side to move: Black
+3493 <first : # -----------------------------------------------
+3493 <first : # calculating engine move ...
+3493 <first : move f6e4
+3596 <first : # -----------------------------------------------
+3596 <first : # Current Position:
+3596 <first : 
+3596 <first : # 8  r  .  b  q  k  b  .  r
+3596 <first : # 7  p  p  p  p  p  p  p  p
+3596 <first : # 6  .  .  n  .  .  .  .  .
+3596 <first : # 5  .  .  .  .  .  .  .  .
+3596 <first : # 4  .  .  .  .  n  .  .  .
+3596 <first : # 3  .  .  .  .  .  N  .  .
+3596 <first : # 2  P  P  P  P  B  P  P  P
+3596 <first : # 1  R  N  B  Q  K  .  .  R
+3596 <first : 
+3596 <first : #    a  b  c  d  e  f  g  h
+3596 <first : 
+3596 <first : # Side to move: White
+3596 <first : # -----------------------------------------------
+book hit = (NULL)
+4824 >first : usermove 4824 >first : e1g1
+4828 <first : # received command: usermove
+4828 <first : # received parameter: e1g1
+4828 <first : # a2a3
+4828 <first : # a2a4
+4828 <first : # b2b3
+4829 <first : # b2b4
+4829 <first : # c2c3
+4829 <first : # c2c4
+4829 <first : # h2h3
+4829 <first : # h2h4
+4829 <first : # g2g3
+4829 <first : # g2g4
+4829 <first : # d2d3
+4829 <first : # d2d4
+4829 <first : # b1a3
+4829 <first : # b1c3
+4829 <first : # f3d4
+4829 <first : # f3h4
+4829 <first : # f3e5
+4829 <first : # f3g1
+4829 <first : # f3g5
+4829 <first : # e2d3
+4829 <first : # e2c4
+4829 <first : # e2b5
+4829 <first : # e2a6
+4829 <first : # e2f1
+4829 <first : # h1g1
+4829 <first : # h1f1
+4829 <first : # e1f1
+4829 <first : # O-O
+4829 <first : Error (illegal move): e1g1
+GameEnds(29, xboard exit, 2)
+11153 >first : result * {xboard exit}
+11153 >first : force
+11153 >first : ping 2
+11153 >first : quit
