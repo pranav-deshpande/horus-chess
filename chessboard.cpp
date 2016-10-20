@@ -231,9 +231,7 @@ void chessboard::playMove(Move &move) {
 	
 	if ( move.isEnPassant == true ) {
 		
-		move.currPiece = ( side == white ) ? wp : bp;
-		move.capturedPiece = ( side == white ) ? bp : wp;  
-		move.to = enPassantSquare[side];
+		ASSERT( move.to = enPassantSquare[side] );
 
 		int squareOfCapturedPawn = ( side == white ) ? ( enPassantSquare[side] + DOWN ) : ( enPassantSquare[side] + UP );
 
@@ -358,9 +356,6 @@ void chessboard::playMove(Move &move) {
 	
 	else if ( move.promotedPiece != EM ) {
 		
-		move.currPiece = board[move.from];
-		move.capturedPiece = board[move.to];
-		
 		board[move.from] = EM;
 		board[move.to] = move.promotedPiece;
 		
@@ -375,9 +370,6 @@ void chessboard::playMove(Move &move) {
 	
 	else if ( move.promotedPiece == EM ){
 	
-		move.currPiece = board[move.from];
-		move.capturedPiece = board[move.to];
-		
 		board[move.from] = EM;
 		board[move.to] = move.currPiece;
 		
@@ -717,9 +709,10 @@ bool chessboard::isMoveValid(Move &move) {
 
 	if (mayBeIllegal) {
 		int sideToBeChecked = side;
-		playMove(move);
+		Move m = move;
+		playMove(m);
 		validity = isSquareSafe(kingSquare(sideToBeChecked), sideToBeChecked);
-		undoMove(move);
+		undoMove(m);
 	}
 
 	return validity;
@@ -905,8 +898,6 @@ Move chessboard::parseMoveFromString(string move) {
 	generateAllMoves(moveList);
 	
 	for(int i = 0; i < moveList.size(); i++) {
-		// Debugging statement
-		cout << "# " << moveList[i].MoveToString(side) << endl; 
 		if ( move == moveList[i].MoveToString(side) ) {
 			return moveList[i];
 		}

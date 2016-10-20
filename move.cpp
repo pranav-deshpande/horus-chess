@@ -11,40 +11,37 @@ Move::Move() {
 }
 
 // Normal/capture moves
-Move::Move(int init_pos, int final_pos) {
+Move::Move(int init_pos, int final_pos, int *board) {
 	ASSERT(isValidSquare(init_pos));
 	ASSERT(isValidSquare(final_pos));
 	ASSERT(init_pos != final_pos);
 
 	from = init_pos;
 	to = final_pos;
+	currPiece = board[from];
+	capturedPiece = board[to];
 	promotedPiece = EM;
 	isEnPassant = false;
 	isCastle = false;
 	castle = -1;
-
-	// Temporarily set to zero, will be set once it goes into playMove()
-	currPiece = capturedPiece = EM;
-
 }
 
 // Enpassant moves
-Move::Move(int init_pos) {
+Move::Move(bool isenPassant, int init_pos, int final_pos, int *board) {
 	ASSERT(isValidSquare(init_pos));
 
 	from = init_pos;
-	to = EM;
+	to = final_pos;
+	currPiece = board[from];
+	capturedPiece = ( currPiece == wp ) ? bp : wp;
 	promotedPiece = EM;
-	isEnPassant = true; //Passing only the pawn=>enpass which will be true only, this is required to identify the type of move in playMove()
+	isEnPassant = isenPassant; // (True, since I am passing it)
 	isCastle = false;
 	castle = -1;
-	
-	// Temporarily set to zero, will be set once it goes into playMove()
-	currPiece = capturedPiece = EM;
 }
 
 // Pawn promotion moves
-Move::Move(int init_pos, int final_pos, int Promote) {
+Move::Move(int init_pos, int final_pos, int Promote, int *board) {
 	ASSERT(isValidSquare(init_pos));
 	ASSERT(isValidSquare(final_pos));
 	ASSERT(init_pos != final_pos);
@@ -52,13 +49,12 @@ Move::Move(int init_pos, int final_pos, int Promote) {
 
 	from = init_pos;
 	to = final_pos;
+	currPiece = board[from];
+	capturedPiece = board[to];
 	promotedPiece = Promote;
 	isEnPassant = false;
 	isCastle = false;
 	castle = -1;
-	
-	// Temporarily set to zero, will be set once it goes into playMove()
-	currPiece = capturedPiece = EM;
 }
 
 // Castling moves

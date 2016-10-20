@@ -11,10 +11,10 @@ public:
 	bool isCastle, isEnPassant;
 	
 	Move();
-	Move(int init_pos, int final_pos);
-	Move(int init_pos, int final_pos, int Promote);
+	Move(int init_pos, int final_pos, int *board);
+	Move(int init_pos, int final_pos, int Promote, int *board);
 	Move(bool iscastle, int castle);
-	Move(int init_pos);
+	Move(bool isenPassant, int init_pos, int final_pos, int *board);
 	Move(string move);
 	
 	void printMove(int side);
