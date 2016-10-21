@@ -17,8 +17,7 @@ public:
 	Move(bool isenPassant, int init_pos, int final_pos, int *board);
 	Move(string move);
 	
-	void printMove(int side);
-	string MoveToString(int side);
+	string MoveToString();
 
 	bool isNull();
 };

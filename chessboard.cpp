@@ -255,7 +255,7 @@ void chessboard::playMove(Move &move) {
 		
 			switch ( move.castle ) {
 	
-				case 0:
+				case 1:
 					board[e1] = board[h1] = EM;
 					board[g1] = wk;
 					board[f1] = wr;
@@ -277,7 +277,7 @@ void chessboard::playMove(Move &move) {
 			
 					break;
 	
-				case 1:
+				case 2:
 					board[e1] = board[a1] = EM;
 					board[c1] = wk;
 					board[d1] = wr;
@@ -305,7 +305,7 @@ void chessboard::playMove(Move &move) {
 		
 			switch ( move.castle ) {
 		
-				case 0:
+				case 3:
 					board[e8] = board[h8] = EM;
 					board[g8] = bk;
 					board[f8] = br;
@@ -327,7 +327,7 @@ void chessboard::playMove(Move &move) {
 			
 					break;
 	
-				case 1:
+				case 4:
 					board[e8] = board[a8] = EM;
 					board[c8] = bk;
 					board[d8] = br;
@@ -478,7 +478,7 @@ void chessboard::undoMove(Move &move) {
 			
 			switch ( move.castle ) {
 			
-				case 0:
+				case 1:
 					board[g1] = board[f1] = EM;
 					board[e1] = wk;
 					board[h1] = wr;
@@ -490,7 +490,7 @@ void chessboard::undoMove(Move &move) {
 					
 					break;
 					
-				case 1:
+				case 2:
 					board[c1] = board[d1] = EM;
 					board[e1] = wk;
 					board[a1] = wr;
@@ -508,7 +508,7 @@ void chessboard::undoMove(Move &move) {
 			
 			switch ( move.castle ) {
 			
-				case 0:
+				case 3:
 					board[g8] = board[f8] = EM;
 					board[e8] = bk;
 					board[h8] = br;
@@ -520,7 +520,7 @@ void chessboard::undoMove(Move &move) {
 					
 					break;
 					
-				case 1:
+				case 4:
 					board[c8] = board[d8] = EM;
 					board[e8] = bk;
 					board[a8] = br;
@@ -878,7 +878,7 @@ void chessboard::printBoard() {
 	
 	cout << "No. of possible(legal) moves: " << moveList.size() << endl << endl;
 	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		(*it).printMove(side);
+		cout << it->MoveToString() << endl;
 		cout << endl;
 	}
 	
@@ -898,7 +898,7 @@ Move chessboard::parseMoveFromString(string move) {
 	generateAllMoves(moveList);
 	
 	for(int i = 0; i < moveList.size(); i++) {
-		if ( move == moveList[i].MoveToString(side) ) {
+		if ( move == moveList[i].MoveToString() ) {
 			return moveList[i];
 		}
 	}
@@ -958,7 +958,7 @@ int chessboard::kingSquare(int side) {
 void chessboard::printGame() {
 	int initialSide = ((plies % 2) == 0) ? side : 1 - side;
 	for (int i = 0; i < plies; i++) {
-		cout << "# game[" << i << "]: " << game[i].MoveToString(((i % 2) == 0) ? initialSide : 1 - initialSide) << endl;
+		cout << "# game[" << i << "]: " << game[i].MoveToString() << endl;
 	}
 }
 

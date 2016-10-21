@@ -127,16 +127,16 @@ int main() {
 		else if ( command == "undo" ) {
 			Move move = b.getLastMove();
 			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
+			cout << "# Move undone: " << move.MoveToString() << endl;
 		}
 
 		else if ( command == "remove" ) {
 			Move move = b.getLastMove();
 			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
+			cout << "# Move undone: " << move.MoveToString() << endl;
 			move = b.getLastMove();
 			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
+			cout << "# Move undone: " << move.MoveToString() << endl;
 		}
         
         else if ( command == "accepted" ) {
@@ -158,7 +158,7 @@ int main() {
             cout << "# calculating engine move ..." << endl;
             Move move = b.findMove();
             cout << "move ";
-            move.printMove(b.side);
+			cout << move.MoveToString() << endl;
             cout << endl;
             b.playMove(move);
             b.printMinimalBoard();

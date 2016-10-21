@@ -188,7 +188,7 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 			}
 		}
 		// Now generate castle moves
-		int castle = -1;
+		int castle = 0;
 		bool isCastle = false;
 
 		if ( whiteCastlePerms[0] == true && board[f1] == EM && board[g1] == EM && board[e1] == wk && board[h1] == wr ) {
@@ -196,7 +196,7 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 			if ( isSquareSafe(e1, side) && isSquareSafe(g1, side) && isSquareSafe(f1, side) ) {
 
 				isCastle = true;
-				castle = 0;
+				castle = 1;
 				move = Move(isCastle, castle);
 				addMove(move, moveList);
 			}
@@ -208,7 +208,7 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 			if ( isSquareSafe(e1, side) && isSquareSafe(c1, side) && isSquareSafe(d1, side) ) {
 
 				isCastle = true;
-				castle = 1;
+				castle = 2;
 				move = Move(isCastle, castle);
 				addMove(move, moveList);
 			}
@@ -368,13 +368,13 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 		}
 		
 		// Now generate castle moves
-		int castle = -1;
+		int castle = 0;
 		bool isCastle = false;
 		
 		if ( blackCastlePerms[0] == true && board[f8] == EM && board[g8] == EM && board[e8] == bk && board[h8] == br ) {
 			if ( isSquareSafe(e8, side) && isSquareSafe(g8, side) && isSquareSafe(f8, side) ) {
 				isCastle = true;
-				castle = 0;
+				castle = 3;
 				move = Move(isCastle, castle);
 				addMove(move, moveList);
 			}
@@ -383,7 +383,7 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 		if ( blackCastlePerms[1] == true && board[b8] == EM &&board[c8] == EM && board[d8] == EM && board[e8] == bk && board[a8] == br ){
 			if ( isSquareSafe(e8, side) && isSquareSafe(c8, side) && isSquareSafe(d8, side) ) {
 				isCastle = true;
-				castle = 1;
+				castle = 4;
 				move = Move(isCastle, castle);
 				addMove(move, moveList);
 			}

@@ -66,49 +66,19 @@ Move::Move(bool iscastle, int Castle) {
 	currPiece = capturedPiece = promotedPiece = EM;	
 }
 
-void Move::printMove(int side) {
-
-	if ( isCastle == true) {
-		
-		if ( castle == 0 ) {
-			if ( side == white ) cout << "e1g1";
-			else cout << "e8g8";
- 		}
-		
-		if  (castle == 1 ) { 
-			if ( side == white ) cout << "e1c1";
-			else cout << "e8c8";
-		}
- 	}
-	
-	else {
-		cout << squareMapping[ board120[from] ] << squareMapping[ board120[to] ];
-		if(promotedPiece != EM) {
-			char x = tolower( pieceChars[promotedPiece] ) ;
-			cout << x;
-		}
-	}
-}
-
-string Move::MoveToString(int side) {
+string Move::MoveToString() {
 	
 	string m = "";
 	
 	if ( isCastle == true) {
-		
-		if ( castle == 0 ) {
-			if ( side == white ) m = "e1g1";
-			else m = "e8g8";
- 		}
-		
-		if  (castle == 1 ) { 
-			if ( side == white ) m = "e1c1";
-			else m = "e8c8";
-		}
+		if ( castle == 1 ) m = "e1g1";
+		else if ( castle == 2 ) m = "e1c1";
+		else if ( castle == 3 ) m = "e8g8";
+		else if ( castle == 4 ) m = "e8c8";
  	}
 	
 	else {
-		m = squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
+		m = m + squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
 		
 		if(promotedPiece != EM) {
 			m = m + string(1, tolower( pieceChars[promotedPiece] ) );
@@ -118,5 +88,5 @@ string Move::MoveToString(int side) {
 }
 
 bool Move::isNull() {
-	return (from == EM && to == EM) && !isCastle;
+	return ( from == EM && to == EM ) && !isCastle;
 }

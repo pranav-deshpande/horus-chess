@@ -103,7 +103,7 @@ void debugPerft(string &test, int depth) {
 	cout << "Depth: " << depth << "\n\n";
 	
 	for(vector <Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		cout << it -> MoveToString(b.side);
+		cout << it -> MoveToString();
 		cout << ": ";
 		b.playMove(*it);
 		p = b.perft(depth-1);
