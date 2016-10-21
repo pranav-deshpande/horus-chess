@@ -124,20 +124,20 @@ int main() {
             handleEndOfGame(b);
         }
                 
-		else if ( command == "undo" ) {
-			Move move = b.getLastMove();
-			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString() << endl;
-		}
+        else if ( command == "undo" ) {
+            Move move = b.getLastMove();
+            b.undoMove(move);
+            cout << "# Move undone: " << move.MoveToString() << endl;
+        }
 
-		else if ( command == "remove" ) {
-			Move move = b.getLastMove();
-			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString() << endl;
-			move = b.getLastMove();
-			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString() << endl;
-		}
+        else if ( command == "remove" ) {
+            Move move = b.getLastMove();
+            b.undoMove(move);
+            cout << "# Move undone: " << move.MoveToString() << endl;
+            move = b.getLastMove();
+            b.undoMove(move);
+            cout << "# Move undone: " << move.MoveToString() << endl;
+        }
         
         else if ( command == "accepted" ) {
             string temp;
@@ -162,9 +162,9 @@ int main() {
             cout << endl;
             b.playMove(move);
             b.printMinimalBoard();
-			
-			handleEndOfGame(b);         
-		}
+
+            handleEndOfGame(b);         
+        }
     }
 
     return 0;

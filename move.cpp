@@ -7,41 +7,41 @@ Move::Move() {
 	promotedPiece = EM;
 	isEnPassant = false;
 	isCastle = false;
-	castle = -1;
+	castle = 0;
 }
 
 // Normal/capture moves
-Move::Move(int init_pos, int final_pos, int *board) {
+Move::Move(int init_pos, int final_pos, int currpiece, int capturedpiece) {
 	ASSERT(isValidSquare(init_pos));
 	ASSERT(isValidSquare(final_pos));
 	ASSERT(init_pos != final_pos);
 
 	from = init_pos;
 	to = final_pos;
-	currPiece = board[from];
-	capturedPiece = board[to];
+	currPiece = currpiece;
+	capturedPiece = capturedpiece;
 	promotedPiece = EM;
 	isEnPassant = false;
 	isCastle = false;
-	castle = -1;
+	castle = 0;
 }
 
 // Enpassant moves
-Move::Move(bool isenPassant, int init_pos, int final_pos, int *board) {
+Move::Move(bool isenPassant, int init_pos, int final_pos, int currpiece, int capturedpiece) {
 	ASSERT(isValidSquare(init_pos));
 
 	from = init_pos;
 	to = final_pos;
-	currPiece = board[from];
-	capturedPiece = ( currPiece == wp ) ? bp : wp;
+	currPiece = currpiece;
+	capturedPiece = capturedpiece;
 	promotedPiece = EM;
 	isEnPassant = isenPassant; // (True, since I am passing it)
 	isCastle = false;
-	castle = -1;
+	castle = 0;
 }
 
 // Pawn promotion moves
-Move::Move(int init_pos, int final_pos, int Promote, int *board) {
+Move::Move(int init_pos, int final_pos, int currpiece, int capturedpiece, int Promote) {
 	ASSERT(isValidSquare(init_pos));
 	ASSERT(isValidSquare(final_pos));
 	ASSERT(init_pos != final_pos);
@@ -49,12 +49,12 @@ Move::Move(int init_pos, int final_pos, int Promote, int *board) {
 
 	from = init_pos;
 	to = final_pos;
-	currPiece = board[from];
-	capturedPiece = board[to];
+	currPiece = currpiece;
+	capturedPiece = capturedpiece;
 	promotedPiece = Promote;
 	isEnPassant = false;
 	isCastle = false;
-	castle = -1;
+	castle = 0;
 }
 
 // Castling moves
@@ -71,10 +71,10 @@ string Move::MoveToString() {
 	string m = "";
 	
 	if ( isCastle == true) {
-		if ( castle == 1 ) m = "e1g1";
-		else if ( castle == 2 ) m = "e1c1";
-		else if ( castle == 3 ) m = "e8g8";
-		else if ( castle == 4 ) m = "e8c8";
+		if ( castle == wOO ) m = "e1g1";
+		else if ( castle == wOOO ) m = "e1c1";
+		else if ( castle == bOO ) m = "e8g8";
+		else if ( castle == bOOO ) m = "e8c8";
  	}
 	
 	else {
