@@ -5,9 +5,9 @@
 
 class Move {
 public:
-	int from, to;
-	int currPiece, capturedPiece, promotedPiece;
-	int castle;
+	int8_t from, to;
+	int8_t currPiece, capturedPiece, promotedPiece;
+	int8_t castle;
 	bool isCastle, isEnPassant;
 	
 	Move();

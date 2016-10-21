@@ -8,7 +8,7 @@ class chessboard {
 private:
 	
 	// Basic Board Representation and Data
-	int board[BOARDSIZE];
+	int8_t board[BOARDSIZE];
 	int plies, moves;
 
 	int actualPlies;

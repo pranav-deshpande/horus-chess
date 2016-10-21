@@ -69,9 +69,10 @@ void chessboard::fenSetup(string &fen) {
 	// So be careful
 	int rank = rank8, file = fileA;
 	int piece = 0, i;
-	
+	int len = fen.length();
+		
 	// Parse the first part, the arrangement of the pieces and set up the board accordingly
-	for( i = 0; i < fen.length(); i++) {
+	for( i = 0; i < len; i++) {
 	
 		if ( fen[i] == ' ' ) {
 			break;
@@ -98,7 +99,7 @@ void chessboard::fenSetup(string &fen) {
 	side = ( fen[++i] == 'w' ) ? white : black;
 	
 	int j = ++i;
-	int count = 0;
+
 	while ( i++ < ( j + 4 ) ) {
 		
 		switch( fen[i] ) {
@@ -451,7 +452,7 @@ void chessboard::undoMove(Move &move) {
 
 	if ( move.isEnPassant == true ) {
 	
-		int squareOfCapturedPawn = ( !side == white ) ? ( move.to + DOWN ) : ( move.to + UP ); 
+		int squareOfCapturedPawn = ( ( !side ) == white ) ? ( move.to + DOWN ) : ( move.to + UP ); 
 
 		board[move.to] = EM;
 		board[move.from] = move.currPiece;
@@ -715,16 +716,18 @@ bool chessboard::isValid() {
 
 	static int const MinPieces[1+12] = { 0, 0,   0,   0,   0,   0, 1, 0,   0,   0,   0,   0, 1 };
 	static int const MaxPieces[1+12] = { 0, 8, 2+8, 2+8, 2+8, 1+8, 1, 8, 2+8, 2+8, 2+8, 1+8, 1 };
-
+	int size;
+	
 	for (int piece = wp; piece <= bk; piece++) {
+		size = pieceList[piece].size();
 		
-		if (pieceList[piece].size() < MinPieces[piece]) {
+		if (size < MinPieces[piece]) {
 			cerr << "less pieces of type " << piece << " than allowed minimum" << endl;
 			flush(cerr);
 			return false;
 		}
 		
-		if (pieceList[piece].size() > MaxPieces[piece]) {
+		if (size > MaxPieces[piece]) {
 			cerr << "more pieces of type " << piece << " than allowed maximum" << endl;
 			flush(cerr);
 			return false;
@@ -878,8 +881,8 @@ Move chessboard::parseMoveFromString(string move) {
 	
 	vector <Move> moveList;
 	generateAllMoves(moveList);
-	
-	for(int i = 0; i < moveList.size(); i++) {
+	int size = moveList.size();
+	for(int i = 0; i < size; i++) {
 		if ( move == moveList[i].MoveToString() ) {
 			return moveList[i];
 		}
@@ -938,7 +941,6 @@ int chessboard::kingSquare(int side) {
 }
 
 void chessboard::printGame() {
-	int initialSide = ((plies % 2) == 0) ? side : 1 - side;
 	for (int i = 0; i < plies; i++) {
 		cout << "# game[" << i << "]: " << game[i].MoveToString() << endl;
 	}

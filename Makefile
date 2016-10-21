@@ -9,5 +9,5 @@ Horus: $(SRC_FILES)
 	g++ -DNDEBUG -std=c++11 -pipe -O3 -flto -fwhole-program $(SRC_FILES) -o $@
 	
 Horus_SuperFast: $(SRC_FILES)
-	g++ -DNDEBUG -std=c++11 -pipe -Ofast -flto -fwhole-program -march=native -mtune=native $(SRC_FILES) -o $@
+	g++ -DNDEBUG -std=c++11 -Wall -pipe -Ofast -flto -fwhole-program -march=native -mtune=native $(SRC_FILES) -o $@
 

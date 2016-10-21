@@ -93,8 +93,8 @@ enum EndOfGameReason {
 // Declaration of some data and functions
 
 // Required for indexing purposes - Square Lookup
-extern int board64[64];
-extern int board120[120];
+extern int8_t board64[64];
+extern int8_t board120[120];
 
 // Printing the pieces and parsing moves(especially the promoted piece)
 extern char pieceChars[13];

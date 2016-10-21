@@ -15,7 +15,7 @@ void handleEndOfGame(chessboard &b) {
 	EndOfGameReason reason = NoEndOfGame;
     if ( b.isEndOfGame(reason) ) {
     	if ( reason == Mate ) {
-    		if ( !b.side == white ) {
+    		if ( ( !b.side ) == white ) {
     			cout << "1-0 {White mates}" << endl;
     		}
     		else {
