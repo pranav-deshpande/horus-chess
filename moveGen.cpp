@@ -11,10 +11,10 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 
 	moveList.clear();
 	
-	int pieceSide[] = { EM, white, white, white, white, white, white, black, black, black, black, black, black };
-	int pieceDirections[] = {EM, EM, 8, 4, 4, 8, 8, EM, 8, 4, 4, 8, 8};
-	
-	int moveArr[13][8] = {
+	static int const pieceSide[] = { empty, white, white, white, white, white, white, black, black, black, black, black, black };
+	static int const pieceDirections[] = {EM, EM, 8, 4, 4, 8, 8, EM, 8, 4, 4, 8, 8};
+
+	static int const moveArr[13][8] = {
 		{0, 0, 0, 0, 0, 0, 0, 0}, 
 		{0, 0, 0, 0, 0, 0, 0, 0}, 
 		{NM1, NM2, NM3, NM4, NM5, NM6, NM7, NM8}, 
@@ -74,17 +74,24 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 						}
 					}
 		
+					// --------------------------
+					// pawn double step
+					// --------------------------
 					finalSquare = currSquare + 2*UP;
 			
-					if ( board[finalSquare] != OB && board[finalSquare] == EM && squareMapping[ board120[currSquare] ].at(1) == '2' && board[finalSquare-UP] == EM) {
+					if ( board[finalSquare] == EM && board[finalSquare-UP] == EM && squareMapping[ board120[currSquare] ].at(1) == '2' ) {
 						move = Move(currSquare, finalSquare, piece, board[finalSquare]);
 						addMove(move, moveList);
 					}
 			
+					// --------------------------
+					// pawn capture to left side
+					// --------------------------
 					finalSquare = currSquare + TOP_LEFT;
 			
-					if ( board[finalSquare] != OB && board[finalSquare] != EM && pieceSide[ board[finalSquare] ] == black ) {
+					if ( board[finalSquare] != OB && pieceSide[ board[finalSquare] ] == black ) {
 				
+						ASSERT(board[finalSquare] != EM);
 						if ( squareMapping[ board120[finalSquare] ].at(1) == '8' ) {
 							move = Move(currSquare, finalSquare, piece, board[finalSquare], wb);
 							addMove(move, moveList);
@@ -105,16 +112,22 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 						}
 					}
 			
-					if ( enPassantSquare[white] != EM && finalSquare == enPassantSquare[white] && board[ enPassantSquare[white] ] == EM ) {
-						// in enPassant, we will set the square TO to empty due to the way we have coded playMove
+					// --------------------------
+					// ep capture to left side
+					// --------------------------
+					if ( finalSquare == enPassantSquare[white] && board[ enPassantSquare[white] ] == EM ) {
 						move = Move(true, currSquare, finalSquare, piece, bp);
 						addMove(move, moveList);
 					}
 					 
+					// --------------------------
+					// pawn capture to right side
+					// --------------------------
 					finalSquare = currSquare + TOP_RIGHT;
 			
-					if ( board[finalSquare] != OB && board[finalSquare] != EM && pieceSide[ board[finalSquare] ] == black ) {
-				
+					if ( board[finalSquare] != OB && pieceSide[ board[finalSquare] ] == black ) {
+
+						ASSERT(board[finalSquare] != EM);
 						if ( squareMapping[ board120[finalSquare] ].at(1) == '8' ) {
 							move = Move(currSquare, finalSquare, piece, board[finalSquare], wb);
 							addMove(move, moveList);
@@ -135,8 +148,10 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 						}
 					}
 			
-					if ( enPassantSquare[white] != EM && finalSquare == enPassantSquare[white] && board[ enPassantSquare[white] ] == EM) {
-						// in enPassant, we will set the square TO to empty due to the way we have coded playMove
+					// --------------------------
+					// ep capture to right side
+					// --------------------------
+					if ( finalSquare == enPassantSquare[white] && board[ enPassantSquare[white] ] == EM) {
 						move = Move(true, currSquare, finalSquare, piece, bp);
 						addMove(move, moveList);
 					}
@@ -187,29 +202,33 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 				}		
 			}
 		}
+
 		// Now generate castle moves
-		int castle = 0;
-		bool isCastle = false;
 
-		if ( whiteCastlePerms[0] == true && board[f1] == EM && board[g1] == EM && board[e1] == wk && board[h1] == wr ) {
+		if ( whiteCastlePerms[0] ) {
 
-			if ( isSquareSafe(e1, side) && isSquareSafe(g1, side) && isSquareSafe(f1, side) ) {
+			ASSERT(board[e1] == wk);
+			ASSERT(board[h1] == wr);
 
-				isCastle = true;
-				castle = wOO;
-				move = Move(isCastle, castle);
+			if ( !inCheck
+			  && board[f1] == EM && board[g1] == EM
+			  && isSquareSafe(f1, side) && isSquareSafe(g1, side) ) {
+
+				move = Move(true, wOO);
 				addMove(move, moveList);
 			}
 		}
 	
-		
-		if ( whiteCastlePerms[1] == true && board[b1] == EM && board[c1] == EM && board[d1] == EM && board[e1] == wk && board[a1] == wr ){
+		if ( whiteCastlePerms[1] ) {
 
-			if ( isSquareSafe(e1, side) && isSquareSafe(c1, side) && isSquareSafe(d1, side) ) {
+			ASSERT(board[e1] == wk);
+			ASSERT(board[a1] == wr);
 
-				isCastle = true;
-				castle = wOOO;
-				move = Move(isCastle, castle);
+			if ( !inCheck
+			  && board[d1] == EM && board[c1] == EM && board[b1] == EM
+			  && isSquareSafe(d1, side) && isSquareSafe(c1, side) ) {
+
+				move = Move(true, wOOO);
 				addMove(move, moveList);
 			}
 		}
@@ -226,6 +245,9 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 				switch( piece ) {
 	
 				case bp:
+					// --------------------------
+					// pawn single step
+					// --------------------------
 					finalSquare = currSquare + DOWN;
 	
 					if ( board[finalSquare] == EM ) {
@@ -250,17 +272,24 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 						}
 					}
 
+					// --------------------------
+					// pawn double step
+					// --------------------------
 					finalSquare = currSquare + 2*DOWN;
 	
-					if ( board[finalSquare] != OB && board[finalSquare] == EM && squareMapping[ board120[currSquare] ].at(1) == '7' && board[finalSquare-DOWN] == EM ) {
+					if ( board[finalSquare] == EM && squareMapping[ board120[currSquare] ].at(1) == '7' && board[finalSquare-DOWN] == EM ) {
 						move = Move(currSquare, finalSquare, piece, board[finalSquare]);
 						addMove(move, moveList);
 					}
 	
+					// --------------------------
+					// pawn capture to left side
+					// --------------------------
 					finalSquare = currSquare + BOTTOM_LEFT;
 	
-					if ( board[finalSquare] != OB && board[finalSquare] != EM && pieceSide[ board[finalSquare] ] == white ) {
-		
+					if ( board[finalSquare] != OB && pieceSide[ board[finalSquare] ] == white ) {
+
+						ASSERT(board[finalSquare] != EM);
 						if ( squareMapping[ board120[finalSquare] ].at(1) == '1' ) {
 							move = Move(currSquare, finalSquare, piece, board[finalSquare], bb);
 							addMove(move, moveList);
@@ -281,16 +310,22 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 						}
 					}
 	
-					if ( enPassantSquare[black] != EM && finalSquare == enPassantSquare[black] && board[ enPassantSquare[black] ] == EM) {
-						// in enPassant, we will set the square TO to empty due to the way we have coded playMove
+					// --------------------------
+					// ep capture to left side
+					// --------------------------
+					if ( finalSquare == enPassantSquare[black] && board[ enPassantSquare[black] ] == EM) {
 						move = Move(true, currSquare, finalSquare, piece, wp);
 						addMove(move, moveList);
 					}
 					 
+					// --------------------------
+					// pawn capture to right side
+					// --------------------------
 					finalSquare = currSquare + BOTTOM_RIGHT;
 	
-					if ( board[finalSquare] != OB && board[finalSquare] != EM && pieceSide[ board[finalSquare] ] == white ) {
-		
+					if ( board[finalSquare] != OB && pieceSide[ board[finalSquare] ] == white ) {
+
+						ASSERT(board[finalSquare] != EM);
 						if ( squareMapping[ board120[finalSquare] ].at(1) == '1' ) {
 							move = Move(currSquare, finalSquare, piece, board[finalSquare], bb);
 							addMove(move, moveList);
@@ -311,8 +346,10 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 						}
 					}
 	
-					if ( enPassantSquare[black] != EM && finalSquare == enPassantSquare[black] && board[ enPassantSquare[black] ] == EM) {
-						// in enPassant, we will set the square TO to empty due to the way we have coded playMove
+					// --------------------------
+					// ep capture to right side
+					// --------------------------
+					if ( finalSquare == enPassantSquare[black] && board[ enPassantSquare[black] ] == EM) {
 						move = Move(true, currSquare, finalSquare, piece, wp);
 						addMove(move, moveList);
 					}
@@ -368,23 +405,30 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 		}
 		
 		// Now generate castle moves
-		int castle = 0;
-		bool isCastle = false;
-		
-		if ( blackCastlePerms[0] == true && board[f8] == EM && board[g8] == EM && board[e8] == bk && board[h8] == br ) {
-			if ( isSquareSafe(e8, side) && isSquareSafe(g8, side) && isSquareSafe(f8, side) ) {
-				isCastle = true;
-				castle = bOO;
-				move = Move(isCastle, castle);
+
+		if ( blackCastlePerms[0] ) {
+
+			ASSERT(board[e8] == bk);
+			ASSERT(board[h8] == br);
+
+			if ( !inCheck
+			  && board[f8] == EM && board[g8] == EM
+			  && isSquareSafe(f8, side) && isSquareSafe(g8, side) ) {
+
+				move = Move(true, bOO);
 				addMove(move, moveList);
 			}
 		}
 		
-		if ( blackCastlePerms[1] == true && board[b8] == EM &&board[c8] == EM && board[d8] == EM && board[e8] == bk && board[a8] == br ){
-			if ( isSquareSafe(e8, side) && isSquareSafe(c8, side) && isSquareSafe(d8, side) ) {
-				isCastle = true;
-				castle = bOOO;
-				move = Move(isCastle, castle);
+		if ( blackCastlePerms[1] ) {
+
+			ASSERT(board[e8] == bk);
+			ASSERT(board[a8] == br);
+
+			if ( !inCheck
+			  && board[d8] == EM && board[c8] == EM && board[b8] == EM
+			  && isSquareSafe(d8, side) && isSquareSafe(c8, side) ) {
+				move = Move(true, bOOO);
 				addMove(move, moveList);
 			}
 		}

@@ -250,7 +250,7 @@ void chessboard::playMove(Move &move) {
 
 	}
 	
-	else if ( move.isCastle == true ) {
+	else if ( move.isCastle ) {
 			
 		switch ( move.castle ) {
 
@@ -341,6 +341,9 @@ void chessboard::playMove(Move &move) {
 				uniqueKey ^= blackCastleHash[1];
 		
 				break;
+
+			default:
+				ASSERT(false);
 		}
 	}
 	
@@ -450,7 +453,7 @@ void chessboard::undoMove(Move &move) {
 		ASSERT(move.currPiece <= bk);
 	}
 
-	if ( move.isEnPassant == true ) {
+	if ( move.isEnPassant ) {
 	
 		int squareOfCapturedPawn = ( ( !side ) == white ) ? ( move.to + DOWN ) : ( move.to + UP ); 
 
@@ -464,7 +467,7 @@ void chessboard::undoMove(Move &move) {
 
 	}
 	
-	else if ( move.isCastle == true ) {
+	else if ( move.isCastle ) {
 				
 		switch ( move.castle ) {
 		
@@ -515,6 +518,9 @@ void chessboard::undoMove(Move &move) {
 				insertPiece(br, a8);
 
 				break;
+
+			default:
+				ASSERT(false);
 		}
 	}
 	

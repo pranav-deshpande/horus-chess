@@ -62,31 +62,25 @@ Move::Move(bool iscastle, int Castle) {
 	isCastle = iscastle; // which will be true only if this has been called..
 	castle = Castle;
 	isEnPassant = false;
-	from = to = EM;
+	switch (castle) {
+		case wOO:  from = e1; to = g1; break;
+		case wOOO: from = e1; to = c1; break;
+		case bOO:  from = e8; to = g8; break;
+		case bOOO: from = e8; to = c8; break;
+		default:   ASSERT(false);
+	}
 	currPiece = capturedPiece = promotedPiece = EM;	
 }
 
-string Move::MoveToString() {
+string Move::MoveToString() const {
 	
-	string m = "";
-	
-	if ( isCastle == true) {
-		if ( castle == wOO ) m = "e1g1";
-		else if ( castle == wOOO ) m = "e1c1";
-		else if ( castle == bOO ) m = "e8g8";
-		else if ( castle == bOOO ) m = "e8c8";
- 	}
-	
-	else {
-		m = m + squareMapping[ board120[from] ] + squareMapping[ board120[to] ];
-		
-		if(promotedPiece != EM) {
-			m = m + string(1, tolower( pieceChars[promotedPiece] ) );
-		}
+	string m( squareMapping[ board120[from] ] + squareMapping[ board120[to] ] );
+	if(promotedPiece != EM) {
+		m += string(1, tolower( pieceChars[promotedPiece] ) );
 	}
 	return m;
 }
 
-bool Move::isNull() {
-	return ( from == EM && to == EM ) && !isCastle;
+bool Move::isNull() const {
+	return from == EM && to == EM;
 }
