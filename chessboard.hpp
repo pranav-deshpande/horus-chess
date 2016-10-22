@@ -8,7 +8,7 @@ class chessboard {
 private:
 	
 	// Basic Board Representation and Data
-	int board[BOARDSIZE];
+	int8_t board[BOARDSIZE];
 	int plies, moves;
 
 	int actualPlies;
@@ -57,6 +57,9 @@ private:
 	int staticEval();
 	int negamax(int depth);
 	int alphaBeta(int alpha, int beta, int depth, int distToRoot);
+	
+	void moveOrdering(vector<Move> &moveList);
+	static bool moveCompare(Move &lhs, Move &rhs);
 	
 	bool isFiftyMovesDraw();
 	bool isRepetition();

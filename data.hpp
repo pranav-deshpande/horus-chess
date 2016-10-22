@@ -15,6 +15,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <chrono>
+#include <algorithm>
 
 using namespace std;
 typedef unsigned long long ULL;
@@ -60,6 +61,11 @@ enum {
 	a8 = 91, b8, c8, d8, e8, f8, g8, h8
 };
 
+// Castling
+enum {
+	wOO = 1, wOOO, bOO, bOOO
+};
+
 // This helps us to detect various types of draws and also checkmate
 enum EndOfGameReason {
 	 NoEndOfGame = 0, Mate, Stalemate, FiftyMoveRule, ThreeFoldRepetition, InsufficientMaterial
@@ -88,8 +94,8 @@ enum EndOfGameReason {
 // Declaration of some data and functions
 
 // Required for indexing purposes - Square Lookup
-extern int board64[64];
-extern int board120[120];
+extern int8_t board64[64];
+extern int8_t board120[120];
 
 // Printing the pieces and parsing moves(especially the promoted piece)
 extern char pieceChars[13];

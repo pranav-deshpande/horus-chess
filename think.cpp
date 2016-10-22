@@ -163,6 +163,7 @@ int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
 	
 	vector<Move> childNodes;
 	generateAllMoves(childNodes);
+	moveOrdering(childNodes);
 	
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
@@ -189,6 +190,7 @@ Move chessboard::findMove() {
 	
 	vector<Move> moveList;
 	generateAllMoves(moveList);
+	moveOrdering(moveList);
 	
 	Move bestMove;
 	int maxScore = -infinity;
@@ -198,7 +200,7 @@ Move chessboard::findMove() {
 		Move move = *it;
 		
 		playMove(move);
-		int score = -alphaBeta(-infinity, infinity, 0, 1);
+		int score = -alphaBeta(-infinity, infinity, 3, 1);
 		undoMove(move);
 		if ( score > maxScore ) {
 			bestMove = move;

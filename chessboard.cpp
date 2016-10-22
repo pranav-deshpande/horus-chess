@@ -69,9 +69,10 @@ void chessboard::fenSetup(string &fen) {
 	// So be careful
 	int rank = rank8, file = fileA;
 	int piece = 0, i;
-	
+	int len = fen.length();
+		
 	// Parse the first part, the arrangement of the pieces and set up the board accordingly
-	for( i = 0; i < fen.length(); i++) {
+	for( i = 0; i < len; i++) {
 	
 		if ( fen[i] == ' ' ) {
 			break;
@@ -98,7 +99,7 @@ void chessboard::fenSetup(string &fen) {
 	side = ( fen[++i] == 'w' ) ? white : black;
 	
 	int j = ++i;
-	int count = 0;
+
 	while ( i++ < ( j + 4 ) ) {
 		
 		switch( fen[i] ) {
@@ -249,106 +250,100 @@ void chessboard::playMove(Move &move) {
 
 	}
 	
-	else if ( move.isCastle == true ) {
+	else if ( move.isCastle ) {
+			
+		switch ( move.castle ) {
+
+			case wOO:
+				board[e1] = board[h1] = EM;
+				board[g1] = wk;
+				board[f1] = wr;
 		
-		if ( side == white ) {
+				erasePiece (wk, e1);
+				erasePiece (wr, h1);
+				insertPiece(wk, g1);
+				insertPiece(wr, f1);
 		
-			switch ( move.castle ) {
-	
-				case 0:
-					board[e1] = board[h1] = EM;
-					board[g1] = wk;
-					board[f1] = wr;
-			
-					erasePiece (wk, e1);
-					erasePiece (wr, h1);
-					insertPiece(wk, g1);
-					insertPiece(wr, f1);
-			
-					uniqueKey ^= hashList[wk][ board120[e1] ];
-					uniqueKey ^= hashList[wr][ board120[h1] ];
-					uniqueKey ^= hashList[wk][ board120[g1] ];
-					uniqueKey ^= hashList[wr][ board120[f1] ];
-					
-					whiteCastlePerms[0] = whiteCastlePerms[1] = false;
-					
-					uniqueKey ^= whiteCastleHash[0];
-					uniqueKey ^= whiteCastleHash[1];
-			
-					break;
-	
-				case 1:
-					board[e1] = board[a1] = EM;
-					board[c1] = wk;
-					board[d1] = wr;
-			
-					erasePiece (wk, e1);
-					erasePiece (wr, a1);
-					insertPiece(wk, c1);
-					insertPiece(wr, d1);
-					
-					uniqueKey ^= hashList[wk][ board120[e1] ];
-					uniqueKey ^= hashList[wr][ board120[a1] ];
-					uniqueKey ^= hashList[wk][ board120[c1] ];
-					uniqueKey ^= hashList[wr][ board120[d1] ];
-			
-					whiteCastlePerms[0] = whiteCastlePerms[1] = false;
-			
-					uniqueKey ^= whiteCastleHash[0];
-					uniqueKey ^= whiteCastleHash[1];
-			
-					break;
-			}
-		}	
-		
-		else {
-		
-			switch ( move.castle ) {
-		
-				case 0:
-					board[e8] = board[h8] = EM;
-					board[g8] = bk;
-					board[f8] = br;
-			
-					erasePiece (bk, e8);
-					erasePiece (br, h8);
-					insertPiece(bk, g8);
-					insertPiece(br, f8);
+				uniqueKey ^= hashList[wk][ board120[e1] ];
+				uniqueKey ^= hashList[wr][ board120[h1] ];
+				uniqueKey ^= hashList[wk][ board120[g1] ];
+				uniqueKey ^= hashList[wr][ board120[f1] ];
 				
-					uniqueKey ^= hashList[bk][ board120[e8] ];
-					uniqueKey ^= hashList[br][ board120[h8] ];
-					uniqueKey ^= hashList[bk][ board120[g8] ];
-					uniqueKey ^= hashList[br][ board120[f8] ];
-			
-					blackCastlePerms[0] = blackCastlePerms[1] = false;
-			
-					uniqueKey ^= blackCastleHash[0];
-					uniqueKey ^= blackCastleHash[1];
-			
-					break;
-	
-				case 1:
-					board[e8] = board[a8] = EM;
-					board[c8] = bk;
-					board[d8] = br;
-			
-					erasePiece (bk, e8);
-					erasePiece (br, a8);
-					insertPiece(bk, c8);
-					insertPiece(br, d8);
+				whiteCastlePerms[0] = whiteCastlePerms[1] = false;
 				
-					uniqueKey ^= hashList[bk][ board120[e8] ];
-					uniqueKey ^= hashList[br][ board120[a8] ];
-					uniqueKey ^= hashList[bk][ board120[c8] ];
-					uniqueKey ^= hashList[br][ board120[d8] ];
-							
-					blackCastlePerms[0] = blackCastlePerms[1] = false;
+				uniqueKey ^= whiteCastleHash[0];
+				uniqueKey ^= whiteCastleHash[1];
+		
+				break;
+
+			case wOOO:
+				board[e1] = board[a1] = EM;
+				board[c1] = wk;
+				board[d1] = wr;
+		
+				erasePiece (wk, e1);
+				erasePiece (wr, a1);
+				insertPiece(wk, c1);
+				insertPiece(wr, d1);
+				
+				uniqueKey ^= hashList[wk][ board120[e1] ];
+				uniqueKey ^= hashList[wr][ board120[a1] ];
+				uniqueKey ^= hashList[wk][ board120[c1] ];
+				uniqueKey ^= hashList[wr][ board120[d1] ];
+		
+				whiteCastlePerms[0] = whiteCastlePerms[1] = false;
+		
+				uniqueKey ^= whiteCastleHash[0];
+				uniqueKey ^= whiteCastleHash[1];
+		
+				break;
+				
+			case bOO:
+				board[e8] = board[h8] = EM;
+				board[g8] = bk;
+				board[f8] = br;
+		
+				erasePiece (bk, e8);
+				erasePiece (br, h8);
+				insertPiece(bk, g8);
+				insertPiece(br, f8);
 			
-					uniqueKey ^= blackCastleHash[0];
-					uniqueKey ^= blackCastleHash[1];
+				uniqueKey ^= hashList[bk][ board120[e8] ];
+				uniqueKey ^= hashList[br][ board120[h8] ];
+				uniqueKey ^= hashList[bk][ board120[g8] ];
+				uniqueKey ^= hashList[br][ board120[f8] ];
+		
+				blackCastlePerms[0] = blackCastlePerms[1] = false;
+		
+				uniqueKey ^= blackCastleHash[0];
+				uniqueKey ^= blackCastleHash[1];
+		
+				break;
+
+			case bOOO:
+				board[e8] = board[a8] = EM;
+				board[c8] = bk;
+				board[d8] = br;
+		
+				erasePiece (bk, e8);
+				erasePiece (br, a8);
+				insertPiece(bk, c8);
+				insertPiece(br, d8);
 			
-					break;
-			}
+				uniqueKey ^= hashList[bk][ board120[e8] ];
+				uniqueKey ^= hashList[br][ board120[a8] ];
+				uniqueKey ^= hashList[bk][ board120[c8] ];
+				uniqueKey ^= hashList[br][ board120[d8] ];
+						
+				blackCastlePerms[0] = blackCastlePerms[1] = false;
+		
+				uniqueKey ^= blackCastleHash[0];
+				uniqueKey ^= blackCastleHash[1];
+		
+				break;
+
+			default:
+				ASSERT(false);
 		}
 	}
 	
@@ -458,9 +453,9 @@ void chessboard::undoMove(Move &move) {
 		ASSERT(move.currPiece <= bk);
 	}
 
-	if ( move.isEnPassant == true ) {
+	if ( move.isEnPassant ) {
 	
-		int squareOfCapturedPawn = ( !side == white ) ? ( move.to + DOWN ) : ( move.to + UP ); 
+		int squareOfCapturedPawn = ( ( !side ) == white ) ? ( move.to + DOWN ) : ( move.to + UP ); 
 
 		board[move.to] = EM;
 		board[move.from] = move.currPiece;
@@ -472,66 +467,60 @@ void chessboard::undoMove(Move &move) {
 
 	}
 	
-	else if ( move.isCastle == true ) {
-	
-		if ( !side == white ) {
-			
-			switch ( move.castle ) {
-			
-				case 0:
-					board[g1] = board[f1] = EM;
-					board[e1] = wk;
-					board[h1] = wr;
-					
-					erasePiece (wk, g1);
-					erasePiece (wr, f1);
-					insertPiece(wk, e1);
-					insertPiece(wr, h1);
-					
-					break;
-					
-				case 1:
-					board[c1] = board[d1] = EM;
-					board[e1] = wk;
-					board[a1] = wr;
-					
-					erasePiece (wk, c1);
-					erasePiece (wr, d1);
-					insertPiece(wk, e1);
-					insertPiece(wr, a1);
-			
-					break;
-			}
-		}
+	else if ( move.isCastle ) {
+				
+		switch ( move.castle ) {
 		
-		else {
+			case wOO:
+				board[g1] = board[f1] = EM;
+				board[e1] = wk;
+				board[h1] = wr;
+				
+				erasePiece (wk, g1);
+				erasePiece (wr, f1);
+				insertPiece(wk, e1);
+				insertPiece(wr, h1);
+				
+				break;
+				
+			case wOOO:
+				board[c1] = board[d1] = EM;
+				board[e1] = wk;
+				board[a1] = wr;
+				
+				erasePiece (wk, c1);
+				erasePiece (wr, d1);
+				insertPiece(wk, e1);
+				insertPiece(wr, a1);
+		
+				break;
 			
-			switch ( move.castle ) {
-			
-				case 0:
-					board[g8] = board[f8] = EM;
-					board[e8] = bk;
-					board[h8] = br;
-					
-					erasePiece (bk, g8);
-					erasePiece (br, f8);
-					insertPiece(bk, e8);
-					insertPiece(br, h8);
-					
-					break;
-					
-				case 1:
-					board[c8] = board[d8] = EM;
-					board[e8] = bk;
-					board[a8] = br;
-					
-					erasePiece (bk, c8);
-					erasePiece (br, d8);
-					insertPiece(bk, e8);
-					insertPiece(br, a8);
-	
-					break;
-			}
+			case bOO:
+				board[g8] = board[f8] = EM;
+				board[e8] = bk;
+				board[h8] = br;
+				
+				erasePiece (bk, g8);
+				erasePiece (br, f8);
+				insertPiece(bk, e8);
+				insertPiece(br, h8);
+				
+				break;
+				
+			case bOOO:
+				board[c8] = board[d8] = EM;
+				board[e8] = bk;
+				board[a8] = br;
+				
+				erasePiece (bk, c8);
+				erasePiece (br, d8);
+				insertPiece(bk, e8);
+				insertPiece(br, a8);
+
+				break;
+
+			default:
+				ASSERT(false);
 		}
 	}
 	
@@ -733,16 +722,18 @@ bool chessboard::isValid() {
 
 	static int const MinPieces[1+12] = { 0, 0,   0,   0,   0,   0, 1, 0,   0,   0,   0,   0, 1 };
 	static int const MaxPieces[1+12] = { 0, 8, 2+8, 2+8, 2+8, 1+8, 1, 8, 2+8, 2+8, 2+8, 1+8, 1 };
-
+	int size;
+	
 	for (int piece = wp; piece <= bk; piece++) {
+		size = pieceList[piece].size();
 		
-		if (pieceList[piece].size() < MinPieces[piece]) {
+		if (size < MinPieces[piece]) {
 			cerr << "less pieces of type " << piece << " than allowed minimum" << endl;
 			flush(cerr);
 			return false;
 		}
 		
-		if (pieceList[piece].size() > MaxPieces[piece]) {
+		if (size > MaxPieces[piece]) {
 			cerr << "more pieces of type " << piece << " than allowed maximum" << endl;
 			flush(cerr);
 			return false;
@@ -878,7 +869,7 @@ void chessboard::printBoard() {
 	
 	cout << "No. of possible(legal) moves: " << moveList.size() << endl << endl;
 	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		(*it).printMove(side);
+		cout << it->MoveToString() << endl;
 		cout << endl;
 	}
 	
@@ -896,10 +887,9 @@ Move chessboard::parseMoveFromString(string move) {
 	
 	vector <Move> moveList;
 	generateAllMoves(moveList);
-	
-	for(int i = 0; i < moveList.size(); i++) {
-		cout << "# " << moveList[i].MoveToString(side) << endl; 
-		if ( move == moveList[i].MoveToString(side) ) {
+	int size = moveList.size();
+	for(int i = 0; i < size; i++) {
+		if ( move == moveList[i].MoveToString() ) {
 			return moveList[i];
 		}
 	}
@@ -957,9 +947,8 @@ int chessboard::kingSquare(int side) {
 }
 
 void chessboard::printGame() {
-	int initialSide = ((plies % 2) == 0) ? side : 1 - side;
 	for (int i = 0; i < plies; i++) {
-		cout << "# game[" << i << "]: " << game[i].MoveToString(((i % 2) == 0) ? initialSide : 1 - initialSide) << endl;
+		cout << "# game[" << i << "]: " << game[i].MoveToString() << endl;
 	}
 }
 

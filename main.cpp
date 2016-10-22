@@ -15,7 +15,7 @@ void handleEndOfGame(chessboard &b) {
 	EndOfGameReason reason = NoEndOfGame;
     if ( b.isEndOfGame(reason) ) {
     	if ( reason == Mate ) {
-    		if ( !b.side == white ) {
+    		if ( ( !b.side ) == white ) {
     			cout << "1-0 {White mates}" << endl;
     		}
     		else {
@@ -124,20 +124,20 @@ int main() {
             handleEndOfGame(b);
         }
                 
-		else if ( command == "undo" ) {
-			Move move = b.getLastMove();
-			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
-		}
+        else if ( command == "undo" ) {
+            Move move = b.getLastMove();
+            b.undoMove(move);
+            cout << "# Move undone: " << move.MoveToString() << endl;
+        }
 
-		else if ( command == "remove" ) {
-			Move move = b.getLastMove();
-			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
-			move = b.getLastMove();
-			b.undoMove(move);
-			cout << "# Move undone: " << move.MoveToString(b.side) << endl;
-		}
+        else if ( command == "remove" ) {
+            Move move = b.getLastMove();
+            b.undoMove(move);
+            cout << "# Move undone: " << move.MoveToString() << endl;
+            move = b.getLastMove();
+            b.undoMove(move);
+            cout << "# Move undone: " << move.MoveToString() << endl;
+        }
         
         else if ( command == "accepted" ) {
             string temp;
@@ -158,13 +158,13 @@ int main() {
             cout << "# calculating engine move ..." << endl;
             Move move = b.findMove();
             cout << "move ";
-            move.printMove(b.side);
+			cout << move.MoveToString() << endl;
             cout << endl;
             b.playMove(move);
             b.printMinimalBoard();
-			
-			handleEndOfGame(b);         
-		}
+
+            handleEndOfGame(b);         
+        }
     }
 
     return 0;

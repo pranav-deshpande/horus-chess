@@ -5,22 +5,21 @@
 
 class Move {
 public:
-	int from, to;
-	int currPiece, capturedPiece, promotedPiece;
-	int castle;
+	int8_t from, to;
+	int8_t currPiece, capturedPiece, promotedPiece;
+	int8_t castle;
 	bool isCastle, isEnPassant;
+	int16_t score;
 	
 	Move();
-	Move(int init_pos, int final_pos, int *board);
-	Move(int init_pos, int final_pos, int Promote, int *board);
+	Move(int init_pos, int final_pos, int currpiece, int capturedpiece);
+	Move(int init_pos, int final_pos, int currpiece, int capturedpiece, int Promote);
 	Move(bool iscastle, int castle);
-	Move(bool isenPassant, int init_pos, int final_pos, int *board);
-	Move(string move);
+	Move(bool isenPassant, int init_pos, int final_pos, int currpiece, int capturedpiece);
 	
-	void printMove(int side);
-	string MoveToString(int side);
+	string MoveToString() const;
 
-	bool isNull();
+	bool isNull() const;
 };
 
 #endif

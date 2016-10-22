@@ -103,7 +103,7 @@ void debugPerft(string &test, int depth) {
 	cout << "Depth: " << depth << "\n\n";
 	
 	for(vector <Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
-		cout << it -> MoveToString(b.side);
+		cout << it -> MoveToString();
 		cout << ": ";
 		b.playMove(*it);
 		p = b.perft(depth-1);
@@ -114,7 +114,10 @@ void debugPerft(string &test, int depth) {
 	
 	ULL ans2 = b.perft(depth);
 
-	assert(ans1 == ans2);
+    if ( ans1 != ans2 ) {
+        cout << "Fatal Error! Exiting..." << endl;
+        exit(1);
+    }
 	
 	cout << endl << "Total: " << ans1 << endl;
 

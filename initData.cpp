@@ -1,7 +1,7 @@
 #include "chessboard.hpp"
 
 // Data Definitions - Some of these variables are required globally
-int board64[] = {
+int8_t board64[] = {
 	a1, b1, c1, d1, e1, f1, g1, h1,
 	a2, b2, c2, d2, e2, f2, g2, h2,
 	a3, b3, c3, d3, e3, f3, g3, h3,
@@ -12,7 +12,7 @@ int board64[] = {
 	a8, b8, c8, d8, e8, f8, g8, h8
 };
 
-int board120[] = {
+int8_t board120[] = {
 	OB, OB, OB, OB, OB, OB, OB, OB, OB, OB,
 	OB, OB, OB, OB, OB, OB, OB, OB, OB, OB,
 	OB,  0,  1,  2,  3,  4,  5,  6,  7, OB,
