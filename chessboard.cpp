@@ -992,7 +992,7 @@ bool chessboard::isFiftyMovesDraw() {
 }
 
 bool chessboard::isRepetition() {
-	ULL key = * ( keyList.end() - 1 );
+	ULL key = uniqueKey;
 	for(int i = plies - 4; i >= plies - fiftyMoveRule; i -= 2) {
 		if ( keyList[i] == key ) return true;
 	}
@@ -1000,7 +1000,7 @@ bool chessboard::isRepetition() {
 }
 
 bool chessboard::isThreeFoldRepetition() {
-	ULL key = * ( keyList.end() - 1 );
+	ULL key = uniqueKey;
 	int count = 0;
 	for(int i = plies - 4; i >= plies - fiftyMoveRule; i -= 2) {
 		if ( keyList[i] == key ) count++;
