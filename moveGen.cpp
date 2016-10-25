@@ -439,3 +439,21 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 #endif /* NDEBUG */
 
 }
+
+// Order moves according to MvvLva - Most valuable victim, least valuable attacker/aggressor
+// Helps in pruning the search tree more
+void chessboard::orderMoves(vector <Move> &moveList) {
+    
+    int attackersVal[] = {EM, 6, 5, 4, 3, 2, 1, 6, 5, 4, 3, 2, 1};
+    int attackedVal[] = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};
+      
+    for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
+        if ( it->capturedPiece != EM ) it->score = attackersVal[it->currPiece] + attackedVal[it->capturedPiece];
+    }
+    
+    sort(moveList.begin(), moveList.end(), moveCompare);
+}    
+
+bool chessboard::moveCompare(Move &lhs, Move &rhs) {
+    return ( lhs.score > rhs.score );
+}

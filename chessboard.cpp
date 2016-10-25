@@ -216,6 +216,8 @@ void chessboard::playMove(Move &move) {
 	plies++;
 	keyList.push_back(uniqueKey);
 	
+	fiftyMoveRuleHistory.push_back(fiftyMoveRule);
+	
 	array <bool, 4> castleWB;
 	castleWB[0] = whiteCastlePerms[0];
 	castleWB[1] = whiteCastlePerms[1];
@@ -432,7 +434,6 @@ void chessboard::playMove(Move &move) {
 	
 	fiftyMoveRule++;
 	if ( move.currPiece == pawn || move.capturedPiece != EM ) fiftyMoveRule = 0;
-	fiftyMoveRuleHistory.push_back(fiftyMoveRule);
 		
 	uniqueKey ^= sideHash[side];
 	uniqueKey ^= sideHash[!side];
@@ -987,7 +988,7 @@ bool chessboard::isEndOfGame(EndOfGameReason &reason) {
 }
 
 bool chessboard::isFiftyMovesDraw() {
-	return ( fiftyMoveRule >= 100 );
+    return ( fiftyMoveRule >= 100 );
 }
 
 bool chessboard::isRepetition() {
@@ -1046,4 +1047,8 @@ bool chessboard::isDrawByInsufficientMaterial() {
 	}
 	
 	return false;
+}
+
+bool chessboard::checkDraw() {
+    return isFiftyMovesDraw() || isRepetition() || isDrawByInsufficientMaterial();
 }

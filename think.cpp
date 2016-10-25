@@ -56,10 +56,10 @@ int qTable[] = {
 	-20,-10,-10, -5, -5,-10,-10,-20
 };
 
-// I think I should change this table a little bit.
-// It seems that the table does not encourage queen side castling
+// Changed the table a little bit
+// So that it encourages queen side castling
 int kTableMiddleGame[] = {
-	 20, 30, 10,  0,  0, 10, 30, 20,
+	 20, 20, 30,  0,  0, 10, 30, 20,
 	 20, 20,  0,  0,  0,  0, 20, 20,
 	-10,-20,-20,-20,-20,-20,-20,-10,
 	-20,-30,-30,-40,-40,-30,-30,-20,
@@ -96,8 +96,14 @@ int chessboard::staticEval() {
 	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, -100, -320, -330, -500, -900, -20000};
 	int pieceColours[] = {OB, white, white, white, white, white, white, black, black, black, black, black, black};
 	int val = 0, square, *kTable;
+	int num = 0;
+	int numQueens = pieceList[wq].size() + pieceList[bq].size();
 	
-	kTable = kTableMiddleGame; // Temporarily set to kTableMiddleGame(how do I determine when the endgame starts?)
+	for(int piece = wn; piece <= wr; piece++) num += pieceList[piece].size();
+	for(int piece = bn; piece <= br; piece++) num += pieceList[piece].size();
+	
+	if( num <= 6 && numQueens == 0 ) kTable = kTableEndGame;
+	else kTable = kTableMiddleGame;
 	
 	for(int piece = wp; piece <= bk; piece++) {
 		val += ( pieceList[piece].size() * pieceVals[piece] ); 
@@ -160,16 +166,18 @@ int chessboard::negamax(int depth) {
 int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
 	
 	if ( depth == 0 ) return staticEval();
+	if ( checkDraw() ) return 0;
 	
 	vector<Move> childNodes;
 	generateAllMoves(childNodes);
 	
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
-		if ( inCheck ) return (-infinity + distToRoot); // Encourage it to find the quickest checkmate/avoid checkmate for as long as possible
+		if ( inCheck ) return (-infinity + distToRoot); // Checkmate
 		else return 0; // Stalemate
 	}
 	
+	orderMoves(childNodes);
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
 		
 		Move move = *it;
@@ -193,6 +201,7 @@ Move chessboard::findMove() {
 	Move bestMove;
 	int maxScore = -infinity;
 
+    orderMoves(moveList);
 	for(vector<Move>::iterator it = moveList.begin(); it!= moveList.end(); it++) {
 		
 		Move move = *it;
@@ -200,6 +209,7 @@ Move chessboard::findMove() {
 		playMove(move);
 		int score = -alphaBeta(-infinity, infinity, 3, 1);
 		undoMove(move);
+		
 		if ( score > maxScore ) {
 			bestMove = move;
 			maxScore = score;

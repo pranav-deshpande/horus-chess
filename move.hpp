@@ -9,6 +9,7 @@ public:
 	int8_t currPiece, capturedPiece, promotedPiece;
 	int8_t castle;
 	bool isCastle, isEnPassant;
+	int score = 0;
 	
 	Move();
 	Move(int init_pos, int final_pos, int currpiece, int capturedpiece);
