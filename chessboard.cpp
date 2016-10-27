@@ -865,6 +865,7 @@ void chessboard::printBoard() {
 	
 	cout << "\nCount of pieces: " << piecesCount << endl;
 	
+	updateInCheck();
 	vector <Move> moveList;
 	generateAllMoves(moveList);
 	
@@ -886,6 +887,7 @@ void chessboard::printBoard() {
 
 Move chessboard::parseMoveFromString(string move) {
 	
+	updateInCheck();
 	vector <Move> moveList;
 	generateAllMoves(moveList);
 	int size = moveList.size();
@@ -958,6 +960,7 @@ Move chessboard::getLastMove() {
 }
 
 bool chessboard::isEndOfGame(EndOfGameReason &reason) {
+    updateInCheck();
     vector<Move> moveList;
     generateAllMoves(moveList);
     
@@ -1051,4 +1054,8 @@ bool chessboard::isDrawByInsufficientMaterial() {
 
 bool chessboard::checkDraw() {
     return isFiftyMovesDraw() || isRepetition() || isDrawByInsufficientMaterial();
+}
+
+void chessboard::updateInCheck() {
+    inCheck = isSquareAttacked(kingSquare(side), side);
 }

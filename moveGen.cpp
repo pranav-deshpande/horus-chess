@@ -7,7 +7,6 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 #endif /* NDEBUG */
 
 	pins = getPins();
-	inCheck = isSquareAttacked(kingSquare(side), side);
 
 	moveList.clear();
 	

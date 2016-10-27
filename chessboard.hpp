@@ -103,6 +103,8 @@ public:
 	
 	int side;
 	
+	void updateInCheck();
+	
 	Move findMove();
 	bool isEndOfGame(EndOfGameReason &reason);	
 	Move parseMoveFromString(string m);

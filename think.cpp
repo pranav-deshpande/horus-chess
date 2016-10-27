@@ -138,6 +138,7 @@ int chessboard::negamax(int depth) {
 	
 	if ( depth == 0 ) return staticEval();
 	
+	updateInCheck();
 	vector <Move> childNodes;
 	generateAllMoves(childNodes);
 	
@@ -168,6 +169,7 @@ int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
 	if ( depth == 0 ) return staticEval();
 	if ( checkDraw() ) return 0;
 	
+	updateInCheck();
 	vector<Move> childNodes;
 	generateAllMoves(childNodes);
 	
@@ -195,6 +197,7 @@ int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
 
 Move chessboard::findMove() {
 	
+	updateInCheck();
 	vector<Move> moveList;
 	generateAllMoves(moveList);
 	
