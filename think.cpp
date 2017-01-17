@@ -168,13 +168,12 @@ int chessboard::Quiescence(int alpha, int beta) {
 	
         updateInCheck();
         if ( inCheck ) return alphaBeta(alpha, beta, 1, 1);
-        
-        if ( checkDraw() ) return 0;
                 
+        if ( checkDraw() ) return 0;
         vector<Move> childNodes;
         generateAllMoves(childNodes);
         
-        if ( childNodes.begin() != childNodes.end() ) return 0; // stalemate - no legal moves present
+        if ( childNodes.begin() == childNodes.end() ) return 0; // stalemate - no legal moves present
         int standPat = staticEval();
         
         if (standPat >= beta) return beta;
@@ -182,7 +181,7 @@ int chessboard::Quiescence(int alpha, int beta) {
         
         for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
                 Move move = *it;
-                // only captures, enPassants and promotions are required, neglect the rest
+                // only captures and promotions are required, neglect the other moves (even enpassant)???
                 if (!move.isEnPassant && move.promotedPiece == EM && !(move.to != EM && board[move.to] != EM)) continue;
                 playMove(move);
                 int val = -Quiescence(-beta, -alpha);
