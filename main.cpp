@@ -11,7 +11,7 @@ void dumpAll() {
 	}
 }
 
-void handleEndOfGame(chessboard &b) {
+EndOfGameReason handleEndOfGame(chessboard &b) {
 	EndOfGameReason reason = NoEndOfGame;
     if ( b.isEndOfGame(reason) ) {
     	if ( reason == Mate ) {
@@ -38,19 +38,20 @@ void handleEndOfGame(chessboard &b) {
     			cout << "{Draw by insufficient material}" << endl;
     		}
     	}
-    }	
+    }
+    return reason;
 }
 
 int main() {
     initHash();
     setUpDebugging();
-
+    int engineSide = empty;
     cout << "feature done=0" << endl;
     cout.setf(ios::unitbuf);
 
     chessboard b;
     theBoard = &b;
-    int engineSide = empty;
+
     bool isConsoleMode = true;
 
     string command;
@@ -121,7 +122,7 @@ int main() {
                 b.printMinimalBoard();
             }
             
-            handleEndOfGame(b);
+            if( handleEndOfGame(b) != NoEndOfGame) engineSide = empty;         
         }
                 
         else if ( command == "undo" ) {
@@ -163,7 +164,7 @@ int main() {
             b.playMove(move);
             b.printMinimalBoard();
 
-            handleEndOfGame(b);         
+           if( handleEndOfGame(b) != NoEndOfGame) engineSide = empty;         
         }
     }
 

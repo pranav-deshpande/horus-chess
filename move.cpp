@@ -8,7 +8,6 @@ Move::Move() {
 	isEnPassant = false;
 	isCastle = false;
 	castle = 0;
-	score = 0;
 }
 
 // Normal/capture moves
@@ -25,7 +24,6 @@ Move::Move(int init_pos, int final_pos, int currpiece, int capturedpiece) {
 	isEnPassant = false;
 	isCastle = false;
 	castle = 0;
-	score = 0;
 }
 
 // Enpassant moves
@@ -40,7 +38,6 @@ Move::Move(bool isenPassant, int init_pos, int final_pos, int currpiece, int cap
 	isEnPassant = isenPassant; // (True, since I am passing it)
 	isCastle = false;
 	castle = 0;
-	score = 0;
 }
 
 // Pawn promotion moves
@@ -58,7 +55,6 @@ Move::Move(int init_pos, int final_pos, int currpiece, int capturedpiece, int Pr
 	isEnPassant = false;
 	isCastle = false;
 	castle = 0;
-	score = 0;
 }
 
 // Castling moves

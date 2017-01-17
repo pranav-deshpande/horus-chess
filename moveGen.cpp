@@ -7,7 +7,6 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 #endif /* NDEBUG */
 
 	pins = getPins();
-	inCheck = isSquareAttacked(kingSquare(side), side);
 
 	moveList.clear();
 	
@@ -440,7 +439,9 @@ void chessboard::generateAllMoves(vector <Move> &moveList) {
 
 }
 
-void chessboard::moveOrdering(vector <Move> &moveList) {
+// Order moves according to MvvLva - Most valuable victim, least valuable attacker/aggressor
+// Helps in pruning the search tree more
+void chessboard::orderMoves(vector <Move> &moveList) {
     
     int attackersVal[] = {EM, 6, 5, 4, 3, 2, 1, 6, 5, 4, 3, 2, 1};
     int attackedVal[] = {EM, 100, 320, 330, 500, 900, 20000, 100, 320, 330, 500, 900, 20000};

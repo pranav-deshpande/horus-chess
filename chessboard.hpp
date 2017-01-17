@@ -57,14 +57,16 @@ private:
 	int staticEval();
 	int negamax(int depth);
 	int alphaBeta(int alpha, int beta, int depth, int distToRoot);
-	
-	void moveOrdering(vector<Move> &moveList);
+	void orderMoves(vector <Move> &moveList);
 	static bool moveCompare(Move &lhs, Move &rhs);
+	
+	int Quiescence(int alpha, int beta);
 	
 	bool isFiftyMovesDraw();
 	bool isRepetition();
 	bool isThreeFoldRepetition();
 	bool isDrawByInsufficientMaterial();
+	bool checkDraw();
 
 #ifndef NDEBUG
 	bool suppressValidityCheck;
@@ -100,6 +102,8 @@ public:
 	vector <Move> game;
 	
 	int side;
+	
+	void updateInCheck();
 	
 	Move findMove();
 	bool isEndOfGame(EndOfGameReason &reason);	

@@ -2,6 +2,7 @@
 
 ULL chessboard::perft(int depth) {
 	
+	updateInCheck();
 	vector <Move> moveList;
 	generateAllMoves(moveList);
 	
@@ -26,8 +27,10 @@ ULL chessboard::perft(int depth) {
 // that a line of moves is wrong.
 void chessboard::test() {
 	
+	updateInCheck();
 	vector <Move> moveList;
 	generateAllMoves(moveList);
+	
 	printMinimalBoard();
 	
 	for(vector<Move>::iterator it = moveList.begin(); it != moveList.end(); it++) {
@@ -94,6 +97,7 @@ void debugPerft(string &test, int depth) {
 	
 	chessboard b(test);
 	
+	b.updateInCheck();
 	vector <Move> moveList;
 	b.generateAllMoves(moveList);
 
