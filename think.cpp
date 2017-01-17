@@ -166,10 +166,10 @@ int chessboard::negamax(int depth) {
 // Quiescence Search
 int chessboard::Quiescence(int alpha, int beta) {
 	
-        //updateInCheck();
+        updateInCheck();
         if ( inCheck ) return alphaBeta(alpha, beta, 1, 1);
         
-      //  if ( checkDraw() ) return 0;
+        if ( checkDraw() ) return 0;
                 
         vector<Move> childNodes;
         generateAllMoves(childNodes);
