@@ -60,7 +60,7 @@ private:
 	void orderMoves(vector <Move> &moveList);
 	static bool moveCompare(Move &lhs, Move &rhs);
 	
-	int Quiescence(int alpha, int beta);
+	int Quiescence(int alpha, int beta, int distToRoot);
 	
 	bool isFiftyMovesDraw();
 	bool isRepetition();

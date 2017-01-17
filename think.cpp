@@ -164,39 +164,39 @@ int chessboard::negamax(int depth) {
 }
 
 // Quiescence Search
-int chessboard::Quiescence(int alpha, int beta) {
+int chessboard::Quiescence(int alpha, int beta, int distToRoot) {
 	
-        updateInCheck();
-        if ( inCheck ) return alphaBeta(alpha, beta, 1, 1);
-                
-        if ( checkDraw() ) return 0;
-        vector<Move> childNodes;
-        generateAllMoves(childNodes);
-        
-        if ( childNodes.begin() == childNodes.end() ) return 0; // stalemate - no legal moves present
-        int standPat = staticEval();
-        
-        if (standPat >= beta) return beta;
-        if (standPat > alpha) alpha = standPat;
-        
-        for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
-                Move move = *it;
-                // only captures and promotions are required, neglect the other moves (even enpassant)???
-                if (!move.isEnPassant && move.promotedPiece == EM && !(move.to != EM && board[move.to] != EM)) continue;
-                playMove(move);
-                int val = -Quiescence(-beta, -alpha);
-                undoMove(move);
-                if ( val >= beta ) return beta;
-                if ( val > alpha ) alpha = val;
-        }
-        
-        return alpha;
+	updateInCheck();
+	if ( inCheck) return alphaBeta(alpha, beta, 1, distToRoot + 1);
+	
+	if ( checkDraw() ) return 0;
+	
+	vector<Move> childNodes;
+	generateAllMoves(childNodes);
+	
+	if ( childNodes.begin() == childNodes.end() ) return 0; // stalemate
+	
+	int standPat = staticEval();
+	if (standPat >= beta) return beta;
+	if (standPat > alpha) alpha = standPat;
+	
+	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
+		Move move = *it;
+		// only captures and promotions
+		if (!move.isEnPassant && move.promotedPiece == EM && !(move.to != EM && board[move.to] != EM)) continue;
+		playMove(move);
+		int val = -Quiescence(-beta, -alpha, distToRoot+1);
+		undoMove(move);
+		if ( val >= beta ) return beta;
+		if ( val > alpha ) alpha = val;
+	}
+	return alpha;
 }
 
 // Fail-Hard AlphaBeta Pruning
 int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
 	
-	if ( depth == 0 ) return Quiescence(alpha, beta);
+	if ( depth == 0 ) return Quiescence(alpha, beta, distToRoot+1);
 	if ( checkDraw() ) return 0;
 	
 	updateInCheck();
