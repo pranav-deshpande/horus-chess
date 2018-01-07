@@ -6,184 +6,184 @@ The speed is always expressed in nodes per second whereas the time is in microse
 Position 1: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
 Depth = 1, Nodes = 20
-Time = 20
-Speed = 1000000
+Time = 38
+Speed = 526315
 
 Depth = 2, Nodes = 400
-Time = 212
-Speed = 1886792
+Time = 376
+Speed = 1063829
 
 Depth = 3, Nodes = 8902
-Time = 4531
-Speed = 1964687
+Time = 7300
+Speed = 1219452
 
 Depth = 4, Nodes = 197281
-Time = 124024
-Speed = 1590667
+Time = 57888
+Speed = 3407977
 
 Depth = 5, Nodes = 4865609
-Time = 2393459
-Speed = 2032877
+Time = 690384
+Speed = 7047685
 
 
 Position 2: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -
 
 Depth = 1, Nodes = 48
-Time = 23
-Speed = 2086956
+Time = 8
+Speed = 6000000
 
 Depth = 2, Nodes = 2039
-Time = 675
-Speed = 3020740
+Time = 239
+Speed = 8531380
 
 Depth = 3, Nodes = 97862
-Time = 28634
-Speed = 3417685
+Time = 9211
+Speed = 10624470
 
 Depth = 4, Nodes = 4085603
-Time = 1329656
-Speed = 3072676
+Time = 434638
+Speed = 9400013
 
 Depth = 5, Nodes = 193690690
-Time = 60729649
-Speed = 3189392
+Time = 18253758
+Speed = 10611003
 
 
 Position 3: 8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -
 
 Depth = 1, Nodes = 14
-Time = 10
-Speed = 1400000
+Time = 5
+Speed = 2800000
 
 Depth = 2, Nodes = 191
-Time = 109
-Speed = 1752293
+Time = 58
+Speed = 3293103
 
 Depth = 3, Nodes = 2812
-Time = 1401
-Speed = 2007137
+Time = 840
+Speed = 3347619
 
 Depth = 4, Nodes = 43238
-Time = 20920
-Speed = 2066826
+Time = 8544
+Speed = 5060627
 
 Depth = 5, Nodes = 674624
-Time = 275182
-Speed = 2451555
+Time = 111046
+Speed = 6075176
 
 
 Position 4: r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1
 
 Depth = 1, Nodes = 6
-Time = 32
-Speed = 187500
+Time = 16
+Speed = 375000
 
 Depth = 2, Nodes = 264
-Time = 114
-Speed = 2315789
+Time = 50
+Speed = 5280000
 
 Depth = 3, Nodes = 9467
-Time = 4033
-Speed = 2347384
+Time = 1336
+Speed = 7086077
 
 Depth = 4, Nodes = 422333
-Time = 129364
-Speed = 3264687
+Time = 40988
+Speed = 10303820
 
 Depth = 5, Nodes = 15833292
-Time = 6209631
-Speed = 2549795
+Time = 2027549
+Speed = 7809079
 
 
 Position 5: r2q1rk1/pP1p2pp/Q4n2/bbp1p3/Np6/1B3NBn/pPPP1PPP/R3K2R b KQ - 0 1
 
 Depth = 1, Nodes = 6
-Time = 29
-Speed = 206896
+Time = 14
+Speed = 428571
 
 Depth = 2, Nodes = 264
-Time = 114
-Speed = 2315789
+Time = 52
+Speed = 5076923
 
 Depth = 3, Nodes = 9467
-Time = 3856
-Speed = 2455134
+Time = 2063
+Speed = 4588948
 
 Depth = 4, Nodes = 422333
-Time = 129900
-Speed = 3251216
+Time = 41476
+Speed = 10182587
 
 Depth = 5, Nodes = 15833292
-Time = 6017159
-Speed = 2631356
+Time = 2117390
+Speed = 7477740
 
 
 Position 6: rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8
 
 Depth = 1, Nodes = 44
-Time = 18
-Speed = 2444444
+Time = 7
+Speed = 6285714
 
 Depth = 2, Nodes = 1486
-Time = 501
-Speed = 2966067
+Time = 169
+Speed = 8792899
 
 Depth = 3, Nodes = 62379
-Time = 21954
-Speed = 2841350
+Time = 7062
+Speed = 8833050
 
 Depth = 4, Nodes = 2103487
-Time = 727028
-Speed = 2893268
+Time = 244036
+Speed = 8619576
 
 Depth = 5, Nodes = 89941194
-Time = 31372053
-Speed = 2866920
+Time = 10050261
+Speed = 8949140
 
 
 Position 7: r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10
 
 Depth = 1, Nodes = 46
-Time = 16
-Speed = 2875000
+Time = 8
+Speed = 5750000
 
 Depth = 2, Nodes = 2079
-Time = 587
-Speed = 3541737
+Time = 195
+Speed = 10661538
 
 Depth = 3, Nodes = 89890
-Time = 26698
-Speed = 3366918
+Time = 8170
+Speed = 11002447
 
 Depth = 4, Nodes = 3894594
-Time = 1141798
-Speed = 3410930
+Time = 359106
+Speed = 10845249
 
 Depth = 5, Nodes = 164075551
-Time = 51156367
-Speed = 3207333
+Time = 15691195
+Speed = 10456536
 
 
 Position 8: n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1
 
 Depth = 1, Nodes = 24
-Time = 11
-Speed = 2181818
+Time = 9
+Speed = 2666666
 
 Depth = 2, Nodes = 496
-Time = 262
-Speed = 1893129
+Time = 133
+Speed = 3729323
 
 Depth = 3, Nodes = 9483
-Time = 4300
-Speed = 2205348
+Time = 2423
+Speed = 3913743
 
 Depth = 4, Nodes = 182838
-Time = 91280
-Speed = 2003045
+Time = 34478
+Speed = 5303033
 
 Depth = 5, Nodes = 3605103
-Time = 1816724
-Speed = 1984397
+Time = 637865
+Speed = 5651827
 
 
