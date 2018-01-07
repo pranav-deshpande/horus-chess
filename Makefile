@@ -13,10 +13,14 @@ Horus_Debug: $(SRC_FILES)
 	$(CXX) $(CFLAGS_Debug) $(SRC_FILES) -o exec/$@
 
 Horus: $(SRC_FILES)
-	$(CXX) $(CFLAGS_Release) $(SRC_FILES) -o $@
+	$(CXX) $(CFLAGS_Release) $(SRC_FILES) -o exec/$@
+	cp exec/$@ ./$@
 
 Horus_SuperFast: $(SRC_FILES)
 	$(CXX) $(CFLAGS_SuperFast) $(SRC_FILES) -o exec/$@
 
+install:
+	cp ./Horus /usr/games/Horus
+
 clean:
-	rm exec/Horus_Debug exec/Horus_SuperFast
+	rm exec/Horus_Debug exec/Horus_SuperFast exec/Horus ./Horus
