@@ -1,3 +1,23 @@
+/*
+Horus - A Chess Engine created for learning Game AI techniques
+Copyright (C) 2016 Pranav Deshpande
+
+This file is a part of Horus.
+
+Horus is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+Horus is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Horus. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "chessboard.hpp"
 #include "move.hpp"
 #include "data.hpp"
@@ -22,7 +42,7 @@ EndOfGameReason handleEndOfGame(chessboard &b) {
     			cout << "0-1 {Black mates}" << endl;
     		}
     	}
-    	
+
     	else {
     		cout << "1/2-1/2 ";
     		if ( reason == Stalemate ) {
@@ -96,7 +116,7 @@ int main() {
             b.resetToInitialPosition();
             engineSide = black;
         }
-        
+
         else if ( command == "setboard" ) {
         	string fen;
         	cin.get();
@@ -121,10 +141,10 @@ int main() {
                 b.playMove(move);
                 b.printMinimalBoard();
             }
-            
-            if( handleEndOfGame(b) != NoEndOfGame) engineSide = empty;         
+
+            if( handleEndOfGame(b) != NoEndOfGame) engineSide = empty;
         }
-                
+
         else if ( command == "undo" ) {
             Move move = b.getLastMove();
             b.undoMove(move);
@@ -139,7 +159,7 @@ int main() {
             b.undoMove(move);
             cout << "# Move undone: " << move.MoveToString() << endl;
         }
-        
+
         else if ( command == "accepted" ) {
             string temp;
             cin >> temp;
@@ -149,7 +169,7 @@ int main() {
         else if ( command == "selftest" ) {
             samplePerftTest();
         }
-        
+
         else {
             cout << "# ignoring unknown command: " << command << endl;
             continue;
@@ -164,7 +184,7 @@ int main() {
             b.playMove(move);
             b.printMinimalBoard();
 
-           if( handleEndOfGame(b) != NoEndOfGame) engineSide = empty;         
+           if( handleEndOfGame(b) != NoEndOfGame) engineSide = empty;
         }
     }
 

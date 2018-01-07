@@ -1,3 +1,23 @@
+/*
+Horus - A Chess Engine created for learning Game AI techniques
+Copyright (C) 2016 Pranav Deshpande
+
+This file is a part of Horus.
+
+Horus is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+Horus is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Horus. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "move.hpp"
 
 // Member function definitions
@@ -69,11 +89,11 @@ Move::Move(bool iscastle, int Castle) {
 		case bOOO: from = e8; to = c8; break;
 		default:   ASSERT(false);
 	}
-	currPiece = capturedPiece = promotedPiece = EM;	
+	currPiece = capturedPiece = promotedPiece = EM;
 }
 
 string Move::MoveToString() const {
-	
+
 	string m( squareMapping[ board120[from] ] + squareMapping[ board120[to] ] );
 	if(promotedPiece != EM) {
 		m += string(1, tolower( pieceChars[promotedPiece] ) );

@@ -1,4 +1,4 @@
-# Horus-Chess-Engine
+# Horus-Chess
 Repository for Horus - My Chess Engine.  
 Licensed under the GNU General Public License ( GPL 3.0 ).
 

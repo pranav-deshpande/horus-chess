@@ -1,3 +1,23 @@
+/*
+Horus - A Chess Engine created for learning Game AI techniques
+Copyright (C) 2016 Pranav Deshpande
+
+This file is a part of Horus.
+
+Horus is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+Horus is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Horus. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 // file data.hpp - contains several macros, enums and other important include files etc.
 
 #ifndef __DATA__
@@ -90,7 +110,7 @@ enum EndOfGameReason {
 #define NM6 -19
 #define NM7 21
 #define NM8 -21
- 
+
 // Declaration of some data and functions
 
 // Required for indexing purposes - Square Lookup

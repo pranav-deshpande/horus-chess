@@ -1,3 +1,23 @@
+/*
+Horus - A Chess Engine created for learning Game AI techniques
+Copyright (C) 2016 Pranav Deshpande
+
+This file is a part of Horus.
+
+Horus is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+Horus is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Horus. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "chessboard.hpp"
 
 // Data Definitions - Some of these variables are required globally
@@ -53,7 +73,7 @@ void setUpDebugging() {
 			temp = string(1, j) + string(1, i);
 			squareMapping[k++] = temp;
 		}
-	}	
+	}
 
 	for(int i = 0; i < 64; i++) {
 		reverseSquareMapping[ squareMapping[i] ] = i;
@@ -62,29 +82,29 @@ void setUpDebugging() {
 }
 
 void initHash() {
-	
+
 	// Intitialize the hash lists
 	for(int square = 0; square < 64; square++) {
 		chessboard::hashList[0][square] = 0;
 	}
-	
+
 	for(int piece = wp; piece <= bk; piece++ ) {
 		for(int square = 0; square < 64; square++) {
 			chessboard::hashList[piece][square] = rand();
 		}
 	}
-	
+
 	for(int i = 0; i < 2; i++) {
 		chessboard::whiteCastleHash[i] = rand();
 		chessboard::blackCastleHash[i] = rand();
 	}
-	
+
 	chessboard::sideHash[black] = rand();
 	chessboard::sideHash[white] = rand();
-	
+
 	for(int square = 0; square < 64; square++) {
 		chessboard::enPassantHash[square] = rand();
-	} 
+	}
 }
 
 void raiseAssertionFailure(char const * msg, char const * file, int line)
@@ -98,4 +118,3 @@ void raiseAssertionFailure(char const * msg, char const * file, int line)
 	dumpAll();
 	abort();
 }
-

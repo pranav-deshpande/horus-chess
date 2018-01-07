@@ -1,3 +1,23 @@
+/*
+Horus - A Chess Engine created for learning Game AI techniques
+Copyright (C) 2016 Pranav Deshpande
+
+This file is a part of Horus.
+
+Horus is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+Horus is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Horus. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "chessboard.hpp"
 
 // Piece square tables for the evaluation function - Taken from https://chessprogramming.wikispaces.com/Simplified+evaluation+function
@@ -92,26 +112,26 @@ int mirror[] = {
 };
 
 int chessboard::staticEval() {
-	
+
 	int pieceVals[] = {EM, 100, 320, 330, 500, 900, 20000, -100, -320, -330, -500, -900, -20000};
 	int pieceColours[] = {OB, white, white, white, white, white, white, black, black, black, black, black, black};
 	int val = 0, square, *kTable;
 	int num = 0;
 	int numQueens = pieceList[wq].size() + pieceList[bq].size();
-	
+
 	for(int piece = wn; piece <= wr; piece++) num += pieceList[piece].size();
 	for(int piece = bn; piece <= br; piece++) num += pieceList[piece].size();
-	
+
 	if( num <= 6 && numQueens == 0 ) kTable = kTableEndGame;
 	else kTable = kTableMiddleGame;
-	
+
 	for(int piece = wp; piece <= bk; piece++) {
-		val += ( pieceList[piece].size() * pieceVals[piece] ); 
-		
+		val += ( pieceList[piece].size() * pieceVals[piece] );
+
 		for(unordered_set<int>::iterator it = pieceList[piece].begin(); it != pieceList[piece].end(); it++) {
 			if ( pieceColours[piece] == white ) square = board120[*it];
-			else square = mirror[ board120[*it] ]; 
-			
+			else square = mirror[ board120[*it] ];
+
 			switch(piece) {
 				case wp: val += pTable[square]; break;
 				case wn: val += nTable[square]; break;
@@ -125,99 +145,99 @@ int chessboard::staticEval() {
 				case bb: val -= bTable[square]; break;
 				case br: val -= rTable[square]; break;
 				case bq: val -= qTable[square]; break;
-				case bk: val -= kTable[square]; break;			
+				case bk: val -= kTable[square]; break;
 			}
 		}
 	}
-	
+
 	if ( side == white ) return val;
 	else return -val;
 }
 
 int chessboard::negamax(int depth) {
-	
+
 	if ( depth == 0 ) return staticEval();
-	
+
 	updateInCheck();
 	vector <Move> childNodes;
 	generateAllMoves(childNodes);
-	
+
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
 		if ( inCheck ) return -infinity; // Checkmate
 		else return 0; // Stalemate
 	}
-		
+
 	int bestValue = -infinity;
-	
+
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
-		
+
 		Move move = *it;
 		playMove(move);
 		int val = -negamax(depth - 1);
 		undoMove(move);
-		
+
 		if ( val > bestValue ) bestValue = val;
 	}
-	
+
 	return bestValue;
 }
 
 // Fail-Hard AlphaBeta Pruning
 int chessboard::alphaBeta(int alpha, int beta, int depth, int distToRoot) {
-	
+
 	if ( depth == 0 ) return staticEval();
 	if ( checkDraw() ) return 0;
-	
+
 	updateInCheck();
 	vector<Move> childNodes;
 	generateAllMoves(childNodes);
-	
+
 	// If no legal moves are possible, then we check for stalemate or checkmate
 	if ( childNodes.begin() == childNodes.end() ) {
 		if ( inCheck ) return (-infinity + distToRoot); // Checkmate
 		else return 0; // Stalemate
 	}
-	
+
 	orderMoves(childNodes);
 	for(vector<Move>::iterator it = childNodes.begin(); it != childNodes.end(); it++) {
-		
+
 		Move move = *it;
 		playMove(move);
 		int val = -alphaBeta(-beta, -alpha, depth - 1, distToRoot + 1);
 		undoMove(move);
-		
+
 		if ( val >= beta ) return beta;
-		
+
 		if ( val > alpha ) alpha = val;
 	}
-	
+
 	return alpha;
 }
 
 Move chessboard::findMove() {
-	
+
 	updateInCheck();
 	vector<Move> moveList;
 	generateAllMoves(moveList);
-	
+
 	Move bestMove;
 	int maxScore = -infinity;
 
     orderMoves(moveList);
 	for(vector<Move>::iterator it = moveList.begin(); it!= moveList.end(); it++) {
-		
+
 		Move move = *it;
-		
+
 		playMove(move);
 		int score = -alphaBeta(-infinity, infinity, 3, 1);
 		undoMove(move);
-		
+
 		if ( score > maxScore ) {
 			bestMove = move;
 			maxScore = score;
 		}
 	}
-	
+
 	return bestMove;
 }
