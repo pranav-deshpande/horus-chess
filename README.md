@@ -9,7 +9,7 @@ Horus is a [CECP](http://www.open-aurec.com/wbforum/WinBoard/engine-intf.html) c
 + Negamax with alpha-beta pruning
 + Quiescence search
 + Simple eval function using piece square tables
-+ Static Exchange Evaluation(for analying captures)
++ Static Exchange Evaluation(for analyzing captures)
 + Object Oriented Design
 
 ## Building - Linux
@@ -48,6 +48,6 @@ Navigate to /usr/games/ and select Horus.
 + Endgame tables
 
 ### Personal Notes
-I built Horus to learn about basic 'AI' algorithms. I ended up studying iterative deepening, quiescence search, alpha-beta pruning, negamax etc. Implementing "board game" specific stuff like the concept of move generation and evaluation functions was a good experience.  Another advantage included learning the GNU Make utility along with the importance of object oriented design.  
+I built Horus to learn about basic AI algorithms. I ended up studying iterative deepening, quiescence search, alpha-beta pruning, negamax etc. Implementing "board game" specific stuff like the concept of move generation and evaluation functions was a good experience.  Another advantage included learning the GNU Make utility along with the importance of object oriented design.  
 
 Special thanks to [Sven Schüle](https://chessprogramming.wikispaces.com/Sven+Sch%C3%BCle) for the guidance. A big thank you to the Freenode IRC community ##chessprogramming, where you can hang out daily and interact with like minded people.
