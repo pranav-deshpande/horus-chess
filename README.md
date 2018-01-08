@@ -23,7 +23,7 @@ make
 make install
 ```
 'make clean' deletes the executables.  
-'make install' copies the Horus to /usr/games/ directory.  
+'make install' copies Horus to the '/usr/games/' directory.  
 
 Windows builds are available here: http://www.andscacs.com/horus/horus.zip  
 Thanks to [@ChessGUI](https://github.com/ChessGUI) for these.  
